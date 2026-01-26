@@ -12,3 +12,4 @@ export * from './Textarea';
 export * from './Radio';
 export * from './Switch';
 export { ErrorBoundary } from './ErrorBoundary';
+export * from './Spinner';

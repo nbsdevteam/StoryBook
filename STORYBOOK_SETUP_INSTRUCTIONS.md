@@ -1061,9 +1061,99 @@ export const Loading: Story = {
 - [ ] src/index.ts exports all components
 - [ ] Build system working (npm run build creates dist/)
 - [ ] Test installation from GitHub works
-- [ ] Storybook deployed to Chromatic
 - [ ] README and docs complete
 - [ ] Team can install and use library
+
+---
+
+## 📅 FINALIZING FOR GITHUB DISTRIBUTION (NO CHROMATIC)
+
+We're finalizing the component library for GitHub distribution (skipping external deployment for security).
+
+Follow these steps:
+
+### STEP 1 - VERIFY BUILD SYSTEM:
+1. Check that rollup.config.js exists and is properly configured
+2. Check that package.json has the correct build scripts
+3. Run: `npm run build`
+4. Verify dist/ folder is created with: index.js, index.esm.js, index.d.ts, styles.css
+5. If build fails, fix any errors before proceeding
+
+### STEP 2 - UPDATE PACKAGE.JSON:
+Ensure package.json has:
+- `"name": "@nbs/component-library"`
+- `"main": "dist/index.js"`
+- `"module": "dist/index.esm.js"`
+- `"types": "dist/index.d.ts"`
+- `"files": ["dist", "src"]`
+- `"repository": { "type": "git", "url": "https://github.com/syednaqvi98nibras/StoryBook.git" }`
+
+### STEP 3 - CREATE/UPDATE .gitignore:
+Add these entries if not already present:
+```
+node_modules/
+dist/
+storybook-static/
+.DS_Store
+*.log
+*.tgz
+```
+
+### STEP 4 - COMMIT EVERYTHING:
+```bash
+git add .
+git commit -m "Component library ready for GitHub distribution"
+```
+
+### STEP 5 - VERIFY GITHUB REMOTE:
+```bash
+git remote -v
+```
+(Show me the output - we need to confirm GitHub URL is set)
+
+### STEP 6 - PUSH TO GITHUB:
+```bash
+git push origin master
+```
+
+### STEP 7 - CREATE TEST INSTALLATION:
+1. Open a NEW terminal window
+2. Navigate OUTSIDE this project: `cd ..`
+3. Create test folder: `mkdir test-nbs-components && cd test-nbs-components`
+4. Create new React app: `npm create vite@latest . -- --template react-ts`
+5. Install dependencies: `npm install`
+6. Install our library (use latest version tag): `npm install git+https://github.com/syednaqvi98nibras/StoryBook.git#v1.0.0`
+   - **Important:** Always pin to a specific version tag (e.g., `#v1.0.0`) for production apps
+   - Check [GitHub Releases](https://github.com/syednaqvi98nibras/StoryBook/releases) for available versions
+7. Edit `src/App.tsx` to import and use components:
+
+```typescript
+import { Button, Card, Badge } from '@nbs/component-library';
+import '@nbs/component-library/dist/styles.css';
+
+function App() {
+  return (
+    <div style={{ padding: '2rem' }}>
+      <h1>Testing NBS Component Library</h1>
+      <Button variant="primary" onClick={() => alert('Works!')}>
+        Test Button
+      </Button>
+      <Card title="Test Card">
+        <p>Card content here</p>
+      </Card>
+      <Badge variant="success">Success Badge</Badge>
+    </div>
+  );
+}
+
+export default App;
+```
+
+8. Run: `npm run dev`
+9. Open browser and verify components render correctly
+
+### STEP 8 - UPDATE README.md:
+Create comprehensive README with installation, usage, and development instructions (see README.md in repo).
 
 ---
 

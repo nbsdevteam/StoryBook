@@ -31,5 +31,6 @@ export { Switch, type SwitchProps } from './components/Switch';
 // Utility Components
 export { ErrorBoundary } from './components/ErrorBoundary';
 
+export { Spinner, type SpinnerProps } from './components/Spinner';
 // Re-export all from components index for convenience
 export * from './components';
