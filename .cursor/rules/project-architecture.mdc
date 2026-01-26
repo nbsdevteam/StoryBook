@@ -1,0 +1,234 @@
+---
+name: project-architecture
+description: This is a new rule
+---
+
+# Overview
+src/
+├── app/
+│   ├── providers/
+│   │   ├── AppProviders.tsx
+│   │   ├── ReduxProvider.tsx
+│   │   └── ThemeProvider.tsx
+│   │
+│   ├── routes/
+│   │   ├── AppRouter.tsx
+│   │   └── routes.config.ts
+│   │
+│   ├── store/
+│   │   ├── index.ts
+│   │   └── rootReducer.ts
+│   │
+│   ├── styles/
+│   │   └── global.css
+│   │
+│   ├── App.tsx
+│   └── main.tsx
+│
+├── features/
+│   ├── auth/
+│   │   ├── containers/
+│   │   │   ├── useLoginContainer.ts
+│   │   │   ├── useRegisterContainer.ts
+│   │   │   └── index.ts
+│   │   │
+│   │   ├── hooks/
+│   │   │   ├── useAuthForm.ts
+│   │   │   └── index.ts
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── LoginPage.tsx
+│   │   │   ├── RegisterPage.tsx
+│   │   │   └── index.ts
+│   │   │
+│   │   ├── components/
+│   │   │   ├── LoginForm.tsx
+│   │   │   ├── RegisterForm.tsx
+│   │   │   └── index.ts
+│   │   │
+│   │   ├── services/
+│   │   │   ├── auth.service.ts
+│   │   │   └── auth.api.ts
+│   │   │
+│   │   ├── styles/
+│   │   │   ├── login.page.module.css
+│   │   │   ├── register.page.module.css
+│   │   │   └── auth.components.module.css
+│   │   │
+│   │   ├── types/
+│   │   │   └── auth.types.ts
+│   │   │
+│   │   └── index.ts
+│   │
+│   ├── dashboard/
+│   │   ├── containers/
+│   │   │   ├── useDashboardContainer.ts
+│   │   │   └── index.ts
+│   │   ├── hooks/
+│   │   │   └── useDashboardFilters.ts
+│   │   ├── pages/
+│   │   │   └── DashboardPage.tsx
+│   │   ├── components/
+│   │   │   ├── StatsCard.tsx
+│   │   │   └── ActivityList.tsx
+│   │   ├── services/
+│   │   │   └── dashboard.service.ts
+│   │   ├── styles/
+│   │   │   └── dashboard.page.module.css
+│   │   ├── types/
+│   │   │   └── dashboard.types.ts
+│   │   └── index.ts
+│
+├── shared/
+│   ├── ui/
+│   │   ├── Button/
+│   │   │   ├── Button.tsx
+│   │   │   ├── button.module.css
+│   │   │   └── index.ts
+│   │   ├── Input/
+│   │   │   ├── Input.tsx
+│   │   │   ├── input.module.css
+│   │   │   └── index.ts
+│   │
+│   ├── layout/
+│   │   ├── Header.tsx
+│   │   ├── Sidebar.tsx
+│   │   └── Footer.tsx
+│   │
+│   ├── hooks/
+│   │   └── useDebounce.ts
+│   │
+│   ├── utils/
+│   │   ├── formatDate.ts
+│   │   └── storage.ts
+│   │
+│   ├── constants/
+│   │   └── routes.ts
+│   │
+│   └── styles/
+│       └── shared.css
+│
+├── assets/
+│   ├── images/
+│   ├── icons/
+│   └── fonts/
+│
+├── types/
+│   └── global.d.ts
+│
+└── index.css
+
+
+
+
+
+src/
+# Root of the application source code
+
+app/
+# Application bootstrap layer (providers, routing, global config)
+
+app/providers/
+# Global React providers (Redux, Router, Theme, QueryClient) etc etc
+
+app/routes/
+# Centralized route definitions and route → page mapping
+
+app/store/
+# Global state setup (Redux/Zustand root store)
+
+app/styles/
+# Global styles, CSS resets, theme variables
+
+App.tsx
+# Root application shell (wraps providers and layouts)
+
+main.tsx
+# React DOM entry point
+
+features/
+# Business features (vertical slices by domain)
+
+features/auth/
+# Authentication feature (login, register, logout)
+
+features/auth/containers/
+# Feature orchestration layer: business logic, state, service calls
+
+features/auth/hooks/
+# Custom hooks used by auth components/pages
+
+features/auth/pages/
+# UI-only screens for auth routes (no business logic)
+
+features/auth/components/
+# Smaller UI components used inside auth pages
+
+features/auth/services/
+# API communication layer (HTTP calls only)
+
+features/auth/styles/
+# CSS Modules scoped to auth pages/components
+
+features/auth/types/
+# TypeScript types/interfaces for auth feature
+
+features/auth/index.ts
+# Public exports for auth feature
+
+features/dashboard/
+# Dashboard feature (analytics, widgets, summaries)
+
+features/dashboard/containers/
+# Dashboard orchestration and data preparation
+
+features/dashboard/hooks/
+# Dashboard-specific custom hooks
+
+features/dashboard/pages/
+# UI-only dashboard screens
+
+features/dashboard/components/
+# Reusable dashboard UI blocks
+
+features/dashboard/services/
+# Dashboard API calls
+
+features/dashboard/styles/
+# Dashboard scoped styles
+
+features/dashboard/types/
+# Dashboard TypeScript types
+
+features/dashboard/index.ts
+# Public exports for dashboard feature
+
+shared/
+# Feature-agnostic reusable code
+
+shared/ui/
+# Design system components (Button, Input, Modal)
+
+shared/layout/
+# App layout components (Header, Sidebar, Footer)
+
+shared/hooks/
+# Generic reusable hooks
+
+shared/utils/
+# Pure utility/helper functions
+
+shared/constants/
+# Application-wide constants and enums
+
+shared/styles/
+# Shared styles not tied to any feature
+
+assets/
+# Static assets (images, icons, fonts)
+
+types/
+# Global TypeScript declarations
+
+index.css
+# Global stylesheet entry point

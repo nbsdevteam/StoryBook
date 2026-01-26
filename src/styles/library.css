@@ -1,0 +1,10 @@
+/* Library global CSS entry.
+ *
+ * This library’s components heavily rely on Bootstrap utility/component classes
+ * (e.g. `btn`, `btn-primary`, grid, spacing, modal classes).
+ *
+ * Importing `template-new/styles.css` in a consumer app will include Bootstrap.
+ */
+
+@import 'bootstrap/dist/css/bootstrap.min.css';
+

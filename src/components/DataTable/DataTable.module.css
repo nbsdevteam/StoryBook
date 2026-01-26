@@ -1,0 +1,17 @@
+.dataTableWrapper {
+  width: 100%;
+}
+
+.tableTopData {
+  width: 100%;
+}
+
+.tableSkeleton {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.skeletonRow td {
+  opacity: 0.9;
+}
+

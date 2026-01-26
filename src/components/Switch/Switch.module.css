@@ -1,0 +1,157 @@
+.switchWrapper {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.switchContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.switch {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.switchLabel {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+}
+
+.switchSlider {
+  position: relative;
+  display: inline-block;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+  transition: background-color 0.4s;
+}
+
+.switch:checked + .switchLabel .switchSlider {
+  background-color: #007bff;
+}
+
+.switch:focus + .switchLabel .switchSlider {
+  box-shadow: 0 0 1px #007bff;
+}
+
+.switch:disabled + .switchLabel {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.switch:disabled + .switchLabel .switchSlider {
+  background-color: #ccc;
+}
+
+/* Small size */
+.small + .switchLabel .switchSlider {
+  width: 2rem;
+  height: 1rem;
+}
+
+.small + .switchLabel .switchSlider::before {
+  height: 0.75rem;
+  width: 0.75rem;
+  left: 0.125rem;
+  bottom: 0.125rem;
+}
+
+.small:checked + .switchLabel .switchSlider::before {
+  transform: translateX(1rem);
+}
+
+/* Medium size (default) */
+.medium + .switchLabel .switchSlider {
+  width: 2.75rem;
+  height: 1.375rem;
+}
+
+.medium + .switchLabel .switchSlider::before {
+  content: '';
+  position: absolute;
+  height: 1.125rem;
+  width: 1.125rem;
+  left: 0.125rem;
+  bottom: 0.125rem;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.medium:checked + .switchLabel .switchSlider::before {
+  transform: translateX(1.375rem);
+}
+
+/* Large size */
+.large + .switchLabel .switchSlider {
+  width: 3.5rem;
+  height: 1.75rem;
+}
+
+.large + .switchLabel .switchSlider::before {
+  height: 1.5rem;
+  width: 1.5rem;
+  left: 0.125rem;
+  bottom: 0.125rem;
+}
+
+.large:checked + .switchLabel .switchSlider::before {
+  transform: translateX(1.75rem);
+}
+
+/* Variants */
+.primary:checked + .switchLabel .switchSlider {
+  background-color: #007bff;
+}
+
+.success:checked + .switchLabel .switchSlider {
+  background-color: #198754;
+}
+
+.danger:checked + .switchLabel .switchSlider {
+  background-color: #dc3545;
+}
+
+.warning:checked + .switchLabel .switchSlider {
+  background-color: #ffc107;
+}
+
+.info:checked + .switchLabel .switchSlider {
+  background-color: #0dcaf0;
+}
+
+.invalid + .switchLabel .switchSlider {
+  border: 2px solid #dc3545;
+}
+
+.label {
+  cursor: pointer;
+  margin: 0;
+  user-select: none;
+}
+
+.required {
+  color: #dc3545;
+  margin-left: 0.25rem;
+}
+
+.helperText {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-top: 0.25rem;
+  width: 100%;
+}
+
+.errorText {
+  font-size: 0.875rem;
+  color: #dc3545;
+  margin-top: 0.25rem;
+  width: 100%;
+}

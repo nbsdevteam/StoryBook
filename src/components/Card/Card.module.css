@@ -1,0 +1,7 @@
+.noShadow {
+  box-shadow: none !important;
+}
+
+.noBorder {
+  border: none !important;
+}
