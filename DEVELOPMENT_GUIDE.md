@@ -799,10 +799,23 @@ The component library uses **Semantic Versioning (SemVer)** with Git tags for sa
 
 ### How Versioning Works
 
-When you install from GitHub, you must specify a **git tag** (e.g., `#v1.0.0`, `#v1.1.0`) instead of tracking the `master` branch. This ensures:
+The library uses **Semantic Versioning (SemVer)** with Git tags. You have two installation options:
+
+1. **Install latest version** (recommended for most cases):
+   - Use `#latest` branch - Always points to the most recent release
+   - Automatically updated with each release
+   - Easy to stay up-to-date
+
+2. **Pin to specific version** (for production/stability):
+   - Use a specific tag like `#v1.0.0`, `#v1.1.0`
+   - Ensures predictable installs
+   - Easy rollbacks if needed
+
+This ensures:
 - ✅ **Predictable installs** - Same tag = same code
 - ✅ **Safe upgrades** - Test new versions before adopting
 - ✅ **Easy rollbacks** - Pin to previous version if issues occur
+- ✅ **Convenience** - Use `#latest` to always get newest version
 
 ### Creating a New Release
 
@@ -829,6 +842,7 @@ This will:
 - ✅ Update `package.json` version
 - ✅ Create a git commit with the version bump
 - ✅ Create a git tag (e.g., `v1.1.0`)
+- ✅ Update the `latest` branch to point to the new release
 
 **3. Push the tag to GitHub:**
 ```bash
@@ -848,7 +862,23 @@ git tag
 
 ### Consumer App: Installing by Version
 
-**Initial install (latest version):**
+**Option 1: Install Latest Version (Recommended)**
+Always get the newest release automatically:
+```json
+{
+  "dependencies": {
+    "@nbs/component-library": "github:syednaqvi98nibras/StoryBook#latest"
+  }
+}
+```
+
+**Benefits:**
+- ✅ Always up-to-date with latest features
+- ✅ No need to update version number manually
+- ✅ Just run `npm install` to get updates
+
+**Option 2: Pin to Specific Version (Production)**
+For production apps that need stability:
 ```json
 {
   "dependencies": {
@@ -857,7 +887,13 @@ git tag
 }
 ```
 
-**Upgrading to a new version:**
+**Benefits:**
+- ✅ Predictable installs (same version every time)
+- ✅ Control when to upgrade
+- ✅ Easy rollbacks
+
+**Upgrading from pinned version:**
+Change the version number in `package.json`:
 ```json
 {
   "dependencies": {
@@ -865,13 +901,13 @@ git tag
   }
 }
 ```
-
 Then run:
 ```bash
 npm install
 ```
 
 **Rolling back to a previous version:**
+Change to an older tag:
 ```json
 {
   "dependencies": {
@@ -879,10 +915,19 @@ npm install
   }
 }
 ```
-
 Then run:
 ```bash
 npm install
+```
+
+**Switching from pinned to latest:**
+Change from:
+```json
+"@nbs/component-library": "github:syednaqvi98nibras/StoryBook#v1.1.0"
+```
+To:
+```json
+"@nbs/component-library": "github:syednaqvi98nibras/StoryBook#latest"
 ```
 
 **Emergency: Pin to specific commit:**
@@ -918,6 +963,7 @@ If you need to pin to a specific commit (not a tag):
    ```bash
    npm run release:minor
    # This creates v1.1.0 (if current version was 1.0.0)
+   # Also automatically updates the 'latest' branch
    ```
 
 4. **Push the release:**
@@ -927,6 +973,10 @@ If you need to pin to a specific commit (not a tag):
 
 5. **Consumers can now install:**
    ```bash
+   # Option 1: Latest version (auto-updates)
+   npm install github:syednaqvi98nibras/StoryBook#latest
+   
+   # Option 2: Specific version (pinned)
    npm install github:syednaqvi98nibras/StoryBook#v1.1.0
    ```
 
@@ -939,9 +989,11 @@ If you need to pin to a specific commit (not a tag):
 ### Important Notes
 
 - ⚠️ **Always test before releasing** - Run `npm run build` and `npm run storybook` to verify everything works
-- ⚠️ **Never install from `master` branch** - Always use a specific tag for production apps
+- ⚠️ **Never install from `master` branch** - Use `#latest` for newest version or `#vX.Y.Z` for specific versions
 - ⚠️ **Tag format must be `vX.Y.Z`** - The `v` prefix is required (e.g., `v1.1.0`, not `1.1.0`)
 - ⚠️ **Push tags explicitly** - Tags are not pushed with regular `git push`, use `npm run release:push`
+- ✅ **`latest` branch is auto-updated** - The release scripts automatically update `latest` branch to point to the new release
+- ✅ **Use `#latest` for convenience** - Consumers using `#latest` will automatically get new releases when they run `npm install`
 
 ### Checking Available Versions
 

@@ -45,10 +45,11 @@
     "prepare": "npm run build",
     "prepublishOnly": "npm run build",
     "create-component": "node scripts/create-component.js",
-    "release:patch": "npm version patch -m \"chore(release): v%s\"",
-    "release:minor": "npm version minor -m \"chore(release): v%s\"",
-    "release:major": "npm version major -m \"chore(release): v%s\"",
-    "release:push": "git push origin master --follow-tags"
+    "release:patch": "npm version patch -m \"chore(release): v%s\" && node scripts/update-latest-branch.js",
+    "release:minor": "npm version minor -m \"chore(release): v%s\" && node scripts/update-latest-branch.js",
+    "release:major": "npm version major -m \"chore(release): v%s\" && node scripts/update-latest-branch.js",
+    "release:push": "git push origin master --follow-tags",
+    "release:update-latest": "node scripts/update-latest-branch.js"
   },
   "dependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",

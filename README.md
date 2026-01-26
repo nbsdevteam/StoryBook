@@ -4,12 +4,28 @@ Reusable React component library for NBS projects.
 
 ## Installation
 
-**Install the latest version:**
+**Option 1: Install Latest Version (Recommended)**
+Always get the newest release automatically:
+```bash
+npm install git+https://github.com/syednaqvi98nibras/StoryBook.git#latest
+```
+
+Or in `package.json`:
+```json
+{
+  "dependencies": {
+    "@nbs/component-library": "github:syednaqvi98nibras/StoryBook#latest"
+  }
+}
+```
+
+**Option 2: Pin to Specific Version (Production)**
+For production apps that need stability:
 ```bash
 npm install git+https://github.com/syednaqvi98nibras/StoryBook.git#v1.0.0
 ```
 
-**Or specify a version in `package.json`:**
+Or in `package.json`:
 ```json
 {
   "dependencies": {
@@ -18,10 +34,10 @@ npm install git+https://github.com/syednaqvi98nibras/StoryBook.git#v1.0.0
 }
 ```
 
-**Important:** Always pin to a specific version tag (e.g., `#v1.0.0`) for production apps. This ensures:
-- ✅ Predictable installs
-- ✅ Safe upgrades (test new versions before adopting)
-- ✅ Easy rollbacks (pin to previous version if issues occur)
+**Version Management:**
+- ✅ **`#latest`** - Always points to the most recent release (auto-updates)
+- ✅ **`#v1.0.0`** - Pin to specific version for production stability
+- ✅ Easy rollbacks - Change version tag in `package.json` and run `npm install`
 
 **Available versions:** Check [GitHub Releases](https://github.com/syednaqvi98nibras/StoryBook/releases) for all available versions.
 
