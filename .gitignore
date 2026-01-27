@@ -29,3 +29,7 @@ storybook-static
 
 # Local packaging artifacts (do not commit)
 *.tgz
+
+#build cache
+.rollup.cache/
+.cache
