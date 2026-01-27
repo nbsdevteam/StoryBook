@@ -1,0 +1,62 @@
+# Source files (not needed - only dist is needed)
+src/
+.storybook/
+public/
+scripts/
+node_modules/
+
+# Development files
+*.stories.tsx
+*.stories.ts
+*.test.tsx
+*.test.ts
+*.spec.tsx
+*.spec.ts
+vitest.config.ts
+vite.config.*
+tsconfig*.json
+eslint.config.js
+
+# Documentation (keep README but exclude others)
+DEVELOPMENT_GUIDE.md
+STORYBOOK_SETUP_INSTRUCTIONS.md
+PROGRESS.md
+VERIFICATION_REPORT.md
+COMPONENT_USAGE.md
+COMPONENT_REFERENCE.md
+
+# Build artifacts
+.storybook-static/
+storybook-static/
+dist-ssr/
+*.log
+
+# Git files
+.git/
+.gitignore
+.gitattributes
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Test files
+coverage/
+.nyc_output/
+
+# Environment files
+.env
+.env.local
+.env.*.local
