@@ -995,6 +995,25 @@ If you need to pin to a specific commit (not a tag):
 - ✅ **`latest` branch is auto-updated** - The release scripts automatically update `latest` branch to point to the new release
 - ✅ **Use `#latest` for convenience** - Consumers using `#latest` will automatically get new releases when they run `npm install`
 
+### Invalid Tags Behavior
+
+**Important:** If you use an invalid tag (e.g., `#jabba`, `#v999.999.999`):
+- ❌ **Fresh installs will FAIL** - `npm install` will error: "The git reference could not be found"
+- ⚠️ **Cached installs may appear to work** - If `package-lock.json` exists with a valid commit hash, npm uses the cached version
+- ⚠️ **Dev servers may use cached code** - Running dev server might still work with old cached code
+
+**To properly test version changes:**
+```bash
+# Always delete lock file and node_modules when testing
+rm -rf node_modules package-lock.json
+npm install
+```
+
+**This ensures:**
+- ✅ Invalid tags fail immediately (as they should)
+- ✅ You see the real error, not cached behavior
+- ✅ Production builds are predictable
+
 ### Checking Available Versions
 
 **View all tags locally:**
