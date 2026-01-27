@@ -8,7 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
+# dist - Keep dist in git for faster npm installs (prepare script will skip build if dist exists)
 dist-ssr
 *.local
 

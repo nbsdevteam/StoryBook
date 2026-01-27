@@ -41,7 +41,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build:library": "npm run build",
-    "prepare": "npm run build",
+    "prepare": "node -e \"require('fs').existsSync('dist/index.js') || require('child_process').execSync('npm run build', {stdio: 'inherit'})\"",
     "prepublishOnly": "npm run build",
     "create-component": "node scripts/create-component.js",
     "release:patch": "npm version patch -m \"chore(release): v%s\" && node scripts/update-latest-branch.js",
