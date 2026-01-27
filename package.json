@@ -1,7 +1,7 @@
 {
   "name": "@nbs/component-library",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Production-ready React component library with TypeScript and Storybook",
   "keywords": [
     "react",
