@@ -18,7 +18,7 @@ import "../src/assets/js/bootstrap.bundle.min.js";
 
 import { BrowserRouter } from "react-router";
 import React from "react";
-import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary.js";
+import ErrorBoundary from "../StoryBook/ConsumerComponents/components/ErrorBoundary/ErrorBoundary";
 import { initializePreloading } from "./router/preloadUtils";
 import { PerformanceProvider } from "./core/providers/PerformanceProvider";
 

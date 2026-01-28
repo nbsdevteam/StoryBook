@@ -54,7 +54,9 @@
       "@/types/*": ["src/core/data/types/*"],
       "@/store/*": ["src/core/data/redux/*"],
       "@/assets/*": ["src/assets/*"],
-      "@/styles/*": ["src/assets/scss/*"]
+      "@/styles/*": ["src/assets/scss/*"],
+      "@consumer/*": ["StoryBook/ConsumerComponents/*"],
+      "@uiPreview/*": ["StoryBook/UiPreview/*"]
     },
 
     /* Type checking */
@@ -76,6 +78,7 @@
     "src/**/*.tsx",
     "src/**/*.js",
     "src/**/*.jsx",
+    "StoryBook/**/*",
     "vite.config.ts",
     "vitest.config.ts",
     "scripts/**/*.ts",

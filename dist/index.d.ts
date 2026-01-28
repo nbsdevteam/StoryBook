@@ -6,7 +6,7 @@
  *
  * import { Button, Card, Input } from '@yourorg/component-library';
  */
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles/global.css';
 export { Button, type ButtonProps } from './components/Button';
 export { Card, type CardProps } from './components/Card';
 export { Badge, type BadgeProps } from './components/Badge';
@@ -21,5 +21,8 @@ export { Radio, type RadioProps } from './components/Radio';
 export { Switch, type SwitchProps } from './components/Switch';
 export { ErrorBoundary } from './components/ErrorBoundary';
 export { Spinner, type SpinnerProps } from './components/Spinner';
+export { GlassEffectWrapper, type GlassEffectWrapperProps } from './components/GlassEffectWrapper';
+export { Sidebar, type SidebarProps, type SidebarItem } from './components/Sidebar';
+export { cn } from './utils/cn';
 export * from './components';
 //# sourceMappingURL=index.d.ts.map

@@ -12,4 +12,6 @@ export * from './Radio';
 export * from './Switch';
 export { ErrorBoundary } from './ErrorBoundary';
 export * from './Spinner';
+export * from './GlassEffectWrapper';
+export * from './Sidebar';
 //# sourceMappingURL=index.d.ts.map

@@ -3,11 +3,12 @@ const commonjs = require('@rollup/plugin-commonjs');
 const typescript = require('@rollup/plugin-typescript');
 const peerDepsExternal = require('rollup-plugin-peer-deps-external');
 const postcss = require('rollup-plugin-postcss');
+const postcssConfig = require('./postcss.config.js');
 const terser = require('@rollup/plugin-terser');
 
 /** @type {import('rollup').RollupOptions} */
 module.exports = {
-  input: 'src/index.ts',
+  input: './StoryBook/ConsumerComponents/index.ts',
   output: [
     {
       file: 'dist/index.js',
@@ -36,7 +37,7 @@ module.exports = {
       declarationDir: 'dist',
       declarationMap: true,
       exclude: ['**/*.stories.*', '**/*.test.*', '**/node_modules/**', '**/_TEMPLATE/**'],
-      rootDir: 'src',
+      rootDir: 'StoryBook/ConsumerComponents',
       allowImportingTsExtensions: false,
     }),
     postcss({
@@ -47,6 +48,14 @@ module.exports = {
       extract: 'styles.css',
       minimize: true,
       inject: false,
+      plugins: [
+        require('postcss-nested')(),
+        require('@tailwindcss/postcss')(),
+        require('autoprefixer')(),
+      ],
+      config: {
+        path: './postcss.config.js',
+      },
     }),
     terser({
       compress: { drop_console: true },

@@ -1,0 +1,141 @@
+/* Sidebar container with fallback styles */
+.sidebar {
+  background-color: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  width: var(--sidebar-width, 256px);
+  min-width: var(--sidebar-width, 256px);
+  max-width: var(--sidebar-width, 256px);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Ensure buttons don't inherit Bootstrap button styles */
+.sidebar button {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  cursor: pointer;
+  font-family: inherit;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  width: 100%;
+}
+
+/* Ensure icon sizing */
+.sidebar svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  padding: 0 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.headerTitle {
+  white-space: nowrap;
+}
+
+/* Color utilities (hover + active) */
+.hoverBlueText:hover {
+  color: #2563eb;
+}
+.sidebar button.activeBlue {
+  background-color: rgba(59, 130, 246, 0.2) !important;
+  color: #1d4ed8 !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+.hoverOrangeText:hover {
+  color: #ea580c;
+}
+.sidebar button.activeOrange {
+  background-color: rgba(249, 115, 22, 0.2) !important;
+  color: #c2410c !important;
+  border-color: rgba(249, 115, 22, 0.3) !important;
+}
+
+.hoverGreenText:hover {
+  color: #16a34a;
+}
+.sidebar button.activeGreen {
+  background-color: rgba(34, 197, 94, 0.2) !important;
+  color: #15803d !important;
+  border-color: rgba(34, 197, 94, 0.3) !important;
+}
+
+.hoverPurpleText:hover {
+  color: #9333ea;
+}
+.sidebar button.activePurple {
+  background-color: rgba(168, 85, 247, 0.2) !important;
+  color: #7e22ce !important;
+  border-color: rgba(168, 85, 247, 0.3) !important;
+}
+
+.hoverPinkText:hover {
+  color: #db2777;
+}
+.sidebar button.activePink {
+  background-color: rgba(236, 72, 153, 0.2) !important;
+  color: #be185d !important;
+  border-color: rgba(236, 72, 153, 0.3) !important;
+}
+
+.hoverCyanText:hover {
+  color: #0891b2;
+}
+.sidebar button.activeCyan {
+  background-color: rgba(6, 182, 212, 0.2) !important;
+  color: #0e7490 !important;
+  border-color: rgba(6, 182, 212, 0.3) !important;
+}
+
+.hoverIndigoText:hover {
+  color: #4f46e5;
+}
+.sidebar button.activeIndigo {
+  background-color: rgba(99, 102, 241, 0.2) !important;
+  color: #4338ca !important;
+  border-color: rgba(99, 102, 241, 0.3) !important;
+}
+
+.hoverEmeraldText:hover {
+  color: #059669;
+}
+.sidebar button.activeEmerald {
+  background-color: rgba(16, 185, 129, 0.2) !important;
+  color: #047857 !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+
+.hoverAmberText:hover {
+  color: #d97706;
+}
+.sidebar button.activeAmber {
+  background-color: rgba(245, 158, 11, 0.2) !important;
+  color: #b45309 !important;
+  border-color: rgba(245, 158, 11, 0.3) !important;
+}
+
+.hoverVioletText:hover {
+  color: #7c3aed;
+}
+.sidebar button.activeViolet {
+  background-color: rgba(139, 92, 246, 0.2) !important;
+  color: #6d28d9 !important;
+  border-color: rgba(139, 92, 246, 0.3) !important;
+}
+
+.hoverSlateText:hover {
+  color: #475569;
+}
+.sidebar button.activeSlate {
+  background-color: rgba(100, 116, 139, 0.2) !important;
+  color: #334155 !important;
+  border-color: rgba(100, 116, 139, 0.3) !important;
+}

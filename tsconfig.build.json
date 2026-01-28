@@ -4,14 +4,13 @@
     "declaration": true,
     "declarationMap": true,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "./StoryBook/ConsumerComponents",
     "noEmit": false,
     "emitDeclarationOnly": false,
     "allowImportingTsExtensions": false
   },
   "include": [
-    "src/components/**/*",
-    "src/index.ts",
+    "StoryBook/ConsumerComponents/**/*",
     "src/types/**/*.d.ts"
   ],
   "exclude": [
@@ -19,7 +18,6 @@
     "**/*.test.*",
     "**/node_modules/**",
     "**/dist/**",
-    "**/_TEMPLATE/**",
-    "src/components/_TEMPLATE/**"
+    "**/_TEMPLATE/**"
   ]
 }
