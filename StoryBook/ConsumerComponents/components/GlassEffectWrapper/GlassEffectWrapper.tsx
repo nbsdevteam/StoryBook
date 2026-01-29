@@ -54,10 +54,10 @@ export const GlassEffectWrapper = React.forwardRef<HTMLElement, GlassEffectWrapp
     ref
   ) => {
     const shouldRandomHue = glassEffect && variant === "perfume" && randomHue;
-    
+
     // Use a stable reference object that survives strict mode double-mounting
     const instanceRef = React.useRef<object>({});
-    
+
     // Get or create instance number
     const getInstanceNumber = () => {
       if (!instanceMap.has(instanceRef.current)) {
@@ -65,7 +65,7 @@ export const GlassEffectWrapper = React.forwardRef<HTMLElement, GlassEffectWrapp
       }
       return instanceMap.get(instanceRef.current)!;
     };
-    
+
     const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(false);
 
     React.useEffect(() => {
@@ -84,7 +84,6 @@ export const GlassEffectWrapper = React.forwardRef<HTMLElement, GlassEffectWrapp
       const instanceNum = getInstanceNumber();
       const idx = instanceNum % STABLE_HUES.length;
       const hue = STABLE_HUES[idx];
-      console.log(`Card instance: ${instanceNum}, Index: ${idx}, Hue: ${hue}deg`);
       return hue;
     }, []);
 
