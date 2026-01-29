@@ -8,18 +8,34 @@ export interface GlassEffectWrapperProps extends React.HTMLAttributes<HTMLElemen
   glassEffect?: boolean;
   variant?: "shine" | "perfume";
   randomHue?: boolean;
-  /**
-   * Optional stable seed for deterministic hue selection.
-   * Useful for reduced-motion users or when you want consistent colors per item.
-   */
-  hueSeed?: string | number;
   className?: string;
 }
 
-// Pre-calculated stable hue values to avoid Math.random() causing flashing
+// Pre-calculated stable hue values - MAXIMALLY different colors
 const STABLE_HUES = [
-  180, 200, 220, 240, 260, 280, 300, 320, 340, 0, 20, 40, 60, 80, 100, 120, 140, 160
+  0,    // Red
+  120,  // Green
+  240,  // Blue
+  60,   // Yellow
+  180,  // Cyan
+  300,  // Magenta
+  30,   // Orange
+  90,   // Yellow-green
+  150,  // Cyan-green
+  210,  // Sky blue
+  270,  // Purple
+  330,  // Pink
+  45,   // Orange-yellow
+  135,  // Green-cyan
+  225,  // Blue-purple
+  315,  // Pink-red
+  15,   // Red-orange
+  105,  // Green-yellow
 ];
+
+// Use WeakMap to track instance numbers per component to survive strict mode
+const instanceMap = new WeakMap<object, number>();
+let globalCounter = 0;
 
 export const GlassEffectWrapper = React.forwardRef<HTMLElement, GlassEffectWrapperProps>(
   (
@@ -28,7 +44,6 @@ export const GlassEffectWrapper = React.forwardRef<HTMLElement, GlassEffectWrapp
       glassEffect = true,
       variant = "shine",
       randomHue = false,
-      hueSeed,
       className,
       onMouseEnter,
       onMouseLeave,
@@ -39,8 +54,18 @@ export const GlassEffectWrapper = React.forwardRef<HTMLElement, GlassEffectWrapp
     ref
   ) => {
     const shouldRandomHue = glassEffect && variant === "perfume" && randomHue;
-    const hueIndexRef = React.useRef(0);
-
+    
+    // Use a stable reference object that survives strict mode double-mounting
+    const instanceRef = React.useRef<object>({});
+    
+    // Get or create instance number
+    const getInstanceNumber = () => {
+      if (!instanceMap.has(instanceRef.current)) {
+        instanceMap.set(instanceRef.current, globalCounter++);
+      }
+      return instanceMap.get(instanceRef.current)!;
+    };
+    
     const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(false);
 
     React.useEffect(() => {
@@ -54,20 +79,14 @@ export const GlassEffectWrapper = React.forwardRef<HTMLElement, GlassEffectWrapp
       return () => media.removeEventListener?.("change", onChange);
     }, []);
 
-    const seededHue = React.useMemo(() => {
-      if (hueSeed === undefined || hueSeed === null) return STABLE_HUES[0];
-      if (typeof hueSeed === "number") {
-        const idx = Math.abs(hueSeed) % STABLE_HUES.length;
-        return STABLE_HUES[idx];
-      }
-      // Simple deterministic string hash (KISS; good enough for hue selection)
-      let hash = 0;
-      for (let i = 0; i < hueSeed.length; i++) {
-        hash = (hash * 31 + hueSeed.charCodeAt(i)) | 0;
-      }
-      const idx = Math.abs(hash) % STABLE_HUES.length;
-      return STABLE_HUES[idx];
-    }, [hueSeed]);
+    // Get stable hue based on instance number
+    const stableHue = React.useMemo(() => {
+      const instanceNum = getInstanceNumber();
+      const idx = instanceNum % STABLE_HUES.length;
+      const hue = STABLE_HUES[idx];
+      console.log(`Card instance: ${instanceNum}, Index: ${idx}, Hue: ${hue}deg`);
+      return hue;
+    }, []);
 
     const setHue = React.useCallback((el: HTMLElement, hue: number) => {
       requestAnimationFrame(() => {
@@ -79,28 +98,16 @@ export const GlassEffectWrapper = React.forwardRef<HTMLElement, GlassEffectWrapp
       (e: React.MouseEvent<HTMLElement>) => {
         if (shouldRandomHue) {
           const el = e.currentTarget;
-          
-          if (prefersReducedMotion) {
-            // Reduced-motion: stable deterministic hue (no cycling)
-            setHue(el, seededHue);
-          } else if (hueSeed !== undefined && hueSeed !== null) {
-            // FIXED: Just use the seededHue directly - it's already calculated!
-            setHue(el, seededHue);
-          } else {
-            // No seed: cycle from 0
-            hueIndexRef.current = (hueIndexRef.current + 1) % STABLE_HUES.length;
-            setHue(el, STABLE_HUES[hueIndexRef.current]);
-          }
+          setHue(el, stableHue);
         }
         onMouseEnter?.(e);
       },
-      [shouldRandomHue, prefersReducedMotion, seededHue, hueSeed, onMouseEnter, setHue]
+      [shouldRandomHue, stableHue, onMouseEnter, setHue]
     );
 
     const handleMouseLeave = React.useCallback(
       (e: React.MouseEvent<HTMLElement>) => {
         if (shouldRandomHue) {
-          // Reset to baseline; tinted styles only apply on :hover anyway.
           setHue(e.currentTarget, 0);
         }
         onMouseLeave?.(e);

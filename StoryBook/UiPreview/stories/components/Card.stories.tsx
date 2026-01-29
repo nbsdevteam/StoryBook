@@ -159,7 +159,7 @@ const threePerfumeCards = [
 export const ThreeCardsWithGlassPerfumeRandomHue: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-      {threePerfumeCards.map((card, index) => (
+      {threePerfumeCards.map((card) => (
         <Card
           key={card.id}
           glassEffect
@@ -168,7 +168,6 @@ export const ThreeCardsWithGlassPerfumeRandomHue: Story = {
           title={card.title}
           subtitle={card.subtitle}
           shadow
-          glassHueSeed={index * 6}  // Multiply by 6 to spread colors out!
         >
           {card.children}
         </Card>
@@ -179,7 +178,7 @@ export const ThreeCardsWithGlassPerfumeRandomHue: Story = {
     docs: {
       description: {
         story:
-          'Three cards with perfume random hue. Each card has a unique widely-spaced hue for maximum visual difference.',
+          'Three cards with perfume random hue. Each card automatically gets a unique color - no manual configuration needed!',
       },
     },
   },

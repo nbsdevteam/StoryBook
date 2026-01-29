@@ -68,7 +68,6 @@ type CardWithoutGlass = CardBaseProps & {
   glassEffect?: false;
   glassVariant?: never;
   glassRandomHue?: never;
-  glassHueSeed?: never;
 };
 
 type CardWithShine = CardBaseProps & {
@@ -78,7 +77,6 @@ type CardWithShine = CardBaseProps & {
    */
   glassVariant?: 'shine';
   glassRandomHue?: never;
-  glassHueSeed?: never;
 };
 
 type CardWithPerfume = CardBaseProps & {
@@ -89,14 +87,9 @@ type CardWithPerfume = CardBaseProps & {
   glassVariant: 'perfume';
   /**
    * Random hue coloring (perfume only).
+   * Each card automatically gets a unique color - no manual configuration needed!
    */
   glassRandomHue?: boolean;
-  /**
-   * Stable seed for deterministic hue selection.
-   * Use index, ID, or any string/number to ensure each card has a unique consistent color.
-   * Only applies when glassRandomHue is true.
-   */
-  glassHueSeed?: string | number;
 };
 
 export type CardProps = CardWithoutGlass | CardWithShine | CardWithPerfume;
@@ -149,7 +142,7 @@ export const Card: React.FC<CardProps> = ({
   );
 
   if (glassEffect) {
-    const { glassVariant, glassRandomHue, glassHueSeed } = glassProps as CardWithShine | CardWithPerfume;
+    const { glassVariant, glassRandomHue } = glassProps as CardWithShine | CardWithPerfume;
     const variant = glassVariant ?? 'shine';
     
     return (
@@ -158,7 +151,6 @@ export const Card: React.FC<CardProps> = ({
         glassEffect
         variant={variant}
         randomHue={variant === 'perfume' ? glassRandomHue : undefined}
-        hueSeed={variant === 'perfume' ? glassHueSeed : undefined}
       >
         {cardInner}
       </GlassEffectWrapper>
