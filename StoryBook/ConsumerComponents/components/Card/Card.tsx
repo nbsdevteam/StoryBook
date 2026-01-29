@@ -1,10 +1,11 @@
 import React from 'react';
 import styles from './Card.module.css';
+import { GlassEffectWrapper } from '../GlassEffectWrapper';
 
 /**
  * Card Component Props
  */
-export interface CardProps {
+type CardBaseProps = {
   /**
    * Card title/header
    */
@@ -61,7 +62,44 @@ export interface CardProps {
    * @default true
    */
   bordered?: boolean;
-}
+};
+
+type CardWithoutGlass = CardBaseProps & {
+  glassEffect?: false;
+  glassVariant?: never;
+  glassRandomHue?: never;
+  glassHueSeed?: never;
+};
+
+type CardWithShine = CardBaseProps & {
+  glassEffect: true;
+  /**
+   * Glass effect variant. Optional with a default of "shine".
+   */
+  glassVariant?: 'shine';
+  glassRandomHue?: never;
+  glassHueSeed?: never;
+};
+
+type CardWithPerfume = CardBaseProps & {
+  glassEffect: true;
+  /**
+   * Glass effect variant.
+   */
+  glassVariant: 'perfume';
+  /**
+   * Random hue coloring (perfume only).
+   */
+  glassRandomHue?: boolean;
+  /**
+   * Stable seed for deterministic hue selection.
+   * Use index, ID, or any string/number to ensure each card has a unique consistent color.
+   * Only applies when glassRandomHue is true.
+   */
+  glassHueSeed?: string | number;
+};
+
+export type CardProps = CardWithoutGlass | CardWithShine | CardWithPerfume;
 
 /**
  * Card Component
@@ -81,6 +119,8 @@ export const Card: React.FC<CardProps> = ({
   style,
   shadow = true,
   bordered = true,
+  glassEffect,
+  ...glassProps
 }) => {
   const cardClasses = [
     'card',
@@ -91,7 +131,7 @@ export const Card: React.FC<CardProps> = ({
     .filter(Boolean)
     .join(' ');
 
-  return (
+  const cardInner = (
     <div className={cardClasses} style={style}>
       {imageSrc && (
         <img src={imageSrc} className="card-img-top" alt={imageAlt} />
@@ -107,6 +147,25 @@ export const Card: React.FC<CardProps> = ({
       {footer && <div className="card-footer">{footer}</div>}
     </div>
   );
+
+  if (glassEffect) {
+    const { glassVariant, glassRandomHue, glassHueSeed } = glassProps as CardWithShine | CardWithPerfume;
+    const variant = glassVariant ?? 'shine';
+    
+    return (
+      <GlassEffectWrapper
+        asChild
+        glassEffect
+        variant={variant}
+        randomHue={variant === 'perfume' ? glassRandomHue : undefined}
+        hueSeed={variant === 'perfume' ? glassHueSeed : undefined}
+      >
+        {cardInner}
+      </GlassEffectWrapper>
+    );
+  }
+
+  return cardInner;
 };
 
 export default Card;

@@ -6,9 +6,6 @@ import '../../ConsumerComponents/styles/global.css';
 // Load Inter font (matches legacy app)
 import '@fontsource/inter';
 
-// Import component CSS modules for Storybook preview
-import '../../ConsumerComponents/components/GlassEffectWrapper/glass-effect.module.css';
-
 
 const preview: Preview = {
   parameters: {

@@ -2,7 +2,7 @@ import React from 'react';
 /**
  * Card Component Props
  */
-export interface CardProps {
+type CardBaseProps = {
     /**
      * Card title/header
      */
@@ -49,7 +49,32 @@ export interface CardProps {
      * @default true
      */
     bordered?: boolean;
-}
+};
+type CardWithoutGlass = CardBaseProps & {
+    glassEffect?: false;
+    glassVariant?: never;
+    glassRandomHue?: never;
+};
+type CardWithShine = CardBaseProps & {
+    glassEffect: true;
+    /**
+     * Glass effect variant. Optional with a default of "shine".
+     */
+    glassVariant?: 'shine';
+    glassRandomHue?: never;
+};
+type CardWithPerfume = CardBaseProps & {
+    glassEffect: true;
+    /**
+     * Glass effect variant.
+     */
+    glassVariant: 'perfume';
+    /**
+     * Random hue coloring (perfume only).
+     */
+    glassRandomHue?: boolean;
+};
+export type CardProps = CardWithoutGlass | CardWithShine | CardWithPerfume;
 /**
  * Card Component
  *

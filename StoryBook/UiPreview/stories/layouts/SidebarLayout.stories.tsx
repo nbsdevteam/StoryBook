@@ -120,7 +120,15 @@ const sidebarItems = [
 
 export const CompleteDashboard: Story = {
   render: () => (
-    <div style={{ display: 'flex', height: '100vh', width: '100%' }}>
+    <div
+      style={{
+        display: 'flex',
+        height: '100vh',
+        width: '100%',
+        backgroundColor: '#ffffff',
+        overflow: 'hidden',
+      }}
+    >
       <Sidebar items={sidebarItems} activeHref="/price-list" title="Call Center" glassEffect />
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>

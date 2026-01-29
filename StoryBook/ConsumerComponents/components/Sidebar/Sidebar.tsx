@@ -28,55 +28,59 @@ const defaultActiveColor = "bg-primary/20 text-primary dark:text-primary border-
 
 // Memoized sidebar item component to prevent unnecessary re-renders
 const SidebarItemComponent = React.memo<{
-  item: SidebarItem;
+  name: string;
+  href: string;
+  icon: LucideIcon;
+  onClick: (href: string) => void;
+  hoverColor?: string;
+  activeColor?: string;
   isActive: boolean;
   glassEffect: boolean;
   itemClassName?: string;
-}>(({ item, isActive, glassEffect, itemClassName }) => {
-  const hoverColor = item.hoverColor ?? defaultHoverColor;
-  const activeColor = item.activeColor ?? defaultActiveColor;
-
-  const buttonElement = React.useMemo(
-    () => (
-      <button
-        type="button"
-        onClick={() => item.onClick(item.href)}
-        className={cn(
-          "flex w-full items-center justify-start gap-3 rounded-lg text-left text-sm font-medium transition-all duration-200",
-          // Keep glass styling but prevent overflow outside sidebar width
-          // - clip the moving ::before shine
-          // - remove outer glow that bleeds into adjacent content
-          glassEffect && "hover:scale-100 hover:shadow-none",
-          isActive ? cn(activeColor) : cn("text-muted-foreground border-transparent", hoverColor),
-          itemClassName
-        )}
+}>(
+  ({
+    name,
+    href,
+    icon: Icon,
+    onClick,
+    hoverColor,
+    activeColor,
+    isActive,
+    glassEffect,
+    itemClassName,
+  }) => {
+    const resolvedHoverColor = hoverColor ?? defaultHoverColor;
+    const resolvedActiveColor = activeColor ?? defaultActiveColor;
+    return (
+      <GlassEffectWrapper
+        asChild
+        glassEffect={glassEffect && !isActive}
+        variant="perfume"
+        // CRITICAL FIX: Disable randomHue to prevent flashing
+        randomHue={false}
       >
-        <item.icon className="h-5 w-5" />
-        {item.name}
-      </button>
-    ),
-    [
-      item,
-      isActive,
-      glassEffect,
-      hoverColor,
-      activeColor,
-      itemClassName,
-    ]
-  );
-
-  return (
-    <GlassEffectWrapper
-      key={item.name}
-      asChild
-      glassEffect={glassEffect && !isActive}
-      variant="perfume"
-      randomHue={glassEffect && !isActive}
-    >
-      {buttonElement}
-    </GlassEffectWrapper>
-  );
-});
+        <button
+          type="button"
+          onClick={() => onClick(href)}
+          className={cn(
+            "flex w-full items-center justify-start gap-3 rounded-lg text-left text-sm font-medium transition-colors duration-150",
+            // Keep glass styling but prevent overflow outside sidebar width
+            // - clip the moving ::before shine
+            // - remove outer glow that bleeds into adjacent content
+            glassEffect && "hover:scale-100 hover:shadow-none",
+            isActive
+              ? cn(resolvedActiveColor)
+              : cn("text-muted-foreground border-transparent", resolvedHoverColor),
+            itemClassName
+          )}
+        >
+          <Icon className="h-5 w-5" />
+          {name}
+        </button>
+      </GlassEffectWrapper>
+    );
+  }
+);
 
 SidebarItemComponent.displayName = "SidebarItemComponent";
 
@@ -113,7 +117,12 @@ export const Sidebar = React.memo(function Sidebar({
           return (
             <SidebarItemComponent
               key={item.href}
-              item={item}
+              name={item.name}
+              href={item.href}
+              icon={item.icon}
+              onClick={item.onClick}
+              hoverColor={item.hoverColor}
+              activeColor={item.activeColor}
               isActive={isActive}
               glassEffect={glassEffect}
               itemClassName={itemClassName}

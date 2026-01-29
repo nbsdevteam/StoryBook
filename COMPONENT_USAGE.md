@@ -27,7 +27,22 @@ import '@nbs/component-library/dist/styles.css';
 ### Import Components
 
 ```typescript
-import { Button, Card, Badge, Alert, Modal, DataTable, Input, Select, Checkbox, Textarea, Radio, Switch } from '@nbs/component-library';
+import {
+  Button,
+  Card,
+  Badge,
+  Alert,
+  Modal,
+  DataTable,
+  Input,
+  Select,
+  Checkbox,
+  Textarea,
+  Radio,
+  Switch,
+  GlassEffectWrapper,
+  Sidebar,
+} from '@nbs/component-library';
 ```
 
 You can import individual components or multiple at once:
@@ -38,6 +53,7 @@ import { Button, Card } from '@nbs/component-library';
 
 // Import with TypeScript types
 import { Button, type ButtonProps } from '@nbs/component-library';
+import { Sidebar, type SidebarItem } from '@nbs/component-library';
 ```
 
 ## Component Examples
@@ -728,6 +744,169 @@ function MyComponent() {
     </div>
   );
 }
+```
+
+## Glass effect, Card, and Sidebar
+
+### Card with built-in glass effect
+
+`Card` supports an optional **glass effect** via props. Use a **single import**—no need to use `GlassEffectWrapper` for cards.
+
+- **`glassEffect`** (boolean): Enables the glass effect. When `true`, you can optionally set `glassVariant` and (for perfume) `glassRandomHue`.
+- **`glassVariant`** (`'shine'` | `'perfume'`, optional): Defaults to `'shine'` when `glassEffect` is true. Use `'perfume'` for a different hover style.
+- **`glassRandomHue`** (boolean, optional): Only valid when `glassVariant === 'perfume'`. Adds a colored tint on hover; the hue changes each time you leave and re-hover.
+
+TypeScript uses a **discriminated union**: you cannot pass `glassVariant` or `glassRandomHue` without `glassEffect={true}`, and `glassRandomHue` is only allowed with `glassVariant="perfume"`.
+
+```typescript
+import { Card, Button } from '@nbs/component-library';
+
+function MyComponent() {
+  return (
+    <div>
+      {/* Basic card (no glass) */}
+      <Card title="Plain Card">
+        <p>Normal card</p>
+      </Card>
+
+      {/* Card with glass shine (default) */}
+      <Card glassEffect title="Glass Card" subtitle="Shine variant">
+        <p>Hover to see the shine effect.</p>
+      </Card>
+
+      {/* Card with glass perfume */}
+      <Card glassEffect glassVariant="perfume" title="Perfume Glass" subtitle="Different hover style">
+        <p>Perfume-style glass effect.</p>
+      </Card>
+
+      {/* Card with perfume + random hue (color changes on each re-hover) */}
+      <Card
+        glassEffect
+        glassVariant="perfume"
+        glassRandomHue
+        title="Colorful Glass"
+        subtitle="Re-hover to see new colors"
+      >
+        <p>Leave and hover again to cycle tint colors.</p>
+      </Card>
+
+      {/* Complete card with glass */}
+      <Card
+        glassEffect
+        glassVariant="perfume"
+        glassRandomHue
+        imageSrc="https://via.placeholder.com/400x200"
+        title="Featured"
+        subtitle="With glass"
+        footer={
+          <div className="d-flex gap-2">
+            <Button variant="primary" size="small">Action</Button>
+            <Button variant="secondary" size="small">Cancel</Button>
+          </div>
+        }
+      >
+        <p>Full card with image, footer, and glass.</p>
+      </Card>
+    </div>
+  );
+}
+```
+
+### GlassEffectWrapper (standalone)
+
+Use `GlassEffectWrapper` when you want a glass effect on **non-Card** elements (e.g. buttons, custom blocks). For `Card`, prefer the built-in `glassEffect` props above.
+
+- **`variant`**: `'shine'` | `'perfume'`. Default `'shine'`.
+- **`randomHue`**: When `true` and `variant === 'perfume'`, the surface gets a tint on hover. Hue changes **on each re-hover** (no continuous animation).
+- **`hueSeed`** (optional): `string` or `number`. When provided (and `randomHue` is on), users with **reduced motion** get a **stable, deterministic** tint per seed instead of changing on re-hover. Useful for consistent “per item” colors (e.g. `hueSeed={itemId}`).
+- **`asChild`**: Default `true`. Composes with a single child (e.g. Radix Slot). Set `asChild={false}` to render a wrapper `div` around children.
+
+```typescript
+import { GlassEffectWrapper } from '@nbs/component-library';
+
+function MyComponent() {
+  return (
+    <div>
+      {/* Shine on a button */}
+      <GlassEffectWrapper variant="shine" asChild>
+        <button type="button" className="btn btn-primary">
+          Glass button
+        </button>
+      </GlassEffectWrapper>
+
+      {/* Perfume with random hue */}
+      <GlassEffectWrapper variant="perfume" randomHue asChild>
+        <div className="p-4 rounded border">Hover for tint</div>
+      </GlassEffectWrapper>
+
+      {/* Stable hue per item (good for reduced motion) */}
+      {items.map((item) => (
+        <GlassEffectWrapper
+          key={item.id}
+          variant="perfume"
+          randomHue
+          hueSeed={item.id}
+          asChild
+        >
+          <div className="p-3 rounded">{item.name}</div>
+        </GlassEffectWrapper>
+      ))}
+    </div>
+  );
+}
+```
+
+### Sidebar
+
+`Sidebar` supports an optional **glass effect on hover** for nav items via the `glassEffect` prop.
+
+- **`glassEffect`** (boolean): Enables glass-style hover on sidebar items. Default `true`. Does **not** enable random hue; items use the base perfume look only.
+
+```typescript
+import { Sidebar, type SidebarItem } from '@nbs/component-library';
+import { LayoutDashboard, Users, Settings } from 'lucide-react';
+
+const items: SidebarItem[] = [
+  {
+    name: 'Dashboard',
+    href: '/dashboard',
+    icon: LayoutDashboard,
+    onClick: (href) => console.log('Navigate:', href),
+  },
+  {
+    name: 'Users',
+    href: '/users',
+    icon: Users,
+    onClick: (href) => console.log('Navigate:', href),
+  },
+  {
+    name: 'Settings',
+    href: '/settings',
+    icon: Settings,
+    onClick: (href) => console.log('Navigate:', href),
+  },
+];
+
+function MyLayout() {
+  return (
+    <div style={{ display: 'flex', height: '100vh' }}>
+      <Sidebar
+        items={items}
+        activeHref="/dashboard"
+        title="My App"
+        glassEffect
+        width={256}
+      />
+      <main style={{ flex: 1 }}>{/* page content */}</main>
+    </div>
+  );
+}
+```
+
+To disable glass on the sidebar:
+
+```typescript
+<Sidebar items={items} title="My App" glassEffect={false} />
 ```
 
 ## Complete Example: Form with Multiple Components

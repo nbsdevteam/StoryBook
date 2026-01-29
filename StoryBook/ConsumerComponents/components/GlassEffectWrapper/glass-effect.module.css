@@ -1,7 +1,18 @@
+/* CRITICAL FIX: Optimized glass effects to eliminate flashing */
+
 /* Glass shine effect for hover */
 .glassShine {
   position: relative;
   transition: all 0.3s ease;
+  
+  /* GPU acceleration to prevent flashing */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+  
+  /* Contain repaints to this element only */
+  contain: layout paint style;
+  isolation: isolate;
 
   &::before {
     content: "";
@@ -24,6 +35,10 @@
     pointer-events: none;
     z-index: 1;
     border-radius: inherit;
+    
+    /* GPU acceleration for pseudo-element */
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
   }
 
   &:hover::before {
@@ -33,13 +48,12 @@
 
   &:hover {
     background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    /* Disable backdrop-filter to prevent full-canvas repaints */
     box-shadow:
       0 8px 32px 0 rgba(0, 0, 0, 0.1),
       inset 0 0 0 1px rgba(255, 255, 255, 0.3),
       inset 0 1px 0 0 rgba(255, 255, 255, 0.4),
-      0 0 20px rgba(255, 255, 255, 0.2      );
+      0 0 20px rgba(255, 255, 255, 0.2);
   }
 }
 
@@ -53,13 +67,33 @@
     0 0 20px rgba(255, 255, 255, 0.1);
 }
 
-/* Random hue rotation for perfume glass effect */
+/* CRITICAL FIX: Perfume glass effect optimized to prevent flashing */
 .perfumeGlass {
   position: relative;
-  background: transparent;
-  border: 1px solid transparent;
-  transition: all 0.3s ease;
-  filter: hue-rotate(var(--random-hue, 0deg));
+  overflow: hidden;
+  
+  /* GPU acceleration - most important fix */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  
+  /* Contain paint operations to prevent sidebar-wide repaints */
+  contain: layout paint style;
+  isolation: isolate;
+  
+  /* Hint browser about upcoming changes */
+  will-change: transform;
+  
+  /* Very subtle background - almost transparent */
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  
+  /* Smooth transitions - reduced from 0.3s to 0.2s for snappier feel */
+  transition: 
+    background 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   &::before {
     content: "";
@@ -69,52 +103,119 @@
     width: 100%;
     height: 100%;
     opacity: 0;
+    /* BRIGHT, VISIBLE flash */
     background: linear-gradient(
       90deg,
-      transparent,
-      rgba(255, 255, 255, 0.5),
-      transparent
+      transparent 0%,
+      rgba(255, 255, 255, 0.2) 20%,
+      rgba(255, 255, 255, 0.9) 50%,
+      rgba(255, 255, 255, 0.2) 80%,
+      transparent 100%
     );
     background-size: 200% 100%;
-    /* Move background left on hover => shine appears left-to-right */
-    background-position: 100% 0;
-    transition: background-position 0.5s ease, opacity 0.15s ease;
+    /* CRITICAL FIX: Start further right so it sweeps completely through */
+    background-position: 150% 0;
+    transition: background-position 0.6s ease, opacity 0.2s ease;
     pointer-events: none;
     z-index: 1;
     border-radius: inherit;
+    
+    /* GPU acceleration for pseudo-element */
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
   }
 
   &:hover::before {
     opacity: 1;
-    background-position: 0% 0;
+    /* CRITICAL FIX: End further left so it exits completely */
+    background-position: -50% 0;
   }
 
   &:hover {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    /* CRITICAL FIX: Reduced scale from 1.05 to 1.02 to minimize layout impact */
+    transform: scale3d(1.02, 1.02, 1);
+    
+    /* Very subtle hover background - just slightly lighter than base */
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(0, 0, 0, 0.08);
+    
+    /* Subtle shadow for depth - no color glow */
     box-shadow:
-      0 8px 32px 0 rgba(0, 0, 0, 0.1),
-      inset 0 0 0 1px rgba(255, 255, 255, 0.3),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.4),
-      0 0 20px rgba(255, 255, 255, 0.2);
-    filter: hue-rotate(var(--random-hue, 0deg));
+      0 2px 8px 0 rgba(0, 0, 0, 0.05),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   }
+}
+
+/* Random hue (perfume only)
+ * - Enabled by JS via `data-random-hue="true"` on the same element.
+ * - JS updates `--random-hue` (in degrees). We only use it to tint the GLASS SURFACE
+ *   (background/border/shadow) — not text — to avoid readability issues.
+ * - Visual tint is applied only on :hover; outside hover we keep the base perfume look.
+ */
+.perfumeGlass[data-random-hue="true"] {
+  --random-hue: 0deg;
+}
+
+.perfumeGlass[data-random-hue="true"]:hover {
+  background: hsla(var(--random-hue, 0), 55%, 92%, 0.12);
+  border-color: hsla(var(--random-hue, 0), 50%, 70%, 0.35);
+  box-shadow:
+    0 4px 16px 0 hsla(var(--random-hue, 0), 50%, 50%, 0.15),
+    inset 0 0 0 1px hsla(var(--random-hue, 0), 40%, 95%, 0.4),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
 }
 
 /* Dark mode variants for perfume-glass */
 :global(.dark) .perfumeGlass {
-  background: rgba(100, 100, 200, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  filter: hue-rotate(var(--random-hue, 0deg));
+  /* Very subtle background for dark mode */
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+:global(.dark) .perfumeGlass::before {
+  /* BRIGHT flash for dark mode visibility */
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.25) 20%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(255, 255, 255, 0.25) 80%,
+    transparent 100%
+  );
 }
 
 :global(.dark) .perfumeGlass:hover {
-  background: rgba(100, 100, 200, 0.3);
+  /* Slightly lighter on hover in dark mode */
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+  
   box-shadow:
-    0 8px 32px 0 rgba(0, 0, 0, 0.6),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.25),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.2),
-    0 0 30px rgba(255, 255, 255, 0.15);
-  filter: hue-rotate(var(--random-hue, 0deg)) saturate(1.3) brightness(1.2);
+    0 2px 8px 0 rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+:global(.dark) .perfumeGlass[data-random-hue="true"]:hover {
+  background: hsla(var(--random-hue, 0), 50%, 35%, 0.2);
+  border-color: hsla(var(--random-hue, 0), 45%, 55%, 0.4);
+  box-shadow:
+    0 4px 16px 0 hsla(var(--random-hue, 0), 50%, 20%, 0.4),
+    inset 0 0 0 1px hsla(var(--random-hue, 0), 40%, 60%, 0.25),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Reduced motion support - disable animations for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .glassShine,
+  .perfumeGlass,
+  .glassShine::before,
+  .perfumeGlass::before {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+  
+  .glassShine,
+  .perfumeGlass {
+    will-change: auto;
+  }
 }

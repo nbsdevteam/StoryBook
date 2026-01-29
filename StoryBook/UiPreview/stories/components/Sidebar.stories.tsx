@@ -22,6 +22,13 @@ const meta: Meta<typeof Sidebar> = {
   parameters: {
     layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <div style={{ height: '100vh', display: 'flex' }}>
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     title: {
       control: 'text',

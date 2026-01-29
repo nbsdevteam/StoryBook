@@ -15,6 +15,19 @@ const meta: Meta<typeof Card> = {
       control: 'boolean',
       description: 'Whether card should have border',
     },
+    glassEffect: {
+      control: 'boolean',
+      description: 'Enable built-in glass effect wrapper',
+    },
+    glassVariant: {
+      control: { type: 'select' },
+      options: ['shine', 'perfume'],
+      description: 'Glass effect variant (defaults to shine when enabled)',
+    },
+    glassRandomHue: {
+      control: 'boolean',
+      description: 'Random hue coloring (perfume only)',
+    },
   },
 };
 
@@ -102,4 +115,115 @@ export const NoBorder: Story = {
     title: 'Card Without Border',
     children: 'This card has no border.',
   },
+};
+
+export const WithGlassShine: Story = {
+  args: {
+    glassEffect: true,
+    title: 'Glass Effect Card',
+    subtitle: 'Shine variant (default)',
+    shadow: true,
+    children: 'This card has the glass shine effect enabled via Card props.',
+  },
+};
+
+export const WithGlassPerfume: Story = {
+  args: {
+    glassEffect: true,
+    glassVariant: 'perfume',
+    title: 'Perfume Glass Card',
+    subtitle: 'Hover for color effect',
+    shadow: true,
+    children: 'This card uses the perfume variant.',
+  },
+};
+
+export const WithGlassPerfumeRandomHue: Story = {
+  args: {
+    glassEffect: true,
+    glassVariant: 'perfume',
+    glassRandomHue: true,
+    title: 'Perfume Glass Card',
+    subtitle: 'Random hue enabled',
+    shadow: true,
+    children: 'Hover to see random hue coloring (perfume only).',
+  },
+};
+
+const threePerfumeCards = [
+  { id: 0, title: 'Card 1', subtitle: 'Hover for random hue', children: 'Each card gets its own random hue on hover. Hover this card.' },
+  { id: 1, title: 'Card 2', subtitle: 'Hover for random hue', children: 'Each card gets its own random hue on hover. Hover this card.' },
+  { id: 2, title: 'Card 3', subtitle: 'Hover for random hue', children: 'Each card gets its own random hue on hover. Hover this card.' },
+];
+
+export const ThreeCardsWithGlassPerfumeRandomHue: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+      {threePerfumeCards.map((card, index) => (
+        <Card
+          key={card.id}
+          glassEffect
+          glassVariant="perfume"
+          glassRandomHue
+          title={card.title}
+          subtitle={card.subtitle}
+          shadow
+          glassHueSeed={index * 6}  // Multiply by 6 to spread colors out!
+        >
+          {card.children}
+        </Card>
+      ))}
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Three cards with perfume random hue. Each card has a unique widely-spaced hue for maximum visual difference.',
+      },
+    },
+  },
+};
+
+export const CompleteWithGlass: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+      <Card
+        glassEffect
+        title="Featured Card"
+        subtitle="With glass effect"
+        imageSrc="https://via.placeholder.com/400x200"
+        footer={
+          <div className="d-flex gap-2">
+            <Button variant="primary" size="small">
+              Action
+            </Button>
+            <Button variant="secondary" size="small">
+              Cancel
+            </Button>
+          </div>
+        }
+      >
+        A complete card with image, content, and footer using built-in glass effect.
+      </Card>
+
+      <Card
+        glassEffect
+        glassVariant="perfume"
+        glassRandomHue
+        title="Colorful Card"
+        subtitle="Random hue perfume"
+        imageSrc="https://via.placeholder.com/400x200"
+        footer={
+          <div className="d-flex gap-2">
+            <Button variant="success" size="small">
+              Confirm
+            </Button>
+          </div>
+        }
+      >
+        Hover to see random color glass effect.
+      </Card>
+    </div>
+  ),
 };
