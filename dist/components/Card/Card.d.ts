@@ -71,6 +71,7 @@ type CardWithPerfume = CardBaseProps & {
     glassVariant: 'perfume';
     /**
      * Random hue coloring (perfume only).
+     * Each card automatically gets a unique color - no manual configuration needed!
      */
     glassRandomHue?: boolean;
 };
