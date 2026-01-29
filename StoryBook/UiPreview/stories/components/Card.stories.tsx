@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Card } from '@consumer/components/Card';
-import { Button } from '../Button';
+import { Card, type CardProps } from '@consumer/components/Card';
+import { Button } from '@consumer/components/Button';
 
-const meta: Meta<typeof Card> = {
+const meta: Meta<CardProps> = {
   title: 'Components/Card',
   component: Card,
   tags: ['autodocs'],
@@ -32,7 +32,7 @@ const meta: Meta<typeof Card> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<CardProps>;
 
 export const Basic: Story = {
   args: {
