@@ -1,6 +1,33 @@
 # How to Use NBS Component Library in Your React Project
 
-This guide explains how to install and use the NBS Component Library components in your React application.
+This guide is for developers and automation (e.g. agents) integrating the NBS Component Library into a React application. Follow the steps below to install, import styles, and use components correctly.
+
+---
+
+## In this guide
+
+1. **Installation** – Install the package and import styles once.
+2. **Quick reference** – Which components use props only vs. optional `config`.
+3. **Component examples** – Copy-paste examples for each component.
+4. **Glass effect, Card, Sidebar** – Glass options and Sidebar/Card usage.
+5. **Config-driven components** – When and how to use the `config` prop.
+6. **TypeScript, styling, troubleshooting** – Types, dark mode, and common issues.
+
+---
+
+## Quick reference: how components are used
+
+| Component | How to use | Notes |
+|-----------|------------|--------|
+| **Sidebar** | **Props only.** Pass `items`, `activeHref`, `title`, `glassEffect`, `width`. | No `config` prop. Each item is a `SidebarItem` with `name`, `href`, `icon`, `onClick`. |
+| **Card** | **Either props or `config`.** Use `title`, `children`, `footer`, etc., **or** a single `config` object. | See [Card component](#card-component) and [Config-driven Card](#card-with-config). |
+| **Button, Badge, Alert, Modal, Input, Select, Checkbox, Radio, Textarea, Switch** | **Props only.** | Standard React props; no `config`. |
+| **DataTable** | **Either props or `config`.** Columns/data as props or via `config`. | Same pattern as Card. |
+| **Dialog, Tabs, Accordion, NavigationMenu, Breadcrumb, DropdownMenu, Form, Combobox, CommandPalette** | **Config-driven.** Pass a `config` object. | See [Config-driven components](#config-driven-components). |
+
+**Important:** The `config` prop is **optional** everywhere. You can use components the **normal way** with direct props (e.g. `title`, `children`, `items`) and never pass `config` if you prefer. Use `config` only when you want a single-object API for dynamic or structured content. **Sidebar** does not support `config`—always use `items` and other props.
+
+---
 
 ## Installation
 
@@ -16,10 +43,10 @@ npm install github:syednaqvi98nibras/StoryBook#latest
 
 **Option B: Pin to a specific version (e.g. for production)**
 
-Use a version tag so installs are predictable. Replace `v1.1.0` with the version you need.
+Use a version tag so installs are predictable. Replace `v1.1.1` with the version you need.
 
 ```bash
-npm install github:syednaqvi98nibras/StoryBook#v1.1.0
+npm install github:syednaqvi98nibras/StoryBook#v1.1.1
 ```
 
 **Or add the dependency in `package.json`**
@@ -37,7 +64,7 @@ For a specific version:
 ```json
 {
   "dependencies": {
-    "@nbs/component-library": "github:syednaqvi98nibras/StoryBook#v1.1.0"
+    "@nbs/component-library": "github:syednaqvi98nibras/StoryBook#v1.1.1"
   }
 }
 ```
@@ -95,7 +122,9 @@ import { Button, type ButtonProps } from '@nbs/component-library';
 import { Sidebar, type SidebarItem } from '@nbs/component-library';
 ```
 
-**Glass effects:** `Card` supports optional glass via `glassEffect`, `glassVariant`, and `glassRandomHue`. `Sidebar` supports glass-style hover on nav items via `glassEffect`. See [Glass effect, Card, and Sidebar](#glass-effect-card-and-sidebar) for details.
+**Glass effects:** Card supports optional glass via `glassEffect`, `glassVariant`, and `glassRandomHue`. Sidebar supports glass-style hover on nav items via `glassEffect`. See [Glass effect, Card, and Sidebar](#glass-effect-card-and-sidebar) for details.
+
+**Important:** Import the library CSS **once** in your app entry (see [Installation](#installation)) before using any component. Without it, components may not look correct.
 
 ## Component Examples
 
@@ -239,7 +268,9 @@ function MyComponent() {
 }
 ```
 
-For **glass effect** options (shine, perfume, random hue), see the section [Glass effect, Card, and Sidebar](#glass-effect-card-and-sidebar) below.
+**Card usage:** The examples above use **direct props** (`title`, `children`, `footer`, etc.). Card also accepts an **optional** **`config`** prop—you can use either approach. **Config is not mandatory.** Use direct props for simple cards; use `config` only when you want structured or dynamic content. See [Config-driven components](#config-driven-components) for a Card `config` example.
+
+For **glass effect** options (shine, perfume, random hue), see [Glass effect, Card, and Sidebar](#glass-effect-card-and-sidebar).
 
 ### Badge Component
 
@@ -862,12 +893,12 @@ function MyComponent() {
 
 ### GlassEffectWrapper (standalone)
 
-Use `GlassEffectWrapper` when you want a glass effect on **non-Card** elements (e.g. buttons, custom blocks). For `Card`, prefer the built-in `glassEffect` props above.
+Use `GlassEffectWrapper` when you want a glass effect on **non-Card** elements (e.g. buttons, custom blocks). For `Card`, use the built-in `glassEffect` props instead.
 
 - **`variant`**: `'shine'` | `'perfume'`. Default `'shine'`.
-- **`randomHue`**: When `true` and `variant === 'perfume'`, the surface gets a tint on hover. Hue changes **on each re-hover** (no continuous animation).
-- **`hueSeed`** (optional): `string` or `number`. When provided (and `randomHue` is on), users with **reduced motion** get a **stable, deterministic** tint per seed instead of changing on re-hover. Useful for consistent “per item” colors (e.g. `hueSeed={itemId}`).
-- **`asChild`**: Default `true`. Composes with a single child (e.g. Radix Slot). Set `asChild={false}` to render a wrapper `div` around children.
+- **`randomHue`**: When `true` and `variant === 'perfume'`, the surface gets a colored tint on hover. Each wrapped element gets a **stable hue** per instance (based on mount order); the hue does not change on re-hover.
+- **`asChild`**: Default `true`. Composes with a single child (Radix Slot). Set `asChild={false}` to render a wrapper `div` around children.
+- **`glassEffect`**: Optional boolean; when `false`, no glass class is applied.
 
 ```typescript
 import { GlassEffectWrapper } from '@nbs/component-library';
@@ -882,20 +913,13 @@ function MyComponent() {
         </button>
       </GlassEffectWrapper>
 
-      {/* Perfume with random hue */}
+      {/* Perfume with random hue (stable hue per item) */}
       <GlassEffectWrapper variant="perfume" randomHue asChild>
         <div className="p-4 rounded border">Hover for tint</div>
       </GlassEffectWrapper>
 
-      {/* Stable hue per item (good for reduced motion) */}
       {items.map((item) => (
-        <GlassEffectWrapper
-          key={item.id}
-          variant="perfume"
-          randomHue
-          hueSeed={item.id}
-          asChild
-        >
+        <GlassEffectWrapper key={item.id} variant="perfume" randomHue asChild>
           <div className="p-3 rounded">{item.name}</div>
         </GlassEffectWrapper>
       ))}
@@ -906,9 +930,14 @@ function MyComponent() {
 
 ### Sidebar
 
-`Sidebar` supports an optional **glass effect on hover** for nav items via the `glassEffect` prop.
+**Sidebar does not use a `config` prop.** Always pass an array of **items** and the other props below.
 
-- **`glassEffect`** (boolean): Enables glass-style hover on sidebar items. Default `true`. Does **not** enable random hue; items use the base perfume look only.
+- **`items`** (required): Array of `SidebarItem`: `{ name, href, icon, onClick, hoverColor?, activeColor? }`. Icons are from `lucide-react`.
+- **`activeHref`**: The `href` of the currently active item (e.g. current route).
+- **`title`**: Sidebar title. Default `"Call Center"`.
+- **`glassEffect`**: Enables glass-style hover on nav items. Default `true`. Does not enable random hue.
+- **`width`**: Width of the sidebar. Default `"256px"`. Can be a number (e.g. `256`) or string.
+- **`className`**, **`itemClassName`**: Optional class names.
 
 ```typescript
 import { Sidebar, type SidebarItem } from '@nbs/component-library';
@@ -951,11 +980,7 @@ function MyLayout() {
 }
 ```
 
-To disable glass on the sidebar:
-
-```typescript
-<Sidebar items={items} title="My App" glassEffect={false} />
-```
+**Example:** Disable glass with `glassEffect={false}`. Always provide `items` and at least `onClick` per item.
 
 ## Complete Example: Form with Multiple Components
 
@@ -1189,15 +1214,20 @@ Use this to confirm the library works in your app (Bootstrap, Tailwind, or no fr
 3. Start using components in your React components
 4. Customize as needed with props and CSS classes
 
-## Config-Driven Components (New)
+## Config-Driven Components
 
-The following components support a `config` prop for dynamic rendering:
+Some components accept an **optional** **`config`** prop so you can pass a single object instead of many props. **`config` is never mandatory**—you can always use components the normal way with direct props. Use `config` when it fits your use case (e.g. dynamic or data-driven UIs).
 
-- `Dialog`, `Tabs`, `Accordion`, `NavigationMenu`, `Breadcrumb`, `DropdownMenu`
-- `Form`, `Combobox`, `CommandPalette`
-- `Card` (config-driven), `DataTable` (config-driven)
+### Who supports `config`?
 
-Example:
+| Component | Usage |
+|-----------|--------|
+| **Card**, **DataTable** | **Dual API.** Use direct props (e.g. `title`, `children`) **or** a `config` object. Prefer props for simple cases; use `config` for structured/stateful content. |
+| **Dialog**, **Tabs**, **Accordion**, **NavigationMenu**, **Breadcrumb**, **DropdownMenu**, **Form**, **Combobox**, **CommandPalette** | **Optional `config`.** You can pass a `config` object, or use the component’s normal props when available. See each component’s types for the full API. |
+
+**Sidebar** does **not** support `config`; always use `items` and other props. For all other components above, **config is optional**—use direct props for normal usage whenever the component supports them.
+
+### Tabs with config
 
 ```tsx
 import { Tabs } from '@nbs/component-library';
@@ -1213,5 +1243,44 @@ import { Tabs } from '@nbs/component-library';
   }}
 />;
 ```
+
+### Card with config
+
+Card can be used with **direct props** (see [Card component](#card-component)) or with a **`config`** object. Use `config` when you want structured header/footer actions, loading state, or collapsible content.
+
+```tsx
+import { Card, Button } from '@nbs/component-library';
+
+<Card
+  config={{
+    header: { title: 'Dashboard', subtitle: 'Overview' },
+    content: <p>Main content here.</p>,
+    footer: {
+      actions: {
+        primary: { label: 'Save', onClick: () => {} },
+        secondary: { label: 'Cancel', onClick: () => {} },
+      },
+      alignment: 'right',
+    },
+    variant: 'elevated',
+    size: 'md',
+  }}
+/>;
+```
+
+When you pass `config`, Card uses it for structure (header, content, footer) and ignores legacy props like `title`/`children`/`footer` for that purpose. Top-level props such as `glassEffect`, `glassVariant`, and `glassRandomHue` can be used alongside `config`. See the `CardProps` and `CardConfig` types in the package for the full API.
+
+---
+
+## Implementation checklist (for developers and agents)
+
+Use this to implement the library correctly:
+
+1. **Install:** `npm install github:syednaqvi98nibras/StoryBook#latest` (or pin to a tag like `#v1.1.1`).
+2. **Styles:** In the app entry file (e.g. `main.tsx`), add: `import '@nbs/component-library/dist/styles.css';` (once, before any component imports).
+3. **Sidebar:** Use props only. Pass `items` (array of `{ name, href, icon, onClick }`), `activeHref`, `title`, `glassEffect`, `width`. Do not pass `config`.
+4. **Card:** Use either direct props (`title`, `children`, `footer`, …) or a `config` object, not both for the same structure.
+5. **Other components:** Use props as shown in this guide. For Dialog, Tabs, Accordion, etc., the `config` prop is **optional**—use normal props when you prefer; use `config` when you want the single-object API.
+6. **Types:** Import types where needed, e.g. `import { Sidebar, type SidebarItem } from '@nbs/component-library';`.
 
 Happy coding!
