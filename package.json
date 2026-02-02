@@ -1,7 +1,7 @@
 {
   "name": "@nbs/component-library",
   "private": false,
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Production-ready React component library with TypeScript and Storybook",
   "keywords": [
     "react",
@@ -14,8 +14,22 @@
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
+  "style": "dist/styles.css",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./dist/styles.css": "./dist/styles.css"
+  },
+  "sideEffects": [
+    "dist/styles.css"
+  ],
   "files": [
-    "dist"
+    "dist",
+    "ConsumeInstructions.md"
   ],
   "repository": {
     "type": "git",
@@ -27,7 +41,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "rimraf dist && rollup -c && tsc --project tsconfig.build.json --emitDeclarationOnly",
+    "build": "rimraf dist && rollup -c && node -e \"require('fs').copyFileSync('StoryBook/ConsumerComponents/styles/tokens.css', 'dist/tokens.css')\" && tsc --project tsconfig.build.json --emitDeclarationOnly",
     "build:analyze": "npm run build && node scripts/analyze-bundle.js",
     "analyze": "node scripts/analyze-bundle.js",
     "lint": "eslint .",

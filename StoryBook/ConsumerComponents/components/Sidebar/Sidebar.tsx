@@ -16,15 +16,17 @@ export interface SidebarItem {
 export interface SidebarProps {
   items: SidebarItem[];
   activeHref?: string;
-  title?: string;
+  title?: React.ReactNode;
   glassEffect?: boolean;
   width?: number | string;
   className?: string;
   itemClassName?: string;
 }
 
-const defaultHoverColor = "hover:bg-primary/10 hover:text-primary dark:hover:text-primary";
-const defaultActiveColor = "bg-primary/20 text-primary dark:text-primary border-primary/30";
+// Default hover/active styles are implemented via CSS modules so they cannot
+// be overridden by consumer frameworks (e.g. Bootstrap) through class collisions.
+const defaultHoverColor = styles.hoverPrimary;
+const defaultActiveColor = styles.activePrimary;
 
 // Memoized sidebar item component to prevent unnecessary re-renders
 const SidebarItemComponent = React.memo<{
@@ -56,25 +58,20 @@ const SidebarItemComponent = React.memo<{
         asChild
         glassEffect={glassEffect && !isActive}
         variant="perfume"
-        // CRITICAL FIX: Disable randomHue to prevent flashing
         randomHue={false}
       >
         <button
           type="button"
           onClick={() => onClick(href)}
           className={cn(
-            "flex w-full items-center justify-start gap-3 rounded-lg text-left text-sm font-medium transition-colors duration-150",
-            // Keep glass styling but prevent overflow outside sidebar width
-            // - clip the moving ::before shine
-            // - remove outer glow that bleeds into adjacent content
-            glassEffect && "hover:scale-100 hover:shadow-none",
+            styles.itemButton,
             isActive
-              ? cn(resolvedActiveColor)
-              : cn("text-muted-foreground border-transparent", resolvedHoverColor),
+              ? cn(styles.itemActive, resolvedActiveColor)
+              : cn(styles.itemInactive, resolvedHoverColor),
             itemClassName
           )}
         >
-          <Icon className="h-5 w-5" />
+          <Icon className={styles.icon} />
           {name}
         </button>
       </GlassEffectWrapper>
@@ -105,13 +102,13 @@ export const Sidebar = React.memo(function Sidebar({
 
   return (
     <div
-      className={cn(styles.sidebar, "flex h-full flex-col border-r bg-card", className)}
+      className={cn(styles.sidebar, className)}
       style={sidebarStyle}
     >
       <div className={styles.header}>
         <h1 className={styles.headerTitle}>{title}</h1>
       </div>
-      <nav className="flex-1 space-y-1 px-2 py-4">
+      <nav className={styles.nav}>
         {items.map((item) => {
           const isActive = activeHref === item.href;
           return (
