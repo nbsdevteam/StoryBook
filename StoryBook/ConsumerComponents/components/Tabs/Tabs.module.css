@@ -1,0 +1,130 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nbs-spacing-md);
+  color: var(--nbs-text);
+}
+
+.tabsRow {
+  display: flex;
+  gap: var(--nbs-spacing-sm);
+  border-bottom: 1px solid var(--nbs-tabs-border);
+}
+
+.tabsRowVertical {
+  flex-direction: column;
+  border-bottom: none;
+  border-right: 1px solid var(--nbs-tabs-border);
+  padding-right: var(--nbs-spacing-sm);
+}
+
+.tabButton {
+  border: none;
+  background: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--nbs-radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--nbs-text);
+  position: relative;
+}
+
+.tabButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tabButtonActive {
+  color: var(--nbs-primary);
+}
+
+.tabButtonUnderline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background-color: var(--nbs-tabs-active-border);
+}
+
+.tabButtonPill {
+  background-color: var(--nbs-bg-muted);
+}
+
+.tabButtonPillActive {
+  background-color: var(--nbs-primary-subtle);
+}
+
+.tabButtonEnclosed {
+  border: 1px solid transparent;
+}
+
+.tabButtonEnclosedActive {
+  border-color: var(--nbs-tabs-border);
+  background-color: var(--nbs-surface);
+}
+
+.badge {
+  font-size: 0.7rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: var(--nbs-radius-full);
+  background-color: var(--nbs-secondary);
+  color: var(--nbs-text-on-primary);
+}
+
+.badge_primary {
+  background-color: var(--nbs-primary);
+}
+
+.badge_success {
+  background-color: var(--nbs-success);
+}
+
+.badge_warning {
+  background-color: var(--nbs-warning);
+  color: var(--nbs-dark);
+}
+
+.badge_danger {
+  background-color: var(--nbs-danger);
+}
+
+.content {
+  min-height: 0;
+}
+
+.contentAnimated {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.contentEnter {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.contentActive {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.size_sm .tabButton {
+  padding: 0.35rem 0.6rem;
+  font-size: 0.85rem;
+}
+
+.size_lg .tabButton {
+  padding: 0.65rem 1rem;
+  font-size: 1rem;
+}
+
+.fullWidth .tabButton {
+  flex: 1;
+  justify-content: center;
+}
+
+.centered {
+  justify-content: center;
+}

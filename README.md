@@ -54,6 +54,32 @@ function App() {
 }
 ```
 
+## Config-Driven Components
+
+Complex components support a `config` prop to drive rendering while remaining
+framework-agnostic (pure CSS modules + design tokens). This works with Bootstrap,
+Tailwind, or no framework at all.
+
+Example:
+
+```typescript
+import { Card } from '@nbs/component-library';
+
+<Card
+  config={{
+    header: { title: 'Config Card', subtitle: 'Driven by config' },
+    content: 'Card content',
+    footer: { actions: { primary: { label: 'Save', onClick: () => {} } } },
+    variant: 'outlined',
+  }}
+/>;
+```
+
+New components include:
+`Dialog`, `Tabs`, `Accordion`, `NavigationMenu`, `Breadcrumb`, `DropdownMenu`,
+`Form`, `Combobox`, `CommandPalette`, `Avatar`, `Tooltip`, `Progress`, `Skeleton`,
+`Separator`.
+
 ## Browse Components Locally
 
 ```bash

@@ -1,2 +1,124 @@
-/* Badge component uses Bootstrap classes primarily */
-/* Additional custom styles can be added here if needed */
+/* Badge – native CSS, tokens only */
+
+.badge {
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-family: var(--nbs-font);
+  font-size: 0.75em;
+  font-weight: var(--nbs-font-weight-semibold);
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: var(--nbs-radius);
+  border: 1px solid transparent;
+  box-sizing: border-box;
+}
+
+.rounded {
+  border-radius: 50rem;
+}
+
+.primary {
+  color: var(--nbs-text-on-primary);
+  background-color: var(--nbs-primary);
+  border-color: var(--nbs-primary);
+}
+
+.secondary {
+  color: var(--nbs-text);
+  background-color: var(--nbs-secondary);
+  border-color: var(--nbs-secondary);
+}
+
+.success {
+  color: var(--nbs-text-on-primary);
+  background-color: var(--nbs-success);
+  border-color: var(--nbs-success);
+}
+
+.danger {
+  color: var(--nbs-text-on-primary);
+  background-color: var(--nbs-danger);
+  border-color: var(--nbs-danger);
+}
+
+.warning {
+  color: var(--nbs-text);
+  background-color: var(--nbs-warning);
+  border-color: var(--nbs-warning);
+}
+
+.info {
+  color: var(--nbs-text);
+  background-color: var(--nbs-info);
+  border-color: var(--nbs-info);
+}
+
+.light {
+  color: var(--nbs-text);
+  background-color: var(--nbs-light);
+  border-color: var(--nbs-surface-border);
+}
+
+.dark {
+  color: var(--nbs-text-on-primary);
+  background-color: var(--nbs-dark);
+  border-color: var(--nbs-dark);
+}
+
+.outlinePrimary {
+  color: var(--nbs-primary);
+  background-color: transparent;
+  border-color: var(--nbs-primary);
+}
+
+.outlineSecondary {
+  color: var(--nbs-secondary);
+  background-color: transparent;
+  border-color: var(--nbs-secondary);
+}
+
+.outlineSuccess {
+  color: var(--nbs-success);
+  background-color: transparent;
+  border-color: var(--nbs-success);
+}
+
+.outlineDanger {
+  color: var(--nbs-danger);
+  background-color: transparent;
+  border-color: var(--nbs-danger);
+}
+
+.outlineWarning {
+  color: var(--nbs-warning);
+  background-color: transparent;
+  border-color: var(--nbs-warning);
+}
+
+.outlineInfo {
+  color: var(--nbs-info);
+  background-color: transparent;
+  border-color: var(--nbs-info);
+}
+
+.outlineLight {
+  color: var(--nbs-text);
+  background-color: transparent;
+  border-color: var(--nbs-surface-border);
+}
+
+.outlineDark {
+  color: var(--nbs-dark);
+  background-color: transparent;
+  border-color: var(--nbs-dark);
+}
+
+.textDark {
+  color: var(--nbs-text);
+}
+
+.textWhite {
+  color: var(--nbs-text-on-primary);
+}

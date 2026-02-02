@@ -1,9 +1,90 @@
+/* DataTable – native CSS, tokens only */
+
 .dataTableWrapper {
   width: 100%;
 }
 
 .tableTopData {
   width: 100%;
+}
+
+.searchRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  gap: 0.5rem;
+}
+
+.searchLeft {
+  flex: 0 0 auto;
+}
+
+.searchRight {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.searchLabel {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.searchInput {
+  display: block;
+  width: 100%;
+  min-width: 12rem;
+  max-width: 20rem;
+  padding: 0.25rem 0.5rem;
+  font-family: var(--nbs-font);
+  font-size: var(--nbs-font-size-sm);
+  line-height: 1.5;
+  color: var(--nbs-text);
+  background-color: var(--nbs-input-bg);
+  border: 1px solid var(--nbs-input-border);
+  border-radius: var(--nbs-radius);
+  box-sizing: border-box;
+}
+
+.searchInput:focus {
+  outline: 0;
+  border-color: var(--nbs-input-focus-border);
+  box-shadow: 0 0 0 0.2rem var(--nbs-input-focus-shadow);
+}
+
+.clearBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.5rem;
+  font-family: var(--nbs-font);
+  font-size: var(--nbs-font-size-sm);
+  font-weight: var(--nbs-font-weight-medium);
+  line-height: 1.5;
+  color: var(--nbs-secondary);
+  background-color: transparent;
+  border: 1px solid var(--nbs-surface-border);
+  border-radius: var(--nbs-radius);
+  cursor: pointer;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out;
+  box-sizing: border-box;
+}
+
+.clearBtn:hover {
+  color: var(--nbs-text);
+  background-color: var(--nbs-bg-muted);
+  border-color: var(--nbs-surface-border);
+}
+
+.clearBtn:focus-visible {
+  outline: 2px solid var(--nbs-primary);
+  outline-offset: 2px;
 }
 
 .tableSkeleton {
@@ -13,5 +94,31 @@
 
 .skeletonRow td {
   opacity: 0.9;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.bulkActions {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.emptyState {
+  padding: 1rem;
+  border: 1px dashed var(--nbs-surface-border);
+  border-radius: var(--nbs-radius);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.emptyMessage {
+  color: var(--nbs-text-muted);
+  font-size: var(--nbs-font-size-sm);
 }
 

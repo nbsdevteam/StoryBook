@@ -82,18 +82,17 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
         ? styles.large
         : '';
 
-    const radioClasses = [
-      'form-check-input',
+    const inputClasses = [
+      styles.input,
       sizeClass,
-      hasError ? 'is-invalid' : '',
+      hasError ? styles.inputInvalid : '',
       className,
     ]
       .filter(Boolean)
       .join(' ');
 
     const wrapperClasses = [
-      'form-check',
-      styles.radioWrapper,
+      styles.wrapper,
       wrapperClassName,
     ]
       .filter(Boolean)
@@ -105,7 +104,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
           ref={ref}
           type="radio"
           id={radioId}
-          className={radioClasses}
+          className={inputClasses}
           aria-invalid={hasError}
           aria-describedby={
             error ? `${radioId}-error` : helperText ? `${radioId}-helper` : undefined
@@ -115,7 +114,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
         {label && (
           <label
             htmlFor={radioId}
-            className="form-check-label"
+            className={styles.label}
             style={{ order: labelBefore ? -1 : 1 }}
           >
             {label}

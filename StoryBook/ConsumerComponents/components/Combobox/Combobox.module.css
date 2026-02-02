@@ -1,0 +1,46 @@
+.root {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--nbs-input-border);
+  border-radius: var(--nbs-radius);
+  background: var(--nbs-input-bg);
+  color: var(--nbs-text);
+}
+
+.list {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  left: 0;
+  right: 0;
+  background: var(--nbs-surface);
+  border: 1px solid var(--nbs-surface-border);
+  border-radius: var(--nbs-radius-md);
+  box-shadow: var(--nbs-shadow);
+  z-index: 10;
+  max-height: 240px;
+  overflow: auto;
+}
+
+.item {
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+}
+
+.item:hover {
+  background: var(--nbs-bg-muted);
+}
+
+.itemDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.empty {
+  padding: 0.5rem 0.75rem;
+  color: var(--nbs-text-muted);
+}

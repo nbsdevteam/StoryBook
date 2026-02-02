@@ -1,0 +1,113 @@
+.root {
+  position: relative;
+  display: inline-flex;
+}
+
+.trigger {
+  border: 1px solid var(--nbs-surface-border);
+  background: var(--nbs-surface);
+  color: var(--nbs-text);
+  padding: 0.4rem 0.65rem;
+  border-radius: var(--nbs-radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.triggerGhost {
+  background: transparent;
+  border: none;
+}
+
+.triggerOutline {
+  background: transparent;
+}
+
+.menu {
+  position: absolute;
+  min-width: 200px;
+  background: var(--nbs-surface);
+  border: 1px solid var(--nbs-surface-border);
+  box-shadow: var(--nbs-shadow);
+  border-radius: var(--nbs-radius-md);
+  padding: 0.35rem;
+  z-index: 20;
+}
+
+.align_start {
+  left: 0;
+}
+
+.align_center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.align_end {
+  right: 0;
+}
+
+.side_bottom {
+  top: calc(100% + 0.25rem);
+}
+
+.side_top {
+  bottom: calc(100% + 0.25rem);
+}
+
+.side_right {
+  left: calc(100% + 0.25rem);
+  top: 0;
+}
+
+.side_left {
+  right: calc(100% + 0.25rem);
+  top: 0;
+}
+
+.item {
+  padding: 0.45rem 0.6rem;
+  border-radius: var(--nbs-radius-sm);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.item:hover {
+  background: var(--nbs-bg-muted);
+}
+
+.itemDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.itemDestructive {
+  color: var(--nbs-danger);
+}
+
+.separator {
+  height: 1px;
+  background: var(--nbs-surface-border);
+  margin: 0.35rem 0;
+}
+
+.label {
+  font-size: var(--nbs-font-size-sm);
+  color: var(--nbs-text-muted);
+  padding: 0.35rem 0.6rem;
+}
+
+.shortcut {
+  margin-left: auto;
+  color: var(--nbs-text-muted);
+  font-size: 0.75rem;
+}
+
+.submenu {
+  margin-left: 0.5rem;
+  border-left: 1px solid var(--nbs-surface-border);
+  padding-left: 0.5rem;
+}

@@ -1,11 +1,14 @@
-/* Sidebar container with fallback styles */
+/* Sidebar – native CSS, tokens only */
 .sidebar {
-  background-color: #ffffff;
-  border-right: 1px solid #e5e7eb;
+  background-color: var(--nbs-sidebar-bg);
+  border-right: 1px solid var(--nbs-sidebar-border);
   width: var(--sidebar-width, 256px);
   min-width: var(--sidebar-width, 256px);
   max-width: var(--sidebar-width, 256px);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--nbs-font);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   
   /* CRITICAL FIX: Enhanced containment to prevent repaints from spreading */
   isolation: isolate;
@@ -27,6 +30,12 @@
   border-radius: 0.5rem;
   padding: 0.5rem 0.75rem;
   width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.2;
   
   /* GPU acceleration for each button */
   transform: translate3d(0, 0, 0);
@@ -46,12 +55,51 @@
   flex-shrink: 0;
 }
 
+.nav {
+  flex: 1;
+  padding: 1rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  overflow: auto;
+}
+
+.itemButton {
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+
+.itemInactive {
+  color: var(--nbs-sidebar-text-muted);
+  border-color: transparent;
+}
+
+.hoverPrimary:hover,
+.hoverPrimary:focus-visible {
+  background-color: var(--nbs-sidebar-hover-bg);
+  color: var(--nbs-sidebar-hover-text);
+}
+
+.itemActive {
+  border-color: var(--nbs-sidebar-active-border);
+}
+
+.activePrimary {
+  background-color: var(--nbs-sidebar-active-bg);
+  color: var(--nbs-sidebar-active-text);
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
 .header {
   display: flex;
   align-items: center;
   height: 64px;
   padding: 0 24px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--nbs-sidebar-border);
 }
 
 .headerTitle {

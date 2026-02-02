@@ -1,60 +1,18 @@
 import React, { forwardRef } from 'react';
 import styles from './Checkbox.module.css';
 
-/**
- * Checkbox Component Props
- */
-export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
-  /**
-   * Checkbox label
-   */
+export interface CheckboxProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
   label?: React.ReactNode;
-  
-  /**
-   * Helper text below checkbox
-   */
   helperText?: string;
-  
-  /**
-   * Error message to display
-   */
   error?: string;
-  
-  /**
-   * Whether checkbox is required
-   * @default false
-   */
   required?: boolean;
-  
-  /**
-   * Checkbox size
-   * @default 'medium'
-   */
   size?: 'small' | 'medium' | 'large';
-  
-  /**
-   * Whether checkbox is in invalid state
-   */
   invalid?: boolean;
-  
-  /**
-   * Additional CSS classes for wrapper
-   */
   wrapperClassName?: string;
-  
-  /**
-   * Whether to show label before checkbox
-   * @default false
-   */
   labelBefore?: boolean;
 }
 
-/**
- * Checkbox Component
- * 
- * A flexible checkbox component with support for labels,
- * helper text, error states, and multiple sizes.
- */
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   (
     {
@@ -76,28 +34,18 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     const hasError = invalid || !!error;
 
     const sizeClass =
-      size === 'small'
-        ? styles.small
-        : size === 'large'
-        ? styles.large
-        : '';
+      size === 'small' ? styles.small : size === 'large' ? styles.large : '';
 
-    const checkboxClasses = [
-      'form-check-input',
+    const inputClasses = [
+      styles.input,
       sizeClass,
-      hasError ? 'is-invalid' : '',
+      hasError ? styles.inputInvalid : '',
       className,
     ]
       .filter(Boolean)
       .join(' ');
 
-    const wrapperClasses = [
-      'form-check',
-      styles.checkboxWrapper,
-      wrapperClassName,
-    ]
-      .filter(Boolean)
-      .join(' ');
+    const wrapperClasses = [styles.wrapper, wrapperClassName].filter(Boolean).join(' ');
 
     return (
       <div className={wrapperClasses}>
@@ -105,7 +53,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           ref={ref}
           type="checkbox"
           id={checkboxId}
-          className={checkboxClasses}
+          className={inputClasses}
           aria-invalid={hasError}
           aria-describedby={
             error ? `${checkboxId}-error` : helperText ? `${checkboxId}-helper` : undefined
@@ -115,7 +63,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         {label && (
           <label
             htmlFor={checkboxId}
-            className="form-check-label"
+            className={styles.label}
             style={{ order: labelBefore ? -1 : 1 }}
           >
             {label}

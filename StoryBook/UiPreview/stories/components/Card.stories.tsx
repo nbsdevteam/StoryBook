@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Card, type CardProps } from '@consumer/components/Card';
 import { Button } from '@consumer/components/Button';
+import { User } from 'lucide-react';
 
 const meta: Meta<CardProps> = {
   title: 'Components/Card',
@@ -98,6 +99,39 @@ export const Complete: Story = {
         </Button>
       </div>
     ),
+  },
+};
+
+export const ConfigDriven: Story = {
+  args: {
+    config: {
+      header: {
+        title: 'Config Card',
+        subtitle: 'Header + actions + icon',
+        icon: User,
+        actions: [
+          <Button key="edit" variant="secondary" size="small">
+            Edit
+          </Button>,
+        ],
+      },
+      content: (
+        <div>
+          This card uses the config-driven API. Content, header, footer are all
+          controlled by a config object.
+        </div>
+      ),
+      footer: {
+        actions: {
+          secondary: { label: 'Cancel', onClick: () => undefined },
+          primary: { label: 'Save', onClick: () => undefined },
+        },
+        alignment: 'right',
+      },
+      badge: { content: 'New', variant: 'success' },
+      variant: 'outlined',
+      size: 'md',
+    },
   },
 };
 

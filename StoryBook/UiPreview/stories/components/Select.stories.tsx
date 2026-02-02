@@ -125,6 +125,16 @@ export const Multiple: Story = {
   },
 };
 
+export const ConfigDriven: Story = {
+  args: {
+    config: {
+      options: sampleOptions,
+      placeholder: 'Select option',
+      searchable: true,
+    },
+  },
+};
+
 export const WithDisabledOptions: Story = {
   args: {
     label: 'Select with Disabled Options',

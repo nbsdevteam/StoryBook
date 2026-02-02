@@ -1,88 +1,20 @@
 import React, { forwardRef } from 'react';
 import styles from './Textarea.module.css';
 
-/**
- * Textarea Component Props
- */
 export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  /**
-   * Textarea label
-   */
   label?: string;
-  
-  /**
-   * Helper text below textarea
-   */
   helperText?: string;
-  
-  /**
-   * Error message to display
-   */
   error?: string;
-  
-  /**
-   * Whether textarea is required
-   * @default false
-   */
   required?: boolean;
-  
-  /**
-   * Textarea size
-   * @default 'medium'
-   */
   size?: 'small' | 'medium' | 'large';
-  
-  /**
-   * Textarea variant/style
-   * @default 'default'
-   */
   variant?: 'default' | 'light' | 'primary';
-  
-  /**
-   * Whether textarea is in invalid state
-   */
   invalid?: boolean;
-  
-  /**
-   * Whether textarea is in valid state
-   */
   valid?: boolean;
-  
-  /**
-   * Number of rows (height)
-   * @default 3
-   */
-  rows?: number;
-  
-  /**
-   * Whether textarea should auto-resize
-   * @default false
-   */
   autoResize?: boolean;
-  
-  /**
-   * Maximum number of characters
-   */
-  maxLength?: number;
-  
-  /**
-   * Show character count
-   * @default false
-   */
   showCharCount?: boolean;
-  
-  /**
-   * Additional CSS classes for wrapper
-   */
   wrapperClassName?: string;
 }
 
-/**
- * Textarea Component
- * 
- * A flexible textarea component with support for labels, helper text,
- * error states, character counting, and auto-resize.
- */
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
     {
@@ -113,27 +45,12 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const currentLength = typeof value === 'string' ? value.length : 0;
 
     const sizeClass =
-      size === 'small'
-        ? 'form-control-sm'
-        : size === 'large'
-        ? 'form-control-lg'
-        : '';
-    const variantClass =
-      variant === 'light'
-        ? 'form-control-light'
-        : variant === 'primary'
-        ? 'form-control-primary'
-        : '';
-    const stateClass = hasError
-      ? 'is-invalid'
-      : isValid
-      ? 'is-valid'
-      : '';
+      size === 'small' ? styles.textareaSm : size === 'large' ? styles.textareaLg : '';
+    const stateClass = hasError ? styles.textareaInvalid : isValid ? styles.textareaValid : '';
 
     const textareaClasses = [
-      'form-control',
+      styles.textarea,
       sizeClass,
-      variantClass,
       stateClass,
       autoResize ? styles.autoResize : '',
       className,
@@ -141,27 +58,20 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       .filter(Boolean)
       .join(' ');
 
-    const wrapperClasses = [
-      styles.textareaWrapper,
-      wrapperClassName,
-    ]
-      .filter(Boolean)
-      .join(' ');
+    const wrapperClasses = [styles.textareaWrapper, wrapperClassName].filter(Boolean).join(' ');
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       if (autoResize) {
         e.target.style.height = 'auto';
         e.target.style.height = `${e.target.scrollHeight}px`;
       }
-      if (onChange) {
-        onChange(e);
-      }
+      if (onChange) onChange(e);
     };
 
     return (
       <div className={wrapperClasses}>
         {label && (
-          <label htmlFor={textareaId} className="form-label">
+          <label htmlFor={textareaId} className={styles.label}>
             {label}
             {required && <span className={styles.required}>*</span>}
           </label>
@@ -179,10 +89,10 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             error
               ? `${textareaId}-error`
               : helperText
-              ? `${textareaId}-helper`
-              : showCharCount && maxLength
-              ? `${textareaId}-count`
-              : undefined
+                ? `${textareaId}-helper`
+                : showCharCount && maxLength
+                  ? `${textareaId}-count`
+                  : undefined
           }
           {...props}
         />

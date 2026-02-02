@@ -92,3 +92,31 @@ export const WithSelection: Story = {
   },
 };
 
+export const ConfigDriven: Story = {
+  render: () => (
+    <div style={{ maxWidth: 900 }}>
+      <DataTable
+        config={{
+          columns: [
+            { id: 'name', label: 'Name', accessor: 'name' },
+            { id: 'role', label: 'Role', accessor: 'role' },
+            { id: 'age', label: 'Age', accessor: 'age' },
+          ],
+          data: [
+            { id: '1', name: 'Alex Johnson', role: 'Admin', age: 31 },
+            { id: '2', name: 'Maria Garcia', role: 'Manager', age: 28 },
+            { id: '3', name: 'Sam Lee', role: 'User', age: 24 },
+          ],
+          pagination: {
+            currentPage: 1,
+            totalPages: 1,
+            pageSize: 10,
+            totalItems: 3,
+            onPageChange: () => undefined,
+          },
+        }}
+      />
+    </div>
+  ),
+};
+

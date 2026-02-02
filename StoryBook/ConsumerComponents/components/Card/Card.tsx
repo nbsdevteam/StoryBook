@@ -1,163 +1,297 @@
-import React from 'react';
-import styles from './Card.module.css';
-import { GlassEffectWrapper } from '../GlassEffectWrapper';
+import * as React from "react";
+import { ChevronDown, ChevronRight, RefreshCcw } from "lucide-react";
+import { GlassEffectWrapper } from "../GlassEffectWrapper";
+import { Button } from "../Button";
+import { cn } from "../../utils/cn";
+import styles from "./Card.module.css";
+import { CardProps, CardConfig } from "./Card.types";
 
-/**
- * Card Component Props
- */
-type CardBaseProps = {
-  /**
-   * Card title/header
-   */
-  title?: React.ReactNode;
-  
-  /**
-   * Card subtitle
-   */
-  subtitle?: React.ReactNode;
-  
-  /**
-   * Card body content
-   */
-  children?: React.ReactNode;
-  
-  /**
-   * Card footer content
-   */
-  footer?: React.ReactNode;
-  
-  /**
-   * Card header content (alternative to title)
-   */
-  header?: React.ReactNode;
-  
-  /**
-   * Image source for card image
-   */
-  imageSrc?: string;
-  
-  /**
-   * Image alt text
-   */
-  imageAlt?: string;
-  
-  /**
-   * Additional CSS classes
-   */
-  className?: string;
-  
-  /**
-   * Inline styles
-   */
-  style?: React.CSSProperties;
-  
-  /**
-   * Whether card should have shadow
-   * @default true
-   */
-  shadow?: boolean;
-  
-  /**
-   * Whether card should have border
-   * @default true
-   */
-  bordered?: boolean;
+const buildLegacyConfig = (props: CardProps): CardConfig | undefined => {
+  const {
+    title,
+    subtitle,
+    children,
+    footer,
+    header,
+    shadow,
+    bordered,
+  } = props;
+
+  if (!title && !subtitle && !children && !footer && !header) {
+    return undefined;
+  }
+
+  return {
+    header: header
+      ? {
+          customComponent: () => <>{header}</>,
+        }
+      : title || subtitle
+        ? { title, subtitle }
+        : undefined,
+    content: children,
+    footer: footer ? { content: footer } : undefined,
+    variant: bordered === false ? "ghost" : "default",
+    size: "md",
+    interactive: false,
+    loading: false,
+    error: undefined,
+  };
 };
 
-type CardWithoutGlass = CardBaseProps & {
-  glassEffect?: false;
-  glassVariant?: never;
-  glassRandomHue?: never;
-};
-
-type CardWithShine = CardBaseProps & {
-  glassEffect: true;
-  /**
-   * Glass effect variant. Optional with a default of "shine".
-   */
-  glassVariant?: 'shine';
-  glassRandomHue?: never;
-};
-
-type CardWithPerfume = CardBaseProps & {
-  glassEffect: true;
-  /**
-   * Glass effect variant.
-   */
-  glassVariant: 'perfume';
-  /**
-   * Random hue coloring (perfume only).
-   * Each card automatically gets a unique color - no manual configuration needed!
-   */
-  glassRandomHue?: boolean;
-};
-
-export type CardProps = CardWithoutGlass | CardWithShine | CardWithPerfume;
-
-/**
- * Card Component
- * 
- * A flexible card component for displaying content with optional header,
- * body, footer, and image sections.
- */
 export const Card: React.FC<CardProps> = ({
+  config,
   title,
   subtitle,
   children,
   footer,
   header,
   imageSrc,
-  imageAlt = 'Card image',
-  className = '',
+  imageAlt = "Card image",
+  className,
   style,
   shadow = true,
   bordered = true,
-  glassEffect,
-  ...glassProps
+  glassEffect = false,
+  glassVariant = "shine",
+  glassRandomHue = false,
 }) => {
-  const cardClasses = [
-    'card',
-    shadow ? '' : styles.noShadow,
-    bordered ? '' : styles.noBorder,
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  const resolvedConfig = config ?? buildLegacyConfig({
+    title,
+    subtitle,
+    children,
+    footer,
+    header,
+    shadow,
+    bordered,
+  });
 
-  const cardInner = (
-    <div className={cardClasses} style={style}>
-      {imageSrc && (
-        <img src={imageSrc} className="card-img-top" alt={imageAlt} />
+  const [collapsed, setCollapsed] = React.useState(
+    resolvedConfig?.collapsible ? !!resolvedConfig?.defaultCollapsed : false
+  );
+
+  const hasHeader =
+    !!resolvedConfig?.header &&
+    (resolvedConfig.header.title ||
+      resolvedConfig.header.subtitle ||
+      resolvedConfig.header.customComponent ||
+      resolvedConfig.header.actions?.length);
+  const hasFooter =
+    !!resolvedConfig?.footer &&
+    (resolvedConfig.footer.content ||
+      resolvedConfig.footer.actions?.primary ||
+      resolvedConfig.footer.actions?.secondary ||
+      resolvedConfig.footer.actions?.additional?.length);
+  const contentNode = children ?? resolvedConfig?.content;
+  const hasContent = !!contentNode;
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!resolvedConfig?.interactive) return;
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      resolvedConfig.onClick?.();
+    }
+  };
+
+  const cardRoot = (
+    <div
+      className={cn(
+        styles.cardRoot,
+        styles[`variant_${resolvedConfig?.variant ?? "default"}`],
+        styles[`size_${resolvedConfig?.size ?? "md"}`],
+        shadow ? styles.shadow : styles.noShadow,
+        bordered ? styles.bordered : styles.noBorder,
+        resolvedConfig?.interactive ? styles.interactive : "",
+        className
       )}
-      {header && <div className="card-header">{header}</div>}
-      {(title || subtitle || children) && (
-        <div className="card-body">
-          {title && <h6 className="card-title fw-semibold">{title}</h6>}
-          {subtitle && <p className="card-subtitle mb-3 text-muted">{subtitle}</p>}
-          {children && <div className="card-text">{children}</div>}
+      style={style}
+      onClick={resolvedConfig?.interactive ? resolvedConfig.onClick : undefined}
+      onKeyDown={handleKeyDown}
+      tabIndex={resolvedConfig?.interactive ? 0 : undefined}
+      role={resolvedConfig?.interactive ? "button" : undefined}
+      data-padding={resolvedConfig?.contentPadding ?? "md"}
+      data-loading={resolvedConfig?.loading ? "true" : "false"}
+    >
+      {resolvedConfig?.badge && (
+        <div
+          className={cn(
+            styles.badge,
+            styles[`badge_${resolvedConfig.badge.variant ?? "default"}`],
+            styles[
+              `badge_${resolvedConfig.badge.position ?? "top-right"}`
+            ]
+          )}
+        >
+          {resolvedConfig.badge.content}
         </div>
       )}
-      {footer && <div className="card-footer">{footer}</div>}
+
+      {imageSrc && (
+        <img src={imageSrc} className={styles.image} alt={imageAlt} />
+      )}
+
+      {hasHeader && (
+        <div
+          className={cn(
+            styles.header,
+            resolvedConfig?.header?.className
+          )}
+        >
+          {resolvedConfig?.collapsible && (
+            <button
+              type="button"
+              className={styles.collapseButton}
+              onClick={() => setCollapsed((prev) => !prev)}
+              aria-expanded={!collapsed}
+            >
+              {collapsed ? <ChevronRight /> : <ChevronDown />}
+            </button>
+          )}
+          {resolvedConfig?.header?.customComponent ? (
+            <resolvedConfig.header.customComponent />
+          ) : (
+            <div className={styles.headerContent}>
+              {resolvedConfig?.header?.icon && (
+                <resolvedConfig.header.icon
+                  className={cn(
+                    styles.headerIcon,
+                    styles[
+                      `icon_${resolvedConfig.header.iconVariant ?? "default"}`
+                    ]
+                  )}
+                />
+              )}
+              <div className={styles.headerText}>
+                {resolvedConfig?.header?.title && (
+                  <div className={styles.title}>
+                    {resolvedConfig.header.title}
+                  </div>
+                )}
+                {resolvedConfig?.header?.subtitle && (
+                  <div className={styles.subtitle}>
+                    {resolvedConfig.header.subtitle}
+                  </div>
+                )}
+              </div>
+              {resolvedConfig?.header?.actions?.length ? (
+                <div className={styles.headerActions}>
+                  {resolvedConfig.header.actions.map((action, idx) => (
+                    <div key={idx} className={styles.headerActionItem}>
+                      {action}
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          )}
+        </div>
+      )}
+
+      {resolvedConfig?.error ? (
+        <div className={styles.errorState}>
+          <div className={styles.errorMessage}>
+            {resolvedConfig.error.message}
+          </div>
+          {resolvedConfig.error.retry && (
+            <Button
+              variant="outline-primary"
+              size="small"
+              onClick={resolvedConfig.error.retry}
+            >
+              <span className={styles.errorRetryIcon}>
+                <RefreshCcw size={14} />
+              </span>
+              Retry
+            </Button>
+          )}
+        </div>
+      ) : (
+        !collapsed &&
+        hasContent && (
+          <div className={styles.body}>
+            <div className={styles.content}>{contentNode}</div>
+          </div>
+        )
+      )}
+
+      {hasFooter && !collapsed && (
+        <div
+          className={cn(
+            styles.footer,
+            styles[
+              `footer_${resolvedConfig?.footer?.alignment ?? "left"}`
+            ],
+            resolvedConfig?.footer?.className
+          )}
+        >
+          {resolvedConfig?.footer?.content && (
+            <div className={styles.footerContent}>
+              {resolvedConfig.footer.content}
+            </div>
+          )}
+          {(resolvedConfig?.footer?.actions?.primary ||
+            resolvedConfig?.footer?.actions?.secondary ||
+            resolvedConfig?.footer?.actions?.additional?.length) && (
+            <div className={styles.footerActions}>
+              {resolvedConfig?.footer?.actions?.secondary && (
+                <Button
+                  variant="secondary"
+                  size="small"
+                  disabled={resolvedConfig.footer.actions.secondary.disabled}
+                  onClick={resolvedConfig.footer.actions.secondary.onClick}
+                >
+                  {resolvedConfig.footer.actions.secondary.icon && (
+                    <resolvedConfig.footer.actions.secondary.icon
+                      size={14}
+                      className={styles.footerActionIcon}
+                    />
+                  )}
+                  {resolvedConfig.footer.actions.secondary.label}
+                </Button>
+              )}
+              {resolvedConfig?.footer?.actions?.primary && (
+                <Button
+                  variant="primary"
+                  size="small"
+                  disabled={resolvedConfig.footer.actions.primary.disabled}
+                  loading={resolvedConfig.footer.actions.primary.loading}
+                  onClick={resolvedConfig.footer.actions.primary.onClick}
+                >
+                  {resolvedConfig.footer.actions.primary.icon && (
+                    <resolvedConfig.footer.actions.primary.icon
+                      size={14}
+                      className={styles.footerActionIcon}
+                    />
+                  )}
+                  {resolvedConfig.footer.actions.primary.label}
+                </Button>
+              )}
+              {resolvedConfig?.footer?.actions?.additional?.map((action, idx) => (
+                <div key={idx} className={styles.footerActionItem}>
+                  {action}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 
   if (glassEffect) {
-    const { glassVariant, glassRandomHue } = glassProps as CardWithShine | CardWithPerfume;
-    const variant = glassVariant ?? 'shine';
-    
     return (
       <GlassEffectWrapper
         asChild
         glassEffect
-        variant={variant}
-        randomHue={variant === 'perfume' ? glassRandomHue : undefined}
+        variant={glassVariant}
+        randomHue={glassVariant === "perfume" ? glassRandomHue : undefined}
       >
-        {cardInner}
+        {cardRoot}
       </GlassEffectWrapper>
     );
   }
 
-  return cardInner;
+  return cardRoot;
 };
 
 export default Card;

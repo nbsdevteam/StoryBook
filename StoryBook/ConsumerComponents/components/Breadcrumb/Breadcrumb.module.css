@@ -1,0 +1,27 @@
+.root {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  color: var(--nbs-text-muted);
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.link {
+  color: var(--nbs-text);
+  text-decoration: none;
+}
+
+.separator {
+  color: var(--nbs-breadcrumb-separator);
+}
+
+.active {
+  color: var(--nbs-breadcrumb-active);
+  font-weight: var(--nbs-font-weight-semibold);
+}

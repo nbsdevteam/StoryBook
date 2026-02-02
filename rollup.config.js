@@ -50,7 +50,6 @@ module.exports = {
       inject: false,
       plugins: [
         require('postcss-nested')(),
-        require('@tailwindcss/postcss')(),
         require('autoprefixer')(),
       ],
       config: {

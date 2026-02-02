@@ -1,0 +1,68 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 10vh;
+  z-index: 1000;
+}
+
+.panel {
+  width: 100%;
+  max-width: 560px;
+  background: var(--nbs-command-bg);
+  border: 1px solid var(--nbs-command-border);
+  border-radius: var(--nbs-radius-lg);
+  box-shadow: var(--nbs-shadow-lg);
+  overflow: hidden;
+}
+
+.input {
+  width: 100%;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--nbs-command-border);
+  outline: none;
+  color: var(--nbs-text);
+  background: transparent;
+}
+
+.group {
+  padding: 0.5rem 0;
+}
+
+.heading {
+  padding: 0.25rem 1rem;
+  color: var(--nbs-text-muted);
+  font-size: var(--nbs-font-size-sm);
+}
+
+.item {
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.item:hover {
+  background: var(--nbs-command-selected);
+}
+
+.itemDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.shortcut {
+  margin-left: auto;
+  color: var(--nbs-text-muted);
+  font-size: 0.75rem;
+}
+
+.empty {
+  padding: 1rem;
+  color: var(--nbs-text-muted);
+}

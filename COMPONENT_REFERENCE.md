@@ -21,6 +21,20 @@ Complete reference documentation for all components in the NBS Component Library
   - [Spinner](#spinner)
   - [DataTable](#datatable)
   - [ErrorBoundary](#errorboundary)
+  - [Dialog](#dialog)
+  - [Tabs](#tabs)
+  - [Accordion](#accordion)
+  - [NavigationMenu](#navigationmenu)
+  - [Breadcrumb](#breadcrumb)
+  - [DropdownMenu](#dropdownmenu)
+  - [Form](#form)
+  - [Combobox](#combobox)
+  - [CommandPalette](#commandpalette)
+  - [Avatar](#avatar)
+  - [Tooltip](#tooltip)
+  - [Progress](#progress)
+  - [Skeleton](#skeleton)
+  - [Separator](#separator)
 
 ## Overview
 
@@ -28,7 +42,7 @@ This component library provides a comprehensive set of reusable React components
 - **Type-safe** - Full TypeScript support with exported prop types
 - **Accessible** - Built with accessibility in mind
 - **Customizable** - Support for variants, sizes, and custom styling
-- **Bootstrap-based** - Built on Bootstrap 5 for consistent styling
+- **Framework-agnostic CSS** - Pure CSS modules + tokens, works with any framework
 
 ## Common Patterns
 
@@ -1260,6 +1274,64 @@ function App() {
   );
 }
 ```
+
+---
+
+## Dialog
+
+Config-driven dialog component with header, content, and footer actions.
+
+## Tabs
+
+Config-driven tabs supporting variants and orientations.
+
+## Accordion
+
+Config-driven accordion with single or multiple items.
+
+## NavigationMenu
+
+Config-driven navigation menu with nested dropdown items.
+
+## Breadcrumb
+
+Breadcrumb navigation with custom separators.
+
+## DropdownMenu
+
+Dropdown menu with items, separators, and submenus.
+
+## Form
+
+Dynamic form rendering based on a field config.
+
+## Combobox
+
+Searchable combobox with option filtering.
+
+## CommandPalette
+
+Command palette overlay with grouped commands.
+
+## Avatar
+
+Avatar component with image and fallback.
+
+## Tooltip
+
+Simple hover tooltip.
+
+## Progress
+
+Progress indicator bar.
+
+## Skeleton
+
+Skeleton loading placeholder.
+
+## Separator
+
+Horizontal or vertical separator line.
 
 ---
 

@@ -1,78 +1,21 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useMemo, useState } from 'react';
 import styles from './Select.module.css';
+import { SelectConfig, SelectOption } from './Select.types';
 
-/**
- * Select Option
- */
-export interface SelectOption {
-  label: string;
-  value: string | number;
-  disabled?: boolean;
-}
-
-/**
- * Select Component Props
- */
 export interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
-  /**
-   * Select label
-   */
   label?: string;
-  
-  /**
-   * Options for the select
-   */
   options?: SelectOption[];
-  
-  /**
-   * Helper text below select
-   */
   helperText?: string;
-  
-  /**
-   * Error message to display
-   */
   error?: string;
-  
-  /**
-   * Whether select is required
-   * @default false
-   */
   required?: boolean;
-  
-  /**
-   * Select size
-   * @default 'medium'
-   */
   size?: 'small' | 'medium' | 'large';
-  
-  /**
-   * Whether select is in invalid state
-   */
   invalid?: boolean;
-  
-  /**
-   * Whether select is in valid state
-   */
   valid?: boolean;
-  
-  /**
-   * Placeholder text (for first option)
-   */
   placeholder?: string;
-  
-  /**
-   * Additional CSS classes for wrapper
-   */
   wrapperClassName?: string;
+  config?: SelectConfig;
 }
 
-/**
- * Select Component
- * 
- * A flexible select/dropdown component with support for labels,
- * helper text, error states, and multiple sizes.
- */
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   (
     {
@@ -89,49 +32,64 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       wrapperClassName = '',
       id,
       children,
+      config,
       ...props
     },
     ref
   ) => {
+    const [searchValue, setSearchValue] = useState('');
     const selectId = id || `select-${Math.random().toString(36).substr(2, 9)}`;
     const hasError = invalid || !!error;
     const isValid = valid && !hasError;
 
     const sizeClass =
-      size === 'small'
-        ? 'form-select-sm'
-        : size === 'large'
-        ? 'form-select-lg'
-        : '';
-    const stateClass = hasError
-      ? 'is-invalid'
-      : isValid
-      ? 'is-valid'
-      : '';
+      size === 'small' ? styles.selectSm : size === 'large' ? styles.selectLg : '';
+    const stateClass = hasError ? styles.selectInvalid : isValid ? styles.selectValid : '';
 
-    const selectClasses = [
-      'form-select',
-      sizeClass,
-      stateClass,
-      className,
-    ]
+    const selectClasses = [styles.select, sizeClass, stateClass, className]
       .filter(Boolean)
       .join(' ');
 
-    const wrapperClasses = [
-      styles.selectWrapper,
-      wrapperClassName,
-    ]
-      .filter(Boolean)
-      .join(' ');
+    const wrapperClasses = [styles.selectWrapper, wrapperClassName].filter(Boolean).join(' ');
+
+    const resolvedOptions = config?.options ?? options;
+    const resolvedGroups = config?.groups;
+    const filteredOptions = useMemo(() => {
+      if (!config?.searchable || !searchValue) return resolvedOptions;
+      return resolvedOptions.filter((option) =>
+        option.label.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    }, [resolvedOptions, config?.searchable, searchValue]);
+
+    const filteredGroups = useMemo(() => {
+      if (!resolvedGroups?.length) return [];
+      if (!config?.searchable || !searchValue) return resolvedGroups;
+      return resolvedGroups
+        .map((group) => ({
+          ...group,
+          options: group.options.filter((option) =>
+            option.label.toLowerCase().includes(searchValue.toLowerCase())
+          ),
+        }))
+        .filter((group) => group.options.length > 0);
+    }, [resolvedGroups, config?.searchable, searchValue]);
 
     return (
       <div className={wrapperClasses}>
         {label && (
-          <label htmlFor={selectId} className="form-label">
+          <label htmlFor={selectId} className={styles.label}>
             {label}
             {required && <span className={styles.required}>*</span>}
           </label>
+        )}
+        {config?.searchable && (
+          <input
+            type="text"
+            className={styles.searchInput}
+            placeholder={config.searchPlaceholder ?? 'Search'}
+            value={searchValue}
+            onChange={(event) => setSearchValue(event.target.value)}
+          />
         )}
         <select
           ref={ref}
@@ -141,22 +99,55 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           aria-describedby={
             error ? `${selectId}-error` : helperText ? `${selectId}-helper` : undefined
           }
+          multiple={config?.multiple}
+          value={config?.value ?? props.value}
+          onChange={(event) => {
+            if (config?.onValueChange) {
+              const value = config.multiple
+                ? Array.from(event.target.selectedOptions).map((opt) => opt.value)
+                : event.target.value;
+              config.onValueChange(value);
+            }
+            props.onChange?.(event);
+          }}
+          disabled={config?.disabled ?? props.disabled}
           {...props}
         >
-          {placeholder && (
+          {(placeholder || config?.placeholder) && (
             <option value="" disabled>
-              {placeholder}
+              {config?.placeholder ?? placeholder}
             </option>
           )}
-          {options.map((option) => (
-            <option
-              key={option.value}
-              value={option.value}
-              disabled={option.disabled}
-            >
-              {option.label}
-            </option>
-          ))}
+          {filteredGroups.length > 0
+            ? filteredGroups.map((group) => (
+                <optgroup key={group.label} label={group.label}>
+                  {group.options.map((option) => (
+                    <option
+                      key={String(option.value)}
+                      value={option.value}
+                      disabled={option.disabled}
+                    >
+                      {option.label}
+                    </option>
+                  ))}
+                </optgroup>
+              ))
+            : filteredOptions.map((option) => (
+                <option
+                  key={String(option.value)}
+                  value={option.value}
+                  disabled={option.disabled}
+                >
+                  {option.label}
+                </option>
+              ))}
+          {filteredGroups.length === 0 &&
+            filteredOptions.length === 0 &&
+            config?.emptyMessage && (
+              <option value="" disabled>
+                {config.emptyMessage}
+              </option>
+            )}
           {children}
         </select>
         {error && (

@@ -1,14 +1,29 @@
 import React from 'react';
 import styles from './Badge.module.css';
 
-/**
- * Badge Component Props
- */
+const VARIANT_MAP: Record<string, string> = {
+  primary: styles.primary,
+  secondary: styles.secondary,
+  success: styles.success,
+  danger: styles.danger,
+  warning: styles.warning,
+  info: styles.info,
+  light: styles.light,
+  dark: styles.dark,
+};
+
+const OUTLINE_VARIANT_MAP: Record<string, string> = {
+  primary: styles.outlinePrimary,
+  secondary: styles.outlineSecondary,
+  success: styles.outlineSuccess,
+  danger: styles.outlineDanger,
+  warning: styles.outlineWarning,
+  info: styles.outlineInfo,
+  light: styles.outlineLight,
+  dark: styles.outlineDark,
+};
+
 export interface BadgeProps {
-  /**
-   * Badge variant/color
-   * @default 'primary'
-   */
   variant?:
     | 'primary'
     | 'secondary'
@@ -18,40 +33,13 @@ export interface BadgeProps {
     | 'info'
     | 'light'
     | 'dark';
-  
-  /**
-   * Badge content
-   */
   children?: React.ReactNode;
-  
-  /**
-   * Whether badge should be rounded/pill shaped
-   * @default false
-   */
   rounded?: boolean;
-  
-  /**
-   * Whether badge should have outline style
-   * @default false
-   */
   outline?: boolean;
-  
-  /**
-   * Additional CSS classes
-   */
   className?: string;
-  
-  /**
-   * Inline styles
-   */
   style?: React.CSSProperties;
 }
 
-/**
- * Badge Component
- * 
- * A small status indicator component for displaying labels, counts, or tags.
- */
 export const Badge: React.FC<BadgeProps> = ({
   variant = 'primary',
   children,
@@ -60,22 +48,16 @@ export const Badge: React.FC<BadgeProps> = ({
   className = '',
   style,
 }) => {
-  const baseClass = 'badge';
   const variantClass = outline
-    ? `bg-outline-${variant}`
-    : `bg-${variant}`;
-  const roundedClass = rounded ? 'rounded-pill' : '';
+    ? OUTLINE_VARIANT_MAP[variant] ?? styles.outlinePrimary
+    : VARIANT_MAP[variant] ?? styles.primary;
   const textClass =
-    variant === 'light'
-      ? 'text-dark'
-      : variant === 'dark'
-      ? 'text-white'
-      : '';
+    variant === 'light' ? styles.textDark : variant === 'dark' ? styles.textWhite : '';
 
   const classes = [
-    baseClass,
+    styles.badge,
     variantClass,
-    roundedClass,
+    rounded ? styles.rounded : '',
     textClass,
     className,
   ]

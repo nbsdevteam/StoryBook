@@ -1,0 +1,24 @@
+.root {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.track {
+  flex: 1;
+  height: 8px;
+  background: var(--nbs-surface-border-subtle);
+  border-radius: var(--nbs-radius-full);
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  background: var(--nbs-primary);
+  transition: width 0.2s ease;
+}
+
+.label {
+  font-size: var(--nbs-font-size-sm);
+  color: var(--nbs-text-muted);
+}

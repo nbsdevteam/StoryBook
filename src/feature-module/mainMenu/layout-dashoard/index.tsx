@@ -11,7 +11,7 @@ import ProjectModals from "../../../core/modals/projectModal";
 import RequestModals from "../../../core/modals/requestModal";
 import TodoModal from "../../../core/modals/todoModal";
 import CollapseHeader from "../../../core/common/collapse-header/collapse-header";
-import ErrorBoundary from "../../../components/ErrorBoundary/ErrorBoundary";
+import ErrorBoundary from "../../../../StoryBook/ConsumerComponents/components/ErrorBoundary/ErrorBoundary";
 type ChartSeries = {
   name?: string;
   data: number[];

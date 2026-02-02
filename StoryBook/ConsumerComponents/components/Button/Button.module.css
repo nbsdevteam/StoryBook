@@ -1,4 +1,173 @@
-/* Loading spinner animation */
+/* Button – native CSS, tokens only */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--nbs-font);
+  font-size: var(--nbs-font-size);
+  font-weight: var(--nbs-font-weight-medium);
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid transparent;
+  border-radius: var(--nbs-radius);
+  padding: 0.375rem 0.75rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  box-sizing: border-box;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--nbs-primary);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.btnSm {
+  padding: 0.25rem 0.5rem;
+  font-size: var(--nbs-font-size-sm);
+}
+
+.btnLg {
+  padding: 0.5rem 1rem;
+  font-size: var(--nbs-font-size-lg);
+}
+
+.rounded {
+  border-radius: 50rem;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+/* Variants – solid */
+.primary {
+  color: var(--nbs-text-on-primary);
+  background-color: var(--nbs-primary);
+  border-color: var(--nbs-primary);
+}
+
+.primary:hover:not(:disabled) {
+  background-color: var(--nbs-primary-hover);
+  border-color: var(--nbs-primary-hover);
+}
+
+.secondary {
+  color: var(--nbs-text);
+  background-color: var(--nbs-secondary);
+  border-color: var(--nbs-secondary);
+}
+
+.secondary:hover:not(:disabled) {
+  background-color: var(--nbs-secondary-hover);
+  border-color: var(--nbs-secondary-hover);
+}
+
+.success {
+  color: var(--nbs-text-on-primary);
+  background-color: var(--nbs-success);
+  border-color: var(--nbs-success);
+}
+
+.danger {
+  color: var(--nbs-text-on-primary);
+  background-color: var(--nbs-danger);
+  border-color: var(--nbs-danger);
+}
+
+.warning {
+  color: var(--nbs-text);
+  background-color: var(--nbs-warning);
+  border-color: var(--nbs-warning);
+}
+
+.info {
+  color: var(--nbs-text);
+  background-color: var(--nbs-info);
+  border-color: var(--nbs-info);
+}
+
+.light {
+  color: var(--nbs-text);
+  background-color: var(--nbs-light);
+  border-color: var(--nbs-surface-border);
+}
+
+.dark {
+  color: var(--nbs-text-on-primary);
+  background-color: var(--nbs-dark);
+  border-color: var(--nbs-dark);
+}
+
+/* Outline variants */
+.outlinePrimary {
+  color: var(--nbs-primary);
+  background-color: transparent;
+  border-color: var(--nbs-primary);
+}
+
+.outlinePrimary:hover:not(:disabled) {
+  color: var(--nbs-text-on-primary);
+  background-color: var(--nbs-primary);
+}
+
+.outlineSecondary {
+  color: var(--nbs-secondary);
+  background-color: transparent;
+  border-color: var(--nbs-secondary);
+}
+
+.outlineSecondary:hover:not(:disabled) {
+  color: var(--nbs-text);
+  background-color: var(--nbs-secondary);
+}
+
+.outlineSuccess {
+  color: var(--nbs-success);
+  background-color: transparent;
+  border-color: var(--nbs-success);
+}
+
+.outlineDanger {
+  color: var(--nbs-danger);
+  background-color: transparent;
+  border-color: var(--nbs-danger);
+}
+
+.outlineWarning {
+  color: var(--nbs-warning);
+  background-color: transparent;
+  border-color: var(--nbs-warning);
+}
+
+.outlineInfo {
+  color: var(--nbs-info);
+  background-color: transparent;
+  border-color: var(--nbs-info);
+}
+
+.outlineLight {
+  color: var(--nbs-text);
+  background-color: transparent;
+  border-color: var(--nbs-surface-border);
+}
+
+.outlineDark {
+  color: var(--nbs-dark);
+  background-color: transparent;
+  border-color: var(--nbs-dark);
+}
+
 .loading {
   position: relative;
   pointer-events: none;
@@ -23,7 +192,6 @@
   }
 }
 
-/* Ensure button maintains proper spacing when loading */
 .loading .spinner {
   margin-right: 0.5rem;
 }

@@ -2,6 +2,9 @@ import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react'
 import { Table, Skeleton } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import styles from './DataTable.module.css';
+import { Button } from '../Button';
+import { DropdownMenu } from '../DropdownMenu';
+import { TableConfig, TableColumn } from './DataTable.types';
 
 /**
  * DataTable Column Definition
@@ -24,14 +27,18 @@ export interface DataTableColumn<T = any> {
  */
 export interface DataTableProps<T extends Record<string, any> = Record<string, any>> {
   /**
+   * Config-driven API (preferred for complex tables).
+   */
+  config?: TableConfig<T>;
+  /**
    * Table columns configuration
    */
-  columns: DataTableColumn<T>[];
+  columns?: DataTableColumn<T>[];
   
   /**
    * Table data source
    */
-  dataSource: T[];
+  dataSource?: T[];
   
   /**
    * Whether to show row selection checkbox
@@ -132,6 +139,73 @@ export interface DataTableProps<T extends Record<string, any> = Record<string, a
   emptyText?: React.ReactNode;
 }
 
+const mapConfigColumns = <T extends Record<string, any>>(
+  columns: TableColumn<T>[],
+  rowActions?: TableConfig<T>['rowActions']
+): DataTableColumn<T>[] => {
+  const mapped = columns.map((column) => ({
+    title: column.label,
+    dataIndex: typeof column.accessor === 'string' ? column.accessor : undefined,
+    key: column.id,
+    width: column.width,
+    align: column.align,
+    sorter: column.sortable ? true : undefined,
+    render:
+      typeof column.accessor === 'function'
+        ? (value: any, record: T, index: number) =>
+            column.cell
+              ? column.cell(column.accessor(record), record, index)
+              : column.accessor(record)
+        : column.cell
+          ? (value: any, record: T, index: number) =>
+              column.cell(value, record, index)
+          : undefined,
+  }));
+
+  if (rowActions?.actions?.length) {
+    mapped.push({
+      title: rowActions.dropdownLabel ?? 'Actions',
+      key: 'actions',
+      render: (_value: any, record: T, index: number) => {
+        const actions = rowActions.actions.filter((action) => {
+          if (typeof action.show === 'function') return action.show(record);
+          return action.show !== false;
+        });
+        if (rowActions.dropdown) {
+          return (
+            <DropdownMenu
+              config={{
+                trigger: { label: rowActions.dropdownLabel ?? 'Actions', variant: 'outline' },
+                items: actions.map((action) => ({
+                  type: 'item',
+                  label: action.label,
+                  onClick: () => action.onClick(record, index),
+                })),
+              }}
+            />
+          );
+        }
+        return (
+          <div className={styles.actionButtons}>
+            {actions.map((action) => (
+              <Button
+                key={action.label}
+                variant={action.variant === 'danger' ? 'danger' : 'secondary'}
+                size="small"
+                onClick={() => action.onClick(record, index)}
+              >
+                {action.label}
+              </Button>
+            ))}
+          </div>
+        );
+      },
+    });
+  }
+
+  return mapped;
+};
+
 /**
  * Custom hook for debounced value
  */
@@ -205,6 +279,7 @@ TableSkeleton.displayName = 'TableSkeleton';
  * pagination, and loading states. Built on top of Ant Design Table.
  */
 export function DataTable<T extends Record<string, any> = Record<string, any>>({
+  config,
   columns,
   dataSource,
   selection = false,
@@ -224,6 +299,30 @@ export function DataTable<T extends Record<string, any> = Record<string, any>>({
   onRowClick,
   emptyText,
 }: DataTableProps<T>) {
+  const resolvedColumns = config
+    ? mapConfigColumns(config.columns, config.rowActions)
+    : (columns ?? []);
+  const resolvedDataSource = config ? config.data : dataSource ?? [];
+  const resolvedLoading = config?.loading ?? loading;
+  const resolvedSearchable = config?.filtering ? true : searchable;
+  const resolvedSearchPlaceholder =
+    config?.filtering?.searchValue !== undefined ? 'Search' : searchPlaceholder;
+  const resolvedRowKey = config?.selection?.idField ?? rowKey ?? 'id';
+  const resolvedPagination = config?.pagination
+    ? {
+        current: config.pagination.currentPage,
+        total: config.pagination.totalItems,
+        pageSize: config.pagination.pageSize,
+        showSizeChanger: config.pagination.showPageSize ?? false,
+        onChange: (page: number, pageSize: number) => {
+          config.pagination.onPageChange(page);
+          config.pagination.onPageSizeChange?.(pageSize);
+        },
+        showTotal: config.pagination.showTotal
+          ? (total: number) => `Total ${total} items`
+          : undefined,
+      }
+    : pagination;
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [searchText, setSearchText] = useState<string>('');
   const [isFiltering, setIsFiltering] = useState<boolean>(false);
@@ -233,18 +332,24 @@ export function DataTable<T extends Record<string, any> = Record<string, any>>({
   // Debounce search text for better performance
   const debouncedSearchText = useDebounce(searchText, 300);
 
+  useEffect(() => {
+    if (typeof config?.filtering?.searchValue === 'string') {
+      setSearchText(config.filtering.searchValue);
+    }
+  }, [config?.filtering?.searchValue]);
+
   // Handle initial load
   useEffect(() => {
-    if (dataSource && dataSource.length >= 0) {
+    if (resolvedDataSource && resolvedDataSource.length >= 0) {
       const rafId = requestAnimationFrame(() => {
         setIsInitialLoad(false);
       });
       return () => cancelAnimationFrame(rafId);
     }
-  }, [dataSource]);
+  }, [resolvedDataSource]);
 
   // Show loading state
-  const isLoading = isInitialLoad || loading || isFiltering;
+  const isLoading = isInitialLoad || resolvedLoading || isFiltering;
 
   // Track filtering state
   useEffect(() => {
@@ -269,14 +374,16 @@ export function DataTable<T extends Record<string, any> = Record<string, any>>({
   // Memoize filtered data
   const filteredData = useMemo(() => {
     if (!debouncedSearchText) {
-      if (onSearchChange) {
+      if (config?.filtering?.onSearchChange) {
+        config.filtering.onSearchChange('');
+      } else if (onSearchChange) {
         onSearchChange('');
       }
-      return dataSource;
+      return resolvedDataSource;
     }
 
     const searchLower = debouncedSearchText.toLowerCase();
-    const filtered = dataSource.filter((record: T) => {
+    const filtered = resolvedDataSource.filter((record: T) => {
       const values = Object.values(record);
       for (let i = 0; i < values.length; i++) {
         if (String(values[i]).toLowerCase().includes(searchLower)) {
@@ -286,16 +393,18 @@ export function DataTable<T extends Record<string, any> = Record<string, any>>({
       return false;
     });
 
-    if (onSearchChange) {
+    if (config?.filtering?.onSearchChange) {
+      config.filtering.onSearchChange(debouncedSearchText);
+    } else if (onSearchChange) {
       onSearchChange(debouncedSearchText);
     }
 
     return filtered;
-  }, [dataSource, debouncedSearchText, onSearchChange]);
+  }, [resolvedDataSource, debouncedSearchText, onSearchChange, config]);
 
   // Convert columns to Ant Design format
   const antdColumns: ColumnsType<T> = useMemo(() => {
-    return columns.map((col) => ({
+    return resolvedColumns.map((col) => ({
       title: col.title,
       dataIndex: col.dataIndex || col.key,
       key: col.key || (Array.isArray(col.dataIndex) ? col.dataIndex.join('.') : col.dataIndex),
@@ -306,11 +415,23 @@ export function DataTable<T extends Record<string, any> = Record<string, any>>({
       fixed: col.fixed,
       ellipsis: col.ellipsis,
     }));
-  }, [columns]);
+  }, [resolvedColumns]);
 
   // Row selection configuration
-  const rowSelection = useMemo(
-    () => ({
+  const rowSelection = useMemo(() => {
+    if (config?.selection) {
+      return {
+        selectedRowKeys: config.selection.selectedIds,
+        onChange: (keys: React.Key[]) =>
+          config.selection?.onSelectionChange(keys as string[]),
+        preserveSelectedRowKeys: true,
+        type: config.selection.multiple === false ? 'radio' : 'checkbox',
+      };
+    }
+
+    if (!selection) return undefined;
+
+    return {
       selectedRowKeys,
       onChange: (keys: React.Key[], selectedRows: T[]) => {
         setSelectedRowKeys(keys);
@@ -319,13 +440,12 @@ export function DataTable<T extends Record<string, any> = Record<string, any>>({
         }
       },
       preserveSelectedRowKeys: true,
-    }),
-    [selectedRowKeys, onSelectionChange]
-  );
+    };
+  }, [selectedRowKeys, onSelectionChange, selection, config]);
 
   // Pagination configuration
   const paginationConfig = useMemo((): false | import('antd/es/table').TablePaginationConfig => {
-    if (pagination === false) return false;
+    if (resolvedPagination === false) return false;
 
     const defaultConfig: import('antd/es/table').TablePaginationConfig = {
       locale: { items_per_page: '' },
@@ -335,10 +455,10 @@ export function DataTable<T extends Record<string, any> = Record<string, any>>({
       showQuickJumper: filteredData.length > 100,
     };
 
-    if (typeof pagination === 'object') {
+    if (typeof resolvedPagination === 'object') {
       return {
         ...defaultConfig,
-        ...pagination,
+        ...resolvedPagination,
       };
     }
 
@@ -347,7 +467,7 @@ export function DataTable<T extends Record<string, any> = Record<string, any>>({
       showTotal: (total: number, range: [number, number]) =>
         `Showing ${range[0]} - ${range[1]} of ${total} entries`,
     };
-  }, [pagination, filteredData.length]);
+  }, [resolvedPagination, filteredData.length]);
 
   // Handle search change
   const handleSearchChange = useCallback(
@@ -364,8 +484,9 @@ export function DataTable<T extends Record<string, any> = Record<string, any>>({
 
   // Calculate visible columns count for skeleton
   const visibleColumnsCount = useMemo(() => {
-    return (selection ? 1 : 0) + columns.length;
-  }, [selection, columns]);
+    const selectionEnabled = !!config?.selection || selection;
+    return (selectionEnabled ? 1 : 0) + resolvedColumns.length;
+  }, [selection, resolvedColumns, config]);
 
   // Table props
   const tableProps = useMemo(
@@ -374,7 +495,7 @@ export function DataTable<T extends Record<string, any> = Record<string, any>>({
       columns: antdColumns,
       dataSource: filteredData,
       loading: false, // We handle loading ourselves
-      rowKey: rowKey,
+      rowKey: resolvedRowKey,
       size: size,
       virtual: virtual !== undefined ? virtual : filteredData.length > 100,
       scroll: scroll || (filteredData.length > 100 ? { y: 500 } : undefined),
@@ -386,61 +507,96 @@ export function DataTable<T extends Record<string, any> = Record<string, any>>({
           })
         : undefined,
       locale: {
-        emptyText: emptyText || 'No data available',
+        emptyText: emptyText || config?.emptyState?.message || 'No data available',
       },
     }),
     [
       className,
       antdColumns,
       filteredData,
-      rowKey,
+      resolvedRowKey,
       size,
       virtual,
       scroll,
       paginationConfig,
       onRowClick,
       emptyText,
+      config?.emptyState?.message,
     ]
   );
 
   return (
     <div className={styles.dataTableWrapper} style={style}>
-      {(searchable || searchText) && (
+      {(resolvedSearchable || searchText) && (
         <div className={styles.tableTopData}>
-          <div className="row p-3">
-            <div className="col-sm-12 col-md-6">
-              <div className="dataTables_length" />
-            </div>
-            <div className="col-sm-12 col-md-6">
-              <div className="dataTables_filter text-end mb-0 d-flex align-items-center justify-content-end gap-2">
-                <label className="d-flex align-items-center justify-content-end gap-2">
-                  <input
-                    type="search"
-                    className="form-control form-control-sm"
-                    placeholder={searchPlaceholder}
-                    value={searchText}
-                    onChange={handleSearchChange}
-                  />
-                  {searchText && (
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-outline-secondary"
-                      onClick={handleClearSearch}
-                      title="Clear search"
-                    >
-                      ×
-                    </button>
-                  )}
-                </label>
-              </div>
+          <div className={styles.searchRow}>
+            <div className={styles.searchLeft} />
+            <div className={styles.searchRight}>
+              <label className={styles.searchLabel}>
+                <input
+                  type="search"
+                  className={styles.searchInput}
+                  placeholder={resolvedSearchPlaceholder}
+                  value={searchText}
+                  onChange={handleSearchChange}
+                />
+                {searchText && (
+                  <button
+                    type="button"
+                    className={styles.clearBtn}
+                    onClick={handleClearSearch}
+                    title="Clear search"
+                  >
+                    ×
+                  </button>
+                )}
+              </label>
             </div>
           </div>
         </div>
       )}
 
+      {config?.bulkActions && config.selection?.selectedIds?.length ? (
+        <div className={styles.bulkActions}>
+          {config.bulkActions.map((action) => (
+            <Button
+              key={action.label}
+              variant={action.variant === 'danger' ? 'danger' : 'secondary'}
+              size="small"
+              onClick={() =>
+                action.onClick(
+                  resolvedDataSource.filter((row: any) =>
+                    config.selection?.selectedIds.includes(
+                      String((row as any)[config.selection?.idField ?? 'id'])
+                    )
+                  )
+                )
+              }
+            >
+              {action.label}
+            </Button>
+          ))}
+        </div>
+      ) : null}
+
+      {!isLoading && filteredData.length === 0 && config?.emptyState?.action && (
+        <div className={styles.emptyState}>
+          <div className={styles.emptyMessage}>
+            {config.emptyState.message ?? 'No data available'}
+          </div>
+          <Button
+            variant="primary"
+            size="small"
+            onClick={config.emptyState.action.onClick}
+          >
+            {config.emptyState.action.label}
+          </Button>
+        </div>
+      )}
+
       {isLoading ? (
         <TableSkeleton columns={visibleColumnsCount} rows={skeletonRows} />
-      ) : !selection ? (
+      ) : !(config?.selection || selection) ? (
         <Table<T> {...tableProps} />
       ) : (
         <Table<T> {...tableProps} rowSelection={rowSelection} />
