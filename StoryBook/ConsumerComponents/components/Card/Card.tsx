@@ -82,6 +82,9 @@ export const Card: React.FC<CardProps> = ({
       resolvedConfig.footer.actions?.primary ||
       resolvedConfig.footer.actions?.secondary ||
       resolvedConfig.footer.actions?.additional?.length);
+  const footerAlignment =
+    resolvedConfig?.footer?.alignment ??
+    (resolvedConfig?.footer?.content ? "space-between" : "right");
   const contentNode = children ?? resolvedConfig?.content;
   const hasContent = !!contentNode;
 
@@ -218,9 +221,7 @@ export const Card: React.FC<CardProps> = ({
         <div
           className={cn(
             styles.footer,
-            styles[
-              `footer_${resolvedConfig?.footer?.alignment ?? "left"}`
-            ],
+            styles[`footer_${footerAlignment}`],
             resolvedConfig?.footer?.className
           )}
         >
@@ -235,7 +236,7 @@ export const Card: React.FC<CardProps> = ({
             <div className={styles.footerActions}>
               {resolvedConfig?.footer?.actions?.secondary && (
                 <Button
-                  variant="secondary"
+                  variant="outline-secondary"
                   size="small"
                   disabled={resolvedConfig.footer.actions.secondary.disabled}
                   onClick={resolvedConfig.footer.actions.secondary.onClick}

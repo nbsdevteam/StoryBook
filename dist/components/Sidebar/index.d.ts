@@ -1,2 +1,2 @@
-export { Sidebar, type SidebarProps, type SidebarItem } from "./Sidebar";
+export { Sidebar, SidebarHeader, type SidebarProps, type SidebarItem, type SidebarHeaderProps, type SidebarConfig, type SidebarSection, type SidebarNavItem, type SidebarNavLinkItem, type SidebarNavGroupItem, type SidebarColorVariant, } from "./Sidebar";
 //# sourceMappingURL=index.d.ts.map

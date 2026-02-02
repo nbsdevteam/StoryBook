@@ -227,11 +227,11 @@ export const CompleteWithGlass: Story = {
         subtitle="With glass effect"
         imageSrc="https://via.placeholder.com/400x200"
         footer={
-          <div className="d-flex gap-2">
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
             <Button variant="primary" size="small">
               Action
             </Button>
-            <Button variant="secondary" size="small">
+            <Button variant="outline-secondary" size="small">
               Cancel
             </Button>
           </div>
@@ -248,7 +248,7 @@ export const CompleteWithGlass: Story = {
         subtitle="Random hue perfume"
         imageSrc="https://via.placeholder.com/400x200"
         footer={
-          <div className="d-flex gap-2">
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
             <Button variant="success" size="small">
               Confirm
             </Button>

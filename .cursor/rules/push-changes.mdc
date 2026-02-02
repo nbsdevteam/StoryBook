@@ -1,0 +1,24 @@
+---
+name: push-changes
+description: When the user says "push changes", perform all of the following so consumers get the updated package on install.
+---
+
+# Push changes workflow
+
+When the user says **"push changes"** (or equivalent), do **all** of these:
+
+1. **Update usage/consumption doc**
+   - Edit [HowToConsumeStoryBook.md](HowToConsumeStoryBook.md) with any new or changed APIs, examples, and guidance (Card footer, Sidebar, config, props, etc.) so the doc matches the current code.
+
+2. **Version and tags**
+   - Bump **version** in [package.json](package.json) (patch: 1.1.x → 1.1.x+1, or minor/major if appropriate).
+   - Update **keywords** in package.json if new components or features warrant it (e.g. sidebar, card, glass-effect).
+
+3. **Ensure consumers get the updated file**
+   - Confirm [package.json](package.json) **"files"** includes `"HowToConsumeStoryBook.md"` (and `"dist"`) so the usage doc is shipped on install.
+   - Run **build** so `dist` is up to date: `npm run build`.
+
+4. **Release (optional reminder)**
+   - If the user wants to publish: run `npm run release:patch` (or minor/major), then `npm run release:push` to push commits and tags so installs (e.g. `npm install github:syednaqvi98nibras/StoryBook#latest`) get the new version.
+
+Do not skip the doc update or version bump when the user asks to push changes.

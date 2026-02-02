@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Sidebar } from '@consumer/components/Sidebar';
+import { Sidebar, SidebarHeader } from '@consumer/components/Sidebar';
 import { Card } from '@consumer/components/Card';
 import { Button } from '@consumer/components/Button';
 import {
@@ -15,7 +15,6 @@ import {
   BarChart3,
   Settings,
 } from 'lucide-react';
-import sidebarStyles from '@consumer/components/Sidebar/sidebar.module.css';
 
 const meta: Meta = {
   title: 'Layouts/Sidebar Layout',
@@ -33,88 +32,77 @@ const sidebarItems = [
     href: '/dashboard',
     icon: LayoutDashboard,
     onClick: (href: string) => console.log('Navigate:', href),
-    hoverColor: sidebarStyles.hoverBlueText,
-    activeColor: sidebarStyles.activeBlue,
+    color: 'blue',
   },
   {
     name: 'Call Queue',
     href: '/call-queue',
     icon: PhoneIncoming,
     onClick: (href: string) => console.log('Navigate:', href),
-    hoverColor: sidebarStyles.hoverOrangeText,
-    activeColor: sidebarStyles.activeOrange,
+    color: 'orange',
   },
   {
     name: 'Active Calls',
     href: '/active-calls',
     icon: PhoneCall,
     onClick: (href: string) => console.log('Navigate:', href),
-    hoverColor: sidebarStyles.hoverGreenText,
-    activeColor: sidebarStyles.activeGreen,
+    color: 'green',
   },
   {
     name: 'Customers',
     href: '/customers',
     icon: Users,
     onClick: (href: string) => console.log('Navigate:', href),
-    hoverColor: sidebarStyles.hoverPurpleText,
-    activeColor: sidebarStyles.activePurple,
+    color: 'purple',
   },
   {
     name: 'Customers Card',
     href: '/customers-card',
     icon: CreditCard,
     onClick: (href: string) => console.log('Navigate:', href),
-    hoverColor: sidebarStyles.hoverPinkText,
-    activeColor: sidebarStyles.activePink,
+    color: 'pink',
   },
   {
     name: 'Price List',
     href: '/price-list',
     icon: FileText,
     onClick: (href: string) => console.log('Navigate:', href),
-    hoverColor: sidebarStyles.hoverCyanText,
-    activeColor: sidebarStyles.activeCyan,
+    color: 'cyan',
   },
   {
     name: 'Omni Channel',
     href: '/omni-channel',
     icon: MessageSquare,
     onClick: (href: string) => console.log('Navigate:', href),
-    hoverColor: sidebarStyles.hoverIndigoText,
-    activeColor: sidebarStyles.activeIndigo,
+    color: 'indigo',
   },
   {
     name: 'Agents',
     href: '/agents',
     icon: UserCheck,
     onClick: (href: string) => console.log('Navigate:', href),
-    hoverColor: sidebarStyles.hoverEmeraldText,
-    activeColor: sidebarStyles.activeEmerald,
+    color: 'emerald',
   },
   {
     name: 'Tickets',
     href: '/tickets',
     icon: Ticket,
     onClick: (href: string) => console.log('Navigate:', href),
-    hoverColor: sidebarStyles.hoverAmberText,
-    activeColor: sidebarStyles.activeAmber,
+    color: 'amber',
   },
   {
     name: 'Reports',
     href: '/reports',
     icon: BarChart3,
     onClick: (href: string) => console.log('Navigate:', href),
-    hoverColor: sidebarStyles.hoverVioletText,
-    activeColor: sidebarStyles.activeViolet,
+    color: 'violet',
   },
   {
     name: 'Settings',
     href: '/settings',
     icon: Settings,
     onClick: (href: string) => console.log('Navigate:', href),
-    hoverColor: sidebarStyles.hoverSlateText,
-    activeColor: sidebarStyles.activeSlate,
+    color: 'slate',
   },
 ];
 
@@ -129,7 +117,12 @@ export const CompleteDashboard: Story = {
         overflow: 'hidden',
       }}
     >
-      <Sidebar items={sidebarItems} activeHref="/price-list" title="Call Center" glassEffect />
+      <Sidebar
+        items={sidebarItems}
+        activeHref="/price-list"
+        sidebarHeader={<SidebarHeader title="Call Center" />}
+        glassEffect
+      />
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         <header
@@ -179,7 +172,12 @@ export const CompleteDashboard: Story = {
 export const WithoutGlassEffect: Story = {
   render: () => (
     <div style={{ display: 'flex', height: '100vh', width: '100%' }}>
-      <Sidebar items={sidebarItems} activeHref="/dashboard" title="Call Center" glassEffect={false} />
+      <Sidebar
+        items={sidebarItems}
+        activeHref="/dashboard"
+        sidebarHeader={<SidebarHeader title="Call Center" />}
+        glassEffect={false}
+      />
       <div style={{ flex: 1, padding: '24px', backgroundColor: '#f8f9fa' }}>
         <Card title="Dashboard" shadow>
           <p>Main content area</p>

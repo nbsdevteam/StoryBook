@@ -1,13 +1,13 @@
-import React from 'react';
+import * as React from "react";
 export interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
     title?: React.ReactNode;
     children?: React.ReactNode;
     footer?: React.ReactNode;
-    size?: 'sm' | 'md' | 'lg' | 'xl';
+    size?: "sm" | "md" | "lg" | "xl";
     centered?: boolean;
-    backdrop?: boolean | 'static';
+    backdrop?: boolean | "static";
     keyboard?: boolean;
     className?: string;
     dialogClassName?: string;

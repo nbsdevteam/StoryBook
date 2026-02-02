@@ -1,5 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Sidebar, SidebarItem } from '@consumer/components/Sidebar';
+import {
+  Sidebar,
+  SidebarHeader,
+  type SidebarConfig,
+  type SidebarItem,
+} from '@consumer/components/Sidebar';
 import {
   LayoutDashboard,
   PhoneIncoming,
@@ -12,8 +17,8 @@ import {
   Ticket,
   BarChart3,
   Settings,
+  ChevronRight,
 } from 'lucide-react';
-import sidebarStyles from '@consumer/components/Sidebar/sidebar.module.css';
 
 const meta: Meta<typeof Sidebar> = {
   title: 'Components/Sidebar',
@@ -38,6 +43,10 @@ const meta: Meta<typeof Sidebar> = {
       control: 'boolean',
       description: 'Enable glass effect on hover',
     },
+    randomHue: {
+      control: 'boolean',
+      description: 'Enable colored hover backgrounds for items',
+    },
   },
 };
 
@@ -50,95 +59,189 @@ const sampleItems: SidebarItem[] = [
     href: '/dashboard',
     icon: LayoutDashboard,
     onClick: (href) => console.log('Navigate to:', href),
-    hoverColor: sidebarStyles.hoverBlueText,
-    activeColor: sidebarStyles.activeBlue,
+    color: 'blue',
   },
   {
     name: 'Call Queue',
     href: '/call-queue',
     icon: PhoneIncoming,
     onClick: (href) => console.log('Navigate to:', href),
-    hoverColor: sidebarStyles.hoverOrangeText,
-    activeColor: sidebarStyles.activeOrange,
+    color: 'orange',
   },
   {
     name: 'Active Calls',
     href: '/active-calls',
     icon: PhoneCall,
     onClick: (href) => console.log('Navigate to:', href),
-    hoverColor: sidebarStyles.hoverGreenText,
-    activeColor: sidebarStyles.activeGreen,
+    color: 'green',
   },
   {
     name: 'Customers',
     href: '/customers',
     icon: Users,
     onClick: (href) => console.log('Navigate to:', href),
-    hoverColor: sidebarStyles.hoverPurpleText,
-    activeColor: sidebarStyles.activePurple,
+    color: 'purple',
   },
   {
     name: 'Customers Card',
     href: '/customers-card',
     icon: CreditCard,
     onClick: (href) => console.log('Navigate to:', href),
-    hoverColor: sidebarStyles.hoverPinkText,
-    activeColor: sidebarStyles.activePink,
+    color: 'pink',
   },
   {
     name: 'Price List',
     href: '/price-list',
     icon: FileText,
     onClick: (href) => console.log('Navigate to:', href),
-    hoverColor: sidebarStyles.hoverCyanText,
-    activeColor: sidebarStyles.activeCyan,
+    color: 'cyan',
   },
   {
     name: 'Omni Channel',
     href: '/omni-channel',
     icon: MessageSquare,
     onClick: (href) => console.log('Navigate to:', href),
-    hoverColor: sidebarStyles.hoverIndigoText,
-    activeColor: sidebarStyles.activeIndigo,
+    color: 'indigo',
   },
   {
     name: 'Agents',
     href: '/agents',
     icon: UserCheck,
     onClick: (href) => console.log('Navigate to:', href),
-    hoverColor: sidebarStyles.hoverEmeraldText,
-    activeColor: sidebarStyles.activeEmerald,
+    color: 'emerald',
   },
   {
     name: 'Tickets',
     href: '/tickets',
     icon: Ticket,
     onClick: (href) => console.log('Navigate to:', href),
-    hoverColor: sidebarStyles.hoverAmberText,
-    activeColor: sidebarStyles.activeAmber,
+    color: 'amber',
   },
   {
     name: 'Reports',
     href: '/reports',
     icon: BarChart3,
     onClick: (href) => console.log('Navigate to:', href),
-    hoverColor: sidebarStyles.hoverVioletText,
-    activeColor: sidebarStyles.activeViolet,
+    color: 'violet',
   },
   {
     name: 'Settings',
     href: '/settings',
     icon: Settings,
     onClick: (href) => console.log('Navigate to:', href),
-    hoverColor: sidebarStyles.hoverSlateText,
-    activeColor: sidebarStyles.activeSlate,
+    color: 'slate',
   },
 ];
 
-export const Default: Story = {
+const mainMenuConfig: SidebarConfig = {
+  sections: [
+    {
+      id: 'main',
+      label: 'Main menu',
+      collapsible: true,
+      defaultOpen: true,
+      items: [
+        {
+          type: 'link',
+          name: 'Dashboard',
+          href: '/dashboard',
+          icon: LayoutDashboard,
+          color: 'blue',
+          onClick: (href) => console.log('Navigate to:', href),
+        },
+        {
+          type: 'link',
+          name: 'Customers',
+          href: '/customers',
+          icon: Users,
+          color: 'purple',
+          onClick: (href) => console.log('Navigate to:', href),
+        },
+        {
+          type: 'link',
+          name: 'Reports',
+          href: '/reports',
+          icon: BarChart3,
+          color: 'violet',
+          onClick: (href) => console.log('Navigate to:', href),
+        },
+      ],
+    },
+  ],
+};
+
+const nestedConfig: SidebarConfig = {
+  sections: [
+    {
+      id: 'main',
+      label: 'Main menu',
+      collapsible: true,
+      defaultOpen: true,
+      items: [
+        {
+          type: 'group',
+          name: 'Analytics',
+          icon: BarChart3,
+          defaultOpen: true,
+          children: [
+            {
+              type: 'link',
+              name: 'Overview',
+              href: '/analytics/overview',
+              color: 'indigo',
+              onClick: (href) => console.log('Navigate to:', href),
+            },
+            {
+              type: 'link',
+              name: 'Trends',
+              href: '/analytics/trends',
+              color: 'emerald',
+              onClick: (href) => console.log('Navigate to:', href),
+            },
+          ],
+        },
+        {
+          type: 'link',
+          name: 'Settings',
+          href: '/settings',
+          icon: Settings,
+          color: 'slate',
+          onClick: (href) => console.log('Navigate to:', href),
+        },
+      ],
+    },
+    {
+      id: 'support',
+      label: 'Support',
+      collapsible: false,
+      items: [
+        {
+          type: 'link',
+          name: 'Help Center',
+          href: '/support/help',
+          icon: ChevronRight,
+          color: 'cyan',
+          onClick: (href) => console.log('Navigate to:', href),
+        },
+      ],
+    },
+  ],
+};
+
+export const ItemsOnlyNoHeader: Story = {
   args: {
     items: sampleItems,
     activeHref: '/dashboard',
+  },
+};
+
+export const WithSidebarHeader: Story = {
+  args: {
+    items: sampleItems,
+    activeHref: '/dashboard',
+    sidebarHeader: (
+      <SidebarHeader title="Call Center" />
+    ),
   },
 };
 
@@ -147,6 +250,14 @@ export const WithGlassEffect: Story = {
     items: sampleItems,
     activeHref: '/analytics',
     glassEffect: true,
+  },
+};
+
+export const RandomHueHover: Story = {
+  args: {
+    items: sampleItems,
+    activeHref: '/dashboard',
+    randomHue: true,
   },
 };
 
@@ -188,5 +299,19 @@ export const ShowActivePriceList: Story = {
         story: 'Shows Price List as the active item with cyan background and darker cyan text.',
       },
     },
+  },
+};
+
+export const ConfigMainMenuAccordion: Story = {
+  args: {
+    config: mainMenuConfig,
+    activeHref: '/dashboard',
+  },
+};
+
+export const ConfigNestedItems: Story = {
+  args: {
+    config: nestedConfig,
+    activeHref: '/analytics/trends',
   },
 };

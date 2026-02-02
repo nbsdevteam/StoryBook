@@ -51,7 +51,19 @@ export { Separator, type SeparatorProps } from './components/Separator';
 export { GlassEffectWrapper, type GlassEffectWrapperProps } from './components/GlassEffectWrapper';
 
 // Sidebar
-export { Sidebar, type SidebarProps, type SidebarItem } from './components/Sidebar';
+export {
+  Sidebar,
+  SidebarHeader,
+  type SidebarProps,
+  type SidebarItem,
+  type SidebarHeaderProps,
+  type SidebarConfig,
+  type SidebarSection,
+  type SidebarNavItem,
+  type SidebarNavLinkItem,
+  type SidebarNavGroupItem,
+  type SidebarColorVariant,
+} from './components/Sidebar';
 
 // Utilities
 export { cn } from './utils/cn';

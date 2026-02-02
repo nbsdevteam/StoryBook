@@ -1,4 +1,5 @@
 import React from 'react';
+import { TableConfig } from './DataTable.types';
 /**
  * DataTable Column Definition
  */
@@ -19,13 +20,17 @@ export interface DataTableColumn<T = any> {
  */
 export interface DataTableProps<T extends Record<string, any> = Record<string, any>> {
     /**
+     * Config-driven API (preferred for complex tables).
+     */
+    config?: TableConfig<T>;
+    /**
      * Table columns configuration
      */
-    columns: DataTableColumn<T>[];
+    columns?: DataTableColumn<T>[];
     /**
      * Table data source
      */
-    dataSource: T[];
+    dataSource?: T[];
     /**
      * Whether to show row selection checkbox
      * @default false
@@ -115,7 +120,7 @@ export interface DataTableProps<T extends Record<string, any> = Record<string, a
  * A powerful, feature-rich data table component with search, selection,
  * pagination, and loading states. Built on top of Ant Design Table.
  */
-export declare function DataTable<T extends Record<string, any> = Record<string, any>>({ columns, dataSource, selection, onSelectionChange, loading, skeletonRows, searchable, searchPlaceholder, onSearchChange, pagination, rowKey, className, style, size, virtual, scroll, onRowClick, emptyText, }: DataTableProps<T>): import("react/jsx-runtime").JSX.Element;
+export declare function DataTable<T extends Record<string, any> = Record<string, any>>({ config, columns, dataSource, selection, onSelectionChange, loading, skeletonRows, searchable, searchPlaceholder, onSearchChange, pagination, rowKey, className, style, size, virtual, scroll, onRowClick, emptyText, }: DataTableProps<T>): import("react/jsx-runtime").JSX.Element;
 declare const _default: typeof DataTable;
 export default _default;
 //# sourceMappingURL=DataTable.d.ts.map
