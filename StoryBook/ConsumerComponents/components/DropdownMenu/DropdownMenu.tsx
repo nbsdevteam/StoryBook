@@ -26,7 +26,7 @@ const renderItems = (
           {item.icon && <item.icon size={14} />}
           {item.label}
           {item.children && (
-            <div className={styles.submenu}>{renderItems(item.children)}</div>
+            <div className={styles.submenu}>{renderItems(item.children, onSelect)}</div>
           )}
         </div>
       );

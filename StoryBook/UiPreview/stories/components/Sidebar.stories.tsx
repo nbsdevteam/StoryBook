@@ -302,6 +302,41 @@ export const ShowActivePriceList: Story = {
   },
 };
 
+export const CssCollisionTest: Story = {
+  args: {
+    items: sampleItems,
+    activeHref: '/price-list',
+    title: 'Call Center',
+    glassEffect: true,
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ height: '100vh', display: 'flex' }}>
+        <style>{`
+          button {
+            color: #16a34a;
+            background-color: rgba(34, 197, 94, 0.12);
+            border-color: rgba(34, 197, 94, 0.3);
+          }
+          button:hover {
+            color: #15803d;
+            background-color: rgba(34, 197, 94, 0.2);
+          }
+        `}</style>
+        <Story />
+      </div>
+    ),
+  ],
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Simulates global button styles (Bootstrap/Tailwind-like) to verify Sidebar hover/active styles still win.',
+      },
+    },
+  },
+};
+
 export const ConfigMainMenuAccordion: Story = {
   args: {
     config: mainMenuConfig,

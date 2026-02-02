@@ -258,6 +258,79 @@
   color: #334155;
 }
 
+/* Specificity hardening against global button styles (Bootstrap/Tailwind) */
+.sidebar button.hoverPrimary:hover,
+.sidebar button.hoverPrimary:focus-visible {
+  background-color: var(--nbs-sidebar-hover-bg);
+  color: var(--nbs-sidebar-hover-text);
+}
+
+.sidebar button.hoverBlue:hover,
+.sidebar button.hoverBlue:focus-visible {
+  background-color: rgba(59, 130, 246, 0.12);
+  color: #1d4ed8;
+}
+
+.sidebar button.hoverOrange:hover,
+.sidebar button.hoverOrange:focus-visible {
+  background-color: rgba(249, 115, 22, 0.12);
+  color: #c2410c;
+}
+
+.sidebar button.hoverGreen:hover,
+.sidebar button.hoverGreen:focus-visible {
+  background-color: rgba(34, 197, 94, 0.12);
+  color: #15803d;
+}
+
+.sidebar button.hoverPurple:hover,
+.sidebar button.hoverPurple:focus-visible {
+  background-color: rgba(168, 85, 247, 0.12);
+  color: #7e22ce;
+}
+
+.sidebar button.hoverPink:hover,
+.sidebar button.hoverPink:focus-visible {
+  background-color: rgba(236, 72, 153, 0.12);
+  color: #be185d;
+}
+
+.sidebar button.hoverCyan:hover,
+.sidebar button.hoverCyan:focus-visible {
+  background-color: rgba(6, 182, 212, 0.12);
+  color: #0e7490;
+}
+
+.sidebar button.hoverIndigo:hover,
+.sidebar button.hoverIndigo:focus-visible {
+  background-color: rgba(99, 102, 241, 0.12);
+  color: #4338ca;
+}
+
+.sidebar button.hoverEmerald:hover,
+.sidebar button.hoverEmerald:focus-visible {
+  background-color: rgba(16, 185, 129, 0.12);
+  color: #047857;
+}
+
+.sidebar button.hoverAmber:hover,
+.sidebar button.hoverAmber:focus-visible {
+  background-color: rgba(245, 158, 11, 0.12);
+  color: #b45309;
+}
+
+.sidebar button.hoverViolet:hover,
+.sidebar button.hoverViolet:focus-visible {
+  background-color: rgba(139, 92, 246, 0.12);
+  color: #6d28d9;
+}
+
+.sidebar button.hoverSlate:hover,
+.sidebar button.hoverSlate:focus-visible {
+  background-color: rgba(100, 116, 139, 0.12);
+  color: #334155;
+}
+
 .itemActive {
   border-color: var(--nbs-sidebar-active-border);
 }
@@ -265,6 +338,12 @@
 .activePrimary {
   background-color: var(--nbs-sidebar-active-bg);
   color: var(--nbs-sidebar-active-text);
+}
+
+.sidebar button.activePrimary {
+  background-color: var(--nbs-sidebar-active-bg);
+  color: var(--nbs-sidebar-active-text);
+  border-color: var(--nbs-sidebar-active-border);
 }
 
 .icon {
@@ -296,6 +375,9 @@
 .hoverBlueText:hover {
   color: #2563eb;
 }
+.sidebar button.hoverBlueText:hover {
+  color: #2563eb;
+}
 .sidebar button.activeBlue {
   background-color: rgba(59, 130, 246, 0.2) !important;
   color: #1d4ed8 !important;
@@ -303,6 +385,9 @@
 }
 
 .hoverOrangeText:hover {
+  color: #ea580c;
+}
+.sidebar button.hoverOrangeText:hover {
   color: #ea580c;
 }
 .sidebar button.activeOrange {
@@ -314,6 +399,9 @@
 .hoverGreenText:hover {
   color: #16a34a;
 }
+.sidebar button.hoverGreenText:hover {
+  color: #16a34a;
+}
 .sidebar button.activeGreen {
   background-color: rgba(34, 197, 94, 0.2) !important;
   color: #15803d !important;
@@ -321,6 +409,9 @@
 }
 
 .hoverPurpleText:hover {
+  color: #9333ea;
+}
+.sidebar button.hoverPurpleText:hover {
   color: #9333ea;
 }
 .sidebar button.activePurple {
@@ -332,6 +423,9 @@
 .hoverPinkText:hover {
   color: #db2777;
 }
+.sidebar button.hoverPinkText:hover {
+  color: #db2777;
+}
 .sidebar button.activePink {
   background-color: rgba(236, 72, 153, 0.2) !important;
   color: #be185d !important;
@@ -339,6 +433,9 @@
 }
 
 .hoverCyanText:hover {
+  color: #0891b2;
+}
+.sidebar button.hoverCyanText:hover {
   color: #0891b2;
 }
 .sidebar button.activeCyan {
@@ -350,6 +447,9 @@
 .hoverIndigoText:hover {
   color: #4f46e5;
 }
+.sidebar button.hoverIndigoText:hover {
+  color: #4f46e5;
+}
 .sidebar button.activeIndigo {
   background-color: rgba(99, 102, 241, 0.2) !important;
   color: #4338ca !important;
@@ -357,6 +457,9 @@
 }
 
 .hoverEmeraldText:hover {
+  color: #059669;
+}
+.sidebar button.hoverEmeraldText:hover {
   color: #059669;
 }
 .sidebar button.activeEmerald {
@@ -368,6 +471,9 @@
 .hoverAmberText:hover {
   color: #d97706;
 }
+.sidebar button.hoverAmberText:hover {
+  color: #d97706;
+}
 .sidebar button.activeAmber {
   background-color: rgba(245, 158, 11, 0.2) !important;
   color: #b45309 !important;
@@ -377,6 +483,9 @@
 .hoverVioletText:hover {
   color: #7c3aed;
 }
+.sidebar button.hoverVioletText:hover {
+  color: #7c3aed;
+}
 .sidebar button.activeViolet {
   background-color: rgba(139, 92, 246, 0.2) !important;
   color: #6d28d9 !important;
@@ -384,6 +493,9 @@
 }
 
 .hoverSlateText:hover {
+  color: #475569;
+}
+.sidebar button.hoverSlateText:hover {
   color: #475569;
 }
 .sidebar button.activeSlate {

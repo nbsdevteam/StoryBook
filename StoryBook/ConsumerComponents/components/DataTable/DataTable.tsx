@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import { Table, Skeleton } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import type { TablePaginationConfig, TableRowSelection } from 'antd/es/table/interface';
 import styles from './DataTable.module.css';
 import { Button } from '../Button';
 import { DropdownMenu } from '../DropdownMenu';
@@ -139,33 +140,57 @@ export interface DataTableProps<T extends Record<string, any> = Record<string, a
   emptyText?: React.ReactNode;
 }
 
+const getColumnValue = <T extends Record<string, any>>(
+  column: TableColumn<T>,
+  record: T
+) => {
+  if (typeof column.accessor === 'function') {
+    return column.accessor(record);
+  }
+  return (record as any)[column.accessor];
+};
+
 const mapConfigColumns = <T extends Record<string, any>>(
   columns: TableColumn<T>[],
   rowActions?: TableConfig<T>['rowActions']
 ): DataTableColumn<T>[] => {
-  const mapped = columns.map((column) => ({
+  const mapped: DataTableColumn<T>[] = columns.map((column) => ({
     title: column.label,
     dataIndex: typeof column.accessor === 'string' ? column.accessor : undefined,
     key: column.id,
     width: column.width,
     align: column.align,
-    sorter: column.sortable ? true : undefined,
-    render:
-      typeof column.accessor === 'function'
-        ? (value: any, record: T, index: number) =>
-            column.cell
-              ? column.cell(column.accessor(record), record, index)
-              : column.accessor(record)
-        : column.cell
-          ? (value: any, record: T, index: number) =>
-              column.cell(value, record, index)
-          : undefined,
+    sorter: column.sortable
+      ? (a: T, b: T) => {
+          const aValue = getColumnValue(column, a);
+          const bValue = getColumnValue(column, b);
+          if (aValue == null && bValue == null) return 0;
+          if (aValue == null) return -1;
+          if (bValue == null) return 1;
+          if (typeof aValue === 'number' && typeof bValue === 'number') {
+            return aValue - bValue;
+          }
+          return String(aValue).localeCompare(String(bValue));
+        }
+      : undefined,
+    render: (value: any, record: T, index: number) => {
+      const resolvedValue =
+        typeof column.accessor === 'function' ? getColumnValue(column, record) : value;
+      if (column.cell) {
+        return column.cell(resolvedValue, record, index);
+      }
+      return resolvedValue;
+    },
   }));
 
   if (rowActions?.actions?.length) {
     mapped.push({
       title: rowActions.dropdownLabel ?? 'Actions',
+      dataIndex: undefined,
       key: 'actions',
+      width: undefined,
+      align: 'right',
+      sorter: undefined,
       render: (_value: any, record: T, index: number) => {
         const actions = rowActions.actions.filter((action) => {
           if (typeof action.show === 'function') return action.show(record);
@@ -308,17 +333,18 @@ export function DataTable<T extends Record<string, any> = Record<string, any>>({
   const resolvedSearchPlaceholder =
     config?.filtering?.searchValue !== undefined ? 'Search' : searchPlaceholder;
   const resolvedRowKey = config?.selection?.idField ?? rowKey ?? 'id';
-  const resolvedPagination = config?.pagination
+  const paginationConfigFromConfig = config?.pagination;
+  const resolvedPagination = paginationConfigFromConfig
     ? {
-        current: config.pagination.currentPage,
-        total: config.pagination.totalItems,
-        pageSize: config.pagination.pageSize,
-        showSizeChanger: config.pagination.showPageSize ?? false,
+        current: paginationConfigFromConfig.currentPage,
+        total: paginationConfigFromConfig.totalItems,
+        pageSize: paginationConfigFromConfig.pageSize,
+        showSizeChanger: paginationConfigFromConfig.showPageSize ?? false,
         onChange: (page: number, pageSize: number) => {
-          config.pagination.onPageChange(page);
-          config.pagination.onPageSizeChange?.(pageSize);
+          paginationConfigFromConfig.onPageChange(page);
+          paginationConfigFromConfig.onPageSizeChange?.(pageSize);
         },
-        showTotal: config.pagination.showTotal
+        showTotal: paginationConfigFromConfig.showTotal
           ? (total: number) => `Total ${total} items`
           : undefined,
       }
@@ -418,7 +444,7 @@ export function DataTable<T extends Record<string, any> = Record<string, any>>({
   }, [resolvedColumns]);
 
   // Row selection configuration
-  const rowSelection = useMemo(() => {
+  const rowSelection: TableRowSelection<T> | undefined = useMemo(() => {
     if (config?.selection) {
       return {
         selectedRowKeys: config.selection.selectedIds,
@@ -444,10 +470,10 @@ export function DataTable<T extends Record<string, any> = Record<string, any>>({
   }, [selectedRowKeys, onSelectionChange, selection, config]);
 
   // Pagination configuration
-  const paginationConfig = useMemo((): false | import('antd/es/table').TablePaginationConfig => {
+  const paginationConfig = useMemo((): false | TablePaginationConfig => {
     if (resolvedPagination === false) return false;
 
-    const defaultConfig: import('antd/es/table').TablePaginationConfig = {
+    const defaultConfig: TablePaginationConfig = {
       locale: { items_per_page: '' },
       defaultPageSize: 10,
       showSizeChanger: true,

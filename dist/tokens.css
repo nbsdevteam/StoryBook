@@ -34,16 +34,17 @@
   --nbs-light: #f8f9fa;
   --nbs-dark: #212529;
 
-  /* Sidebar / nav (teal accent) */
+  /* Sidebar / nav */
   --nbs-sidebar-bg: #ffffff;
   --nbs-sidebar-border: #e5e7eb;
   --nbs-sidebar-text: #212529;
   --nbs-sidebar-text-muted: #6c757d;
-  --nbs-sidebar-active-bg: rgba(23, 162, 184, 0.2);
-  --nbs-sidebar-active-text: #17a2b8;
-  --nbs-sidebar-active-border: rgba(23, 162, 184, 0.3);
-  --nbs-sidebar-hover-bg: rgba(23, 162, 184, 0.1);
-  --nbs-sidebar-hover-text: #17a2b8;
+  --nbs-sidebar-active-bg: var(--nbs-primary-subtle);
+  --nbs-sidebar-active-text: var(--nbs-primary);
+  --nbs-sidebar-active-border: var(--nbs-primary);
+  --nbs-sidebar-hover-bg: var(--nbs-primary-subtle);
+  --nbs-sidebar-hover-text: var(--nbs-primary);
+  --nbs-sidebar-focus: var(--nbs-primary);
 
   /* Form controls */
   --nbs-input-bg: #ffffff;
@@ -131,11 +132,12 @@
     --nbs-sidebar-border: #495057;
     --nbs-sidebar-text: #f8f9fa;
     --nbs-sidebar-text-muted: #adb5bd;
-    --nbs-sidebar-active-bg: rgba(23, 162, 184, 0.25);
-    --nbs-sidebar-active-text: #20c997;
-    --nbs-sidebar-active-border: rgba(32, 201, 151, 0.4);
-    --nbs-sidebar-hover-bg: rgba(23, 162, 184, 0.15);
-    --nbs-sidebar-hover-text: #20c997;
+    --nbs-sidebar-active-bg: var(--nbs-primary-subtle);
+    --nbs-sidebar-active-text: var(--nbs-primary);
+    --nbs-sidebar-active-border: var(--nbs-primary);
+    --nbs-sidebar-hover-bg: var(--nbs-primary-subtle);
+    --nbs-sidebar-hover-text: var(--nbs-primary);
+    --nbs-sidebar-focus: var(--nbs-primary);
     --nbs-input-bg: #343a40;
     --nbs-input-border: #495057;
     --nbs-input-focus-border: #6ea8fe;
@@ -183,11 +185,12 @@
   --nbs-sidebar-border: #495057;
   --nbs-sidebar-text: #f8f9fa;
   --nbs-sidebar-text-muted: #adb5bd;
-  --nbs-sidebar-active-bg: rgba(23, 162, 184, 0.25);
-  --nbs-sidebar-active-text: #20c997;
-  --nbs-sidebar-active-border: rgba(32, 201, 151, 0.4);
-  --nbs-sidebar-hover-bg: rgba(23, 162, 184, 0.15);
-  --nbs-sidebar-hover-text: #20c997;
+  --nbs-sidebar-active-bg: var(--nbs-primary-subtle);
+  --nbs-sidebar-active-text: var(--nbs-primary);
+  --nbs-sidebar-active-border: var(--nbs-primary);
+  --nbs-sidebar-hover-bg: var(--nbs-primary-subtle);
+  --nbs-sidebar-hover-text: var(--nbs-primary);
+  --nbs-sidebar-focus: var(--nbs-primary);
   --nbs-input-bg: #343a40;
   --nbs-input-border: #495057;
   --nbs-input-focus-border: #6ea8fe;

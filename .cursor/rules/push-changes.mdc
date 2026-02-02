@@ -1,24 +1,33 @@
 ---
-name: push-changes
-description: When the user says "push changes", perform all of the following so consumers get the updated package on install.
+name: commit-and-release
+description: When the user says "commit and release" (or "push changes", "release"), run the full automated workflow so consumers can install by version tag.
 ---
 
-# Push changes workflow
+# Commit and release (full automation)
 
-When the user says **"push changes"** (or equivalent), do **all** of these:
+When the user says **"commit and release"** (or **"push changes"**, **"release"**, or equivalent), do **all** of the following in order. Do not stop halfway; the user wants one command to handle everything.
 
-1. **Update usage/consumption doc**
-   - Edit [HowToConsumeStoryBook.md](HowToConsumeStoryBook.md) with any new or changed APIs, examples, and guidance (Card footer, Sidebar, config, props, etc.) so the doc matches the current code.
+1. **Update usage doc**
+   - Edit [HowToConsumeStoryBook.md](HowToConsumeStoryBook.md) with any new or changed APIs, examples, and guidance so the doc matches the current code (Card footer, Sidebar, config, props, etc.).
 
-2. **Version and tags**
-   - Bump **version** in [package.json](package.json) (patch: 1.1.x → 1.1.x+1, or minor/major if appropriate).
-   - Update **keywords** in package.json if new components or features warrant it (e.g. sidebar, card, glass-effect).
+2. **Version bump**
+   - Bump **version** in [package.json](package.json): patch by default (e.g. 1.1.5 → 1.1.6). Use minor/major only if the user asks.
+   - Update **keywords** in package.json if new components or features warrant it.
 
-3. **Ensure consumers get the updated file**
-   - Confirm [package.json](package.json) **"files"** includes `"HowToConsumeStoryBook.md"` (and `"dist"`) so the usage doc is shipped on install.
-   - Run **build** so `dist` is up to date: `npm run build`.
+3. **Build**
+   - Confirm [package.json](package.json) **"files"** includes `"HowToConsumeStoryBook.md"` and `"dist"`.
+   - Run `npm run build` so `dist` is up to date for the release.
 
-4. **Release (optional reminder)**
-   - If the user wants to publish: run `npm run release:patch` (or minor/major), then `npm run release:push` to push commits and tags so installs (e.g. `npm install github:syednaqvi98nibras/StoryBook#latest`) get the new version.
+4. **Git: stage, commit, push branch**
+   - `git add -A`
+   - `git commit -m "chore(release): vX.Y.Z - <short description of changes>"`
+   - `git push -u origin <current-branch>` (or `git push origin <current-branch>` if already tracking).
 
-Do not skip the doc update or version bump when the user asks to push changes.
+5. **Git: tag and push tag**
+   - Create tag from **package.json** version: `git tag vX.Y.Z -m "Release vX.Y.Z - <short description>"`
+   - Push tag: `git push origin vX.Y.Z`
+
+After this, consumers install by **version tag**, e.g.:
+`npm install github:syednaqvi98nibras/StoryBook#v1.1.6`
+
+Do not skip any step. Do not ask "do you want me to push?" — just do it. The user said "commit and release" so they want the full workflow executed.

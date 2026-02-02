@@ -88,6 +88,8 @@ import '@nbs/component-library/dist/styles.css';
 
 **Important:** Import this file once before using any components. The library uses **framework-agnostic native CSS** (design tokens + scoped CSS modules). It does **not** depend on Bootstrap or Tailwind, so you can use it in Bootstrap apps, Tailwind apps, or apps with no CSS framework without losing styling.
 
+**Theming contract:** This single import is the only required setup. If you want to customize the look, override the CSS variables (for example `--nbs-primary` / `--nbs-primary-subtle`) in your app. You do **not** need to add per-component CSS to make the library look correct.
+
 ## Basic Usage
 
 ### Import Components
@@ -941,6 +943,9 @@ function MyComponent() {
 - **`randomHue`**: When `true`, hover states use colored backgrounds per item variant. Default `false`.
 - **`width`**: Width of the sidebar. Default `"256px"`. Can be a number (e.g. `256`) or string.
 - **`className`**, **`itemClassName`**: Optional class names.
+
+**Sidebar primary colors** use the theme tokens. If you want a different accent, override `--nbs-primary` / `--nbs-primary-subtle` or set the sidebar-specific tokens in your app:
+`--nbs-sidebar-hover-text`, `--nbs-sidebar-hover-bg`, `--nbs-sidebar-active-text`, `--nbs-sidebar-active-bg`, `--nbs-sidebar-active-border`, `--nbs-sidebar-focus`.
 
 ```typescript
 import { Sidebar, SidebarHeader, type SidebarItem } from '@nbs/component-library';
