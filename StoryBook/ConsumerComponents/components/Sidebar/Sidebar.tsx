@@ -9,12 +9,10 @@ export interface SidebarItem {
   href: string;
   icon: LucideIcon;
   onClick: (href: string) => void;
-  hoverColor?: string;
-  activeColor?: string;
-  color?: SidebarColorVariant;
 }
 
-export type SidebarColorVariant =
+type SidebarColorVariant =
+  | "neutral"
   | "primary"
   | "blue"
   | "orange"
@@ -26,7 +24,10 @@ export type SidebarColorVariant =
   | "emerald"
   | "amber"
   | "violet"
-  | "slate";
+  | "slate"
+  | "red"
+  | "teal"
+  | "lime";
 
 export interface SidebarNavLinkItem {
   type: "link";
@@ -34,9 +35,6 @@ export interface SidebarNavLinkItem {
   href: string;
   icon?: LucideIcon;
   onClick?: (href: string) => void;
-  color?: SidebarColorVariant;
-  hoverClassName?: string;
-  activeClassName?: string;
 }
 
 export interface SidebarNavGroupItem {
@@ -78,72 +76,93 @@ export interface SidebarProps {
 // be overridden by consumer frameworks (e.g. Bootstrap) through class collisions.
 const colorVariants: Record<
   SidebarColorVariant,
-  { hoverClass: string; hoverTextClass: string; activeClass: string }
+  { hoverClass: string; activeClass: string }
 > = {
+  neutral: {
+    hoverClass: styles.hoverNeutral,
+    activeClass: styles.activeNeutral,
+  },
   primary: {
     hoverClass: styles.hoverPrimary,
-    hoverTextClass: styles.hoverPrimary,
     activeClass: styles.activePrimary,
   },
   blue: {
     hoverClass: styles.hoverBlue,
-    hoverTextClass: styles.hoverBlueText,
     activeClass: styles.activeBlue,
   },
   orange: {
     hoverClass: styles.hoverOrange,
-    hoverTextClass: styles.hoverOrangeText,
     activeClass: styles.activeOrange,
   },
   green: {
     hoverClass: styles.hoverGreen,
-    hoverTextClass: styles.hoverGreenText,
     activeClass: styles.activeGreen,
   },
   purple: {
     hoverClass: styles.hoverPurple,
-    hoverTextClass: styles.hoverPurpleText,
     activeClass: styles.activePurple,
   },
   pink: {
     hoverClass: styles.hoverPink,
-    hoverTextClass: styles.hoverPinkText,
     activeClass: styles.activePink,
   },
   cyan: {
     hoverClass: styles.hoverCyan,
-    hoverTextClass: styles.hoverCyanText,
     activeClass: styles.activeCyan,
   },
   indigo: {
     hoverClass: styles.hoverIndigo,
-    hoverTextClass: styles.hoverIndigoText,
     activeClass: styles.activeIndigo,
   },
   emerald: {
     hoverClass: styles.hoverEmerald,
-    hoverTextClass: styles.hoverEmeraldText,
     activeClass: styles.activeEmerald,
   },
   amber: {
     hoverClass: styles.hoverAmber,
-    hoverTextClass: styles.hoverAmberText,
     activeClass: styles.activeAmber,
   },
   violet: {
     hoverClass: styles.hoverViolet,
-    hoverTextClass: styles.hoverVioletText,
     activeClass: styles.activeViolet,
   },
   slate: {
     hoverClass: styles.hoverSlate,
-    hoverTextClass: styles.hoverSlateText,
     activeClass: styles.activeSlate,
+  },
+  red: {
+    hoverClass: styles.hoverRed,
+    activeClass: styles.activeRed,
+  },
+  teal: {
+    hoverClass: styles.hoverTeal,
+    activeClass: styles.activeTeal,
+  },
+  lime: {
+    hoverClass: styles.hoverLime,
+    activeClass: styles.activeLime,
   },
 };
 
-const getColorClasses = (variant?: SidebarColorVariant) =>
-  colorVariants[variant ?? "primary"];
+const autoColorPalette: SidebarColorVariant[] = [
+  "orange",
+  "green",
+  "purple",
+  "pink",
+  "cyan",
+  "indigo",
+  "emerald",
+  "amber",
+  "violet",
+  "slate",
+  "red",
+  "teal",
+  "lime",
+  "blue",
+  "primary",
+];
+
+const getColorClasses = (variant: SidebarColorVariant) => colorVariants[variant];
 
 // Memoized sidebar item component to prevent unnecessary re-renders
 const SidebarItemComponent = React.memo<{
@@ -151,10 +170,7 @@ const SidebarItemComponent = React.memo<{
   href: string;
   icon?: LucideIcon;
   onClick?: (href: string) => void;
-  hoverClassName?: string;
-  activeClassName?: string;
-  color?: SidebarColorVariant;
-  randomHue?: boolean;
+  color: SidebarColorVariant;
   isActive: boolean;
   glassEffect: boolean;
   itemClassName?: string;
@@ -164,17 +180,14 @@ const SidebarItemComponent = React.memo<{
     href,
     icon: Icon,
     onClick,
-    hoverClassName,
-    activeClassName,
     color,
-    randomHue,
     isActive,
     glassEffect,
     itemClassName,
   }) => {
-    const { hoverClass, hoverTextClass, activeClass } = getColorClasses(color);
-    const resolvedHoverColor = hoverClassName ?? (randomHue ? hoverClass : hoverTextClass);
-    const resolvedActiveColor = activeClassName ?? activeClass;
+    const { hoverClass, activeClass } = getColorClasses(color);
+    const resolvedHoverColor = hoverClass;
+    const resolvedActiveColor = activeClass;
     return (
       <GlassEffectWrapper
         asChild
@@ -229,7 +242,7 @@ export const Sidebar = React.memo(function Sidebar({
   activeHref,
   title,
   sidebarHeader,
-  glassEffect = true,
+  glassEffect = false,
   randomHue = false,
   width = "256px",
   className,
@@ -245,29 +258,49 @@ export const Sidebar = React.memo(function Sidebar({
     [resolvedWidth]
   );
 
-  const sections = React.useMemo<SidebarSection[]>(() => {
+  const sections = React.useMemo(() => {
+    let colorIndex = 0;
+    const getNextColor = () => autoColorPalette[colorIndex++ % autoColorPalette.length];
+    const getItemColor = () => (randomHue ? getNextColor() : "neutral");
+
     if (config) {
-      return config.sections ?? [];
+      return (config.sections ?? []).map((section) => ({
+        ...section,
+        items: section.items.map((item) => {
+          if (item.type === "group") {
+            return {
+              ...item,
+              children: item.children.map((child) => ({
+                ...child,
+                color: getItemColor(),
+              })),
+            };
+          }
+          return {
+            ...item,
+            color: getItemColor(),
+          };
+        }),
+      }));
     }
+
     if (items?.length) {
       return [
         {
           id: "default",
-          items: items.map<SidebarNavItem>((item) => ({
-            type: "link",
+          items: items.map((item) => ({
+            type: "link" as const,
             name: item.name,
             href: item.href,
             icon: item.icon,
             onClick: item.onClick,
-            color: item.color,
-            hoverClassName: item.hoverColor,
-            activeClassName: item.activeColor,
+            color: getItemColor(),
           })),
         },
       ];
     }
     return [];
-  }, [config, items]);
+  }, [config, items, randomHue]);
 
   const [openSections, setOpenSections] = React.useState<Record<string, boolean>>(
     () =>
@@ -380,10 +413,7 @@ export const Sidebar = React.memo(function Sidebar({
                                 href={child.href}
                                 icon={child.icon ?? item.icon}
                                 onClick={(href) => child.onClick?.(href)}
-                                hoverClassName={child.hoverClassName}
-                                activeClassName={child.activeClassName}
                                 color={child.color}
-                                randomHue={randomHue}
                                 isActive={isActive}
                                 glassEffect={glassEffect}
                                 itemClassName={cn(
@@ -406,10 +436,7 @@ export const Sidebar = React.memo(function Sidebar({
                       href={item.href}
                       icon={item.icon}
                       onClick={(href) => item.onClick?.(href)}
-                      hoverClassName={item.hoverClassName}
-                      activeClassName={item.activeClassName}
                       color={item.color}
-                      randomHue={randomHue}
                       isActive={isActive}
                       glassEffect={glassEffect}
                       itemClassName={itemClassName}

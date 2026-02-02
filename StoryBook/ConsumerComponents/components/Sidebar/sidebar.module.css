@@ -186,10 +186,66 @@
   border-color: transparent;
 }
 
+/* Neutral: no colored background – hardcoded muted gray (no blue) */
+.hoverNeutral:hover,
+.hoverNeutral:focus-visible {
+  background-color: rgba(0, 0, 0, 0.06);
+  color: #374151;
+}
+
+.sidebar button.hoverNeutral:hover,
+.sidebar button.hoverNeutral:focus-visible {
+  background-color: rgba(0, 0, 0, 0.06);
+  color: #374151;
+}
+
+.activeNeutral {
+  background-color: rgba(0, 0, 0, 0.08);
+  color: #111827;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.sidebar button.activeNeutral {
+  background-color: rgba(0, 0, 0, 0.08);
+  color: #111827;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+  .hoverNeutral:hover,
+  .hoverNeutral:focus-visible,
+  .sidebar button.hoverNeutral:hover,
+  .sidebar button.hoverNeutral:focus-visible {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #e5e7eb;
+  }
+  .activeNeutral,
+  .sidebar button.activeNeutral {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #f9fafb;
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+}
+
+[data-nbs-theme="dark"] .hoverNeutral:hover,
+[data-nbs-theme="dark"] .hoverNeutral:focus-visible,
+[data-nbs-theme="dark"] .sidebar button.hoverNeutral:hover,
+[data-nbs-theme="dark"] .sidebar button.hoverNeutral:focus-visible {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #e5e7eb;
+}
+
+[data-nbs-theme="dark"] .activeNeutral,
+[data-nbs-theme="dark"] .sidebar button.activeNeutral {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f9fafb;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
 .hoverPrimary:hover,
 .hoverPrimary:focus-visible {
-  background-color: var(--nbs-sidebar-hover-bg);
-  color: var(--nbs-sidebar-hover-text);
+  background-color: rgba(13, 110, 253, 0.12);
+  color: #0b5ed7;
 }
 
 .hoverBlue:hover,
@@ -258,11 +314,29 @@
   color: #334155;
 }
 
+.hoverRed:hover,
+.hoverRed:focus-visible {
+  background-color: rgba(239, 68, 68, 0.12);
+  color: #b91c1c;
+}
+
+.hoverTeal:hover,
+.hoverTeal:focus-visible {
+  background-color: rgba(20, 184, 166, 0.12);
+  color: #0f766e;
+}
+
+.hoverLime:hover,
+.hoverLime:focus-visible {
+  background-color: rgba(132, 204, 22, 0.12);
+  color: #4d7c0f;
+}
+
 /* Specificity hardening against global button styles (Bootstrap/Tailwind) */
 .sidebar button.hoverPrimary:hover,
 .sidebar button.hoverPrimary:focus-visible {
-  background-color: var(--nbs-sidebar-hover-bg);
-  color: var(--nbs-sidebar-hover-text);
+  background-color: rgba(13, 110, 253, 0.12);
+  color: #0b5ed7;
 }
 
 .sidebar button.hoverBlue:hover,
@@ -331,19 +405,38 @@
   color: #334155;
 }
 
+.sidebar button.hoverRed:hover,
+.sidebar button.hoverRed:focus-visible {
+  background-color: rgba(239, 68, 68, 0.12);
+  color: #b91c1c;
+}
+
+.sidebar button.hoverTeal:hover,
+.sidebar button.hoverTeal:focus-visible {
+  background-color: rgba(20, 184, 166, 0.12);
+  color: #0f766e;
+}
+
+.sidebar button.hoverLime:hover,
+.sidebar button.hoverLime:focus-visible {
+  background-color: rgba(132, 204, 22, 0.12);
+  color: #4d7c0f;
+}
+
 .itemActive {
-  border-color: var(--nbs-sidebar-active-border);
+  border-color: transparent;
 }
 
 .activePrimary {
-  background-color: var(--nbs-sidebar-active-bg);
-  color: var(--nbs-sidebar-active-text);
+  background-color: rgba(13, 110, 253, 0.2);
+  color: #0b5ed7;
+  border-color: rgba(13, 110, 253, 0.3);
 }
 
 .sidebar button.activePrimary {
-  background-color: var(--nbs-sidebar-active-bg);
-  color: var(--nbs-sidebar-active-text);
-  border-color: var(--nbs-sidebar-active-border);
+  background-color: rgba(13, 110, 253, 0.2);
+  color: #0b5ed7;
+  border-color: rgba(13, 110, 253, 0.3);
 }
 
 .icon {
@@ -502,6 +595,24 @@
   background-color: rgba(100, 116, 139, 0.2) !important;
   color: #334155 !important;
   border-color: rgba(100, 116, 139, 0.3) !important;
+}
+
+.sidebar button.activeRed {
+  background-color: rgba(239, 68, 68, 0.2) !important;
+  color: #b91c1c !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
+}
+
+.sidebar button.activeTeal {
+  background-color: rgba(20, 184, 166, 0.2) !important;
+  color: #0f766e !important;
+  border-color: rgba(20, 184, 166, 0.3) !important;
+}
+
+.sidebar button.activeLime {
+  background-color: rgba(132, 204, 22, 0.2) !important;
+  color: #4d7c0f !important;
+  border-color: rgba(132, 204, 22, 0.3) !important;
 }
 
 /* Reduced motion support */

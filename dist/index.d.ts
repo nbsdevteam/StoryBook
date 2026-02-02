@@ -37,7 +37,7 @@ export { Progress, type ProgressProps } from './components/Progress';
 export { Skeleton, type SkeletonProps } from './components/Skeleton';
 export { Separator, type SeparatorProps } from './components/Separator';
 export { GlassEffectWrapper, type GlassEffectWrapperProps } from './components/GlassEffectWrapper';
-export { Sidebar, SidebarHeader, type SidebarProps, type SidebarItem, type SidebarHeaderProps, type SidebarConfig, type SidebarSection, type SidebarNavItem, type SidebarNavLinkItem, type SidebarNavGroupItem, type SidebarColorVariant, } from './components/Sidebar';
+export { Sidebar, SidebarHeader, type SidebarProps, type SidebarItem, type SidebarHeaderProps, type SidebarConfig, type SidebarSection, type SidebarNavItem, type SidebarNavLinkItem, type SidebarNavGroupItem, } from './components/Sidebar';
 export { cn } from './utils/cn';
 export type { ComponentWrapperProps, BadgeConfig } from './types/component-config.types';
 export * from './components';

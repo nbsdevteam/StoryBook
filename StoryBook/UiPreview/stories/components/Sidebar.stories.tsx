@@ -27,6 +27,10 @@ const meta: Meta<typeof Sidebar> = {
   parameters: {
     layout: 'fullscreen',
   },
+  args: {
+    glassEffect: false,
+    randomHue: false,
+  },
   decorators: [
     (Story) => (
       <div style={{ height: '100vh', display: 'flex' }}>
@@ -43,10 +47,6 @@ const meta: Meta<typeof Sidebar> = {
       control: 'boolean',
       description: 'Enable glass effect on hover',
     },
-    randomHue: {
-      control: 'boolean',
-      description: 'Enable colored hover backgrounds for items',
-    },
   },
 };
 
@@ -59,77 +59,66 @@ const sampleItems: SidebarItem[] = [
     href: '/dashboard',
     icon: LayoutDashboard,
     onClick: (href) => console.log('Navigate to:', href),
-    color: 'blue',
   },
   {
     name: 'Call Queue',
     href: '/call-queue',
     icon: PhoneIncoming,
     onClick: (href) => console.log('Navigate to:', href),
-    color: 'orange',
   },
   {
     name: 'Active Calls',
     href: '/active-calls',
     icon: PhoneCall,
     onClick: (href) => console.log('Navigate to:', href),
-    color: 'green',
   },
   {
     name: 'Customers',
     href: '/customers',
     icon: Users,
     onClick: (href) => console.log('Navigate to:', href),
-    color: 'purple',
   },
   {
     name: 'Customers Card',
     href: '/customers-card',
     icon: CreditCard,
     onClick: (href) => console.log('Navigate to:', href),
-    color: 'pink',
   },
   {
     name: 'Price List',
     href: '/price-list',
     icon: FileText,
     onClick: (href) => console.log('Navigate to:', href),
-    color: 'cyan',
   },
   {
     name: 'Omni Channel',
     href: '/omni-channel',
     icon: MessageSquare,
     onClick: (href) => console.log('Navigate to:', href),
-    color: 'indigo',
   },
   {
     name: 'Agents',
     href: '/agents',
     icon: UserCheck,
     onClick: (href) => console.log('Navigate to:', href),
-    color: 'emerald',
   },
   {
     name: 'Tickets',
     href: '/tickets',
     icon: Ticket,
     onClick: (href) => console.log('Navigate to:', href),
-    color: 'amber',
   },
   {
     name: 'Reports',
     href: '/reports',
     icon: BarChart3,
     onClick: (href) => console.log('Navigate to:', href),
-    color: 'violet',
   },
   {
     name: 'Settings',
     href: '/settings',
     icon: Settings,
     onClick: (href) => console.log('Navigate to:', href),
-    color: 'slate',
   },
 ];
 
@@ -146,7 +135,6 @@ const mainMenuConfig: SidebarConfig = {
           name: 'Dashboard',
           href: '/dashboard',
           icon: LayoutDashboard,
-          color: 'blue',
           onClick: (href) => console.log('Navigate to:', href),
         },
         {
@@ -154,7 +142,6 @@ const mainMenuConfig: SidebarConfig = {
           name: 'Customers',
           href: '/customers',
           icon: Users,
-          color: 'purple',
           onClick: (href) => console.log('Navigate to:', href),
         },
         {
@@ -162,7 +149,6 @@ const mainMenuConfig: SidebarConfig = {
           name: 'Reports',
           href: '/reports',
           icon: BarChart3,
-          color: 'violet',
           onClick: (href) => console.log('Navigate to:', href),
         },
       ],
@@ -188,14 +174,12 @@ const nestedConfig: SidebarConfig = {
               type: 'link',
               name: 'Overview',
               href: '/analytics/overview',
-              color: 'indigo',
               onClick: (href) => console.log('Navigate to:', href),
             },
             {
               type: 'link',
               name: 'Trends',
               href: '/analytics/trends',
-              color: 'emerald',
               onClick: (href) => console.log('Navigate to:', href),
             },
           ],

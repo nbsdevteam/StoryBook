@@ -5,20 +5,13 @@ export interface SidebarItem {
     href: string;
     icon: LucideIcon;
     onClick: (href: string) => void;
-    hoverColor?: string;
-    activeColor?: string;
-    color?: SidebarColorVariant;
 }
-export type SidebarColorVariant = "primary" | "blue" | "orange" | "green" | "purple" | "pink" | "cyan" | "indigo" | "emerald" | "amber" | "violet" | "slate";
 export interface SidebarNavLinkItem {
     type: "link";
     name: React.ReactNode;
     href: string;
     icon?: LucideIcon;
     onClick?: (href: string) => void;
-    color?: SidebarColorVariant;
-    hoverClassName?: string;
-    activeClassName?: string;
 }
 export interface SidebarNavGroupItem {
     type: "group";

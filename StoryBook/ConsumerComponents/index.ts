@@ -62,7 +62,6 @@ export {
   type SidebarNavItem,
   type SidebarNavLinkItem,
   type SidebarNavGroupItem,
-  type SidebarColorVariant,
 } from './components/Sidebar';
 
 // Utilities

@@ -19,7 +19,7 @@ This guide is for developers and automation (e.g. agents) integrating the NBS Co
 
 | Component | How to use | Notes |
 |-----------|------------|--------|
-| **Sidebar** | **Props or optional `config`.** Use `items` for a simple list, or `config` for sections/accordion/nested items. | `sidebarHeader` is optional; if you already have a header, don’t pass it. Each item can use `color` variants. `randomHue` enables colored hover backgrounds. |
+| **Sidebar** | **Props or optional `config`.** Use `items` for a simple list, or `config` for sections/accordion/nested items. | `sidebarHeader` is optional; if you already have a header, don’t pass it. Item hover/active colors are assigned automatically by the library. |
 | **Card** | **Either props or `config`.** Use `title`, `children`, `footer`, etc., **or** a single `config` object. | See [Card component](#card-component) and [Config-driven Card](#card-with-config). |
 | **Button, Badge, Alert, Modal, Input, Select, Checkbox, Radio, Textarea, Switch** | **Props only.** | Standard React props; no `config`. |
 | **DataTable** | **Either props or `config`.** Columns/data as props or via `config`. | Same pattern as Card. |
@@ -934,18 +934,17 @@ function MyComponent() {
 
 **Sidebar supports simple `items` or an optional `config` for sections/accordion/nested items.** If your app already has its own sidebar header, **don’t pass** `title` or `sidebarHeader` so we don’t override it.
 
-- **`items`** (optional): Simple list of `SidebarItem` `{ name, href, icon, onClick, color?, hoverColor?, activeColor? }`.
+- **`items`** (optional): Simple list of `SidebarItem` `{ name, href, icon, onClick }`.
 - **`config`** (optional): Advanced layout with sections + nested items.
 - **`sidebarHeader`**: ReactNode rendered **as-is** (no wrapper). Pass a string or any custom node.
 - **`title`** (legacy convenience): Renders the default header wrapper with a title (still supported).
 - **`activeHref`**: The `href` of the active item (e.g. current route).
-- **`glassEffect`**: Enables glass-style hover on nav items. Default `true`.
-- **`randomHue`**: When `true`, hover states use colored backgrounds per item variant. Default `false`.
+- **`glassEffect`**: Enables glass-style hover on nav items. Default `false`.
+- **`randomHue`**: When `true`, nav items get different colored hues on hover. Default `false`.
 - **`width`**: Width of the sidebar. Default `"256px"`. Can be a number (e.g. `256`) or string.
 - **`className`**, **`itemClassName`**: Optional class names.
 
-**Sidebar primary colors** use the theme tokens. If you want a different accent, override `--nbs-primary` / `--nbs-primary-subtle` or set the sidebar-specific tokens in your app:
-`--nbs-sidebar-hover-text`, `--nbs-sidebar-hover-bg`, `--nbs-sidebar-active-text`, `--nbs-sidebar-active-bg`, `--nbs-sidebar-active-border`, `--nbs-sidebar-focus`.
+**Sidebar item colors** are assigned automatically by the library so consumers don’t pass color props.
 
 ```typescript
 import { Sidebar, SidebarHeader, type SidebarItem } from '@nbs/component-library';
@@ -957,21 +956,18 @@ const items: SidebarItem[] = [
     href: '/dashboard',
     icon: LayoutDashboard,
     onClick: (href) => console.log('Navigate:', href),
-    color: 'blue',
   },
   {
     name: 'Users',
     href: '/users',
     icon: Users,
     onClick: (href) => console.log('Navigate:', href),
-    color: 'purple',
   },
   {
     name: 'Settings',
     href: '/settings',
     icon: Settings,
     onClick: (href) => console.log('Navigate:', href),
-    color: 'slate',
   },
 ];
 
@@ -1008,7 +1004,6 @@ const config: SidebarConfig = {
           name: 'Dashboard',
           href: '/dashboard',
           icon: LayoutDashboard,
-          color: 'blue',
         },
         {
           type: 'group',
@@ -1016,8 +1011,8 @@ const config: SidebarConfig = {
           icon: BarChart3,
           defaultOpen: true,
           children: [
-            { type: 'link', name: 'Overview', href: '/analytics/overview', color: 'indigo' },
-            { type: 'link', name: 'Trends', href: '/analytics/trends', color: 'emerald' },
+            { type: 'link', name: 'Overview', href: '/analytics/overview' },
+            { type: 'link', name: 'Trends', href: '/analytics/trends' },
           ],
         },
         {
@@ -1025,7 +1020,6 @@ const config: SidebarConfig = {
           name: 'Settings',
           href: '/settings',
           icon: Settings,
-          color: 'slate',
         },
       ],
     },
@@ -1034,8 +1028,6 @@ const config: SidebarConfig = {
 
 <Sidebar config={config} activeHref="/analytics/overview" />;
 ```
-
-**Note:** Prefer the `color` variants for hover/active styles. Use `hoverColor`/`activeColor` only when you need custom class names.
 
 ## Complete Example: Form with Multiple Components
 

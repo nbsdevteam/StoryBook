@@ -33,3 +33,6 @@ storybook-static
 #build cache
 .rollup.cache/
 .cache
+
+# Local consumer test app (not part of published package)
+dummy-consumer-app
