@@ -23,6 +23,9 @@ const tagName = `v${currentVersion}`;
 console.log(`🔄 Updating 'latest' branch to point to ${tagName}...`);
 
 try {
+  // Remember current branch — always return to it (never change user's branch on our own)
+  const previousBranch = execSync('git branch --show-current', { encoding: 'utf8' }).trim();
+
   // Check if tag exists
   try {
     execSync(`git rev-parse ${tagName}`, { stdio: 'ignore' });
@@ -49,9 +52,9 @@ try {
   execSync('git push origin latest --force', { stdio: 'pipe' });
   console.log('   ✓ Pushed latest branch to GitHub');
 
-  // Switch back to master
-  execSync('git checkout master', { stdio: 'ignore' });
-  console.log('   ✓ Switched back to master branch');
+  // Return to the branch you were on (do not force master or any other branch)
+  execSync(`git checkout ${previousBranch}`, { stdio: 'ignore' });
+  console.log(`   ✓ Switched back to ${previousBranch}`);
 
   console.log(`\n✅ Latest branch updated successfully!`);
   console.log(`\n📦 Consumers can now install with:`);
