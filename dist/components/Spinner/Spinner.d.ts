@@ -4,21 +4,24 @@ import React from 'react';
  */
 export interface SpinnerProps {
     /**
-     * Brief description of the variant prop
+     * Spinner size
+     * @default 'md'
      */
-    variant?: 'primary' | 'secondary';
+    size?: 'sm' | 'md' | 'lg';
     /**
-     * Spinner children
+     * Spinner color variant
+     * @default 'primary'
      */
-    children?: React.ReactNode;
+    variant?: 'primary' | 'secondary' | 'muted';
+    /**
+     * Accessible label for screen readers
+     * @default 'Loading'
+     */
+    label?: string;
     /**
      * Additional CSS classes
      */
     className?: string;
-    /**
-     * Click handler
-     */
-    onClick?: () => void;
 }
 /**
  * Spinner Description

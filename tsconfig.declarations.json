@@ -1,0 +1,25 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "outDir": "./dist",
+    "rootDir": "./StoryBook/ConsumerComponents",
+    "noEmit": false,
+    "allowImportingTsExtensions": false,
+    "module": "ESNext",
+    "moduleResolution": "node"
+  },
+  "include": [
+    "StoryBook/ConsumerComponents/**/*",
+    "src/types/**/*.d.ts"
+  ],
+  "exclude": [
+    "**/*.stories.*",
+    "**/*.test.*",
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/_TEMPLATE/**"
+  ]
+}

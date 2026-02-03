@@ -7,6 +7,7 @@
   border-radius: var(--nbs-radius-xl);
   overflow: hidden;
   position: relative;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
 }
 
 .bordered {
@@ -14,6 +15,10 @@
 }
 
 .shadow {
+  box-shadow: none;
+}
+
+.shadow:hover {
   box-shadow: var(--nbs-shadow);
 }
 
@@ -77,6 +82,10 @@
 }
 
 .variant_elevated {
+  box-shadow: none;
+}
+
+.variant_elevated:hover {
   box-shadow: var(--nbs-shadow-lg);
 }
 

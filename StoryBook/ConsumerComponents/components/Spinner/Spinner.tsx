@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '../../utils/cn';
 import styles from './Spinner.module.css';
 
 /**
@@ -6,24 +7,27 @@ import styles from './Spinner.module.css';
  */
 export interface SpinnerProps {
   /**
-   * Brief description of the variant prop
+   * Spinner size
+   * @default 'md'
    */
-  variant?: 'primary' | 'secondary';
-  
+  size?: 'sm' | 'md' | 'lg';
+
   /**
-   * Spinner children
+   * Spinner color variant
+   * @default 'primary'
    */
-  children?: React.ReactNode;
-  
+  variant?: 'primary' | 'secondary' | 'muted';
+
+  /**
+   * Accessible label for screen readers
+   * @default 'Loading'
+   */
+  label?: string;
+
   /**
    * Additional CSS classes
    */
   className?: string;
-  
-  /**
-   * Click handler
-   */
-  onClick?: () => void;
 }
 
 /**
@@ -33,18 +37,24 @@ export interface SpinnerProps {
  * for creating reusable components in the library.
  */
 export const Spinner: React.FC<SpinnerProps> = ({
+  size = 'md',
   variant = 'primary',
-  children,
-  className = '',
-  onClick,
+  label = 'Loading',
+  className,
 }) => {
   return (
-    <div
-      className={`${styles.spinner} ${styles[variant]} ${className}`}
-      onClick={onClick}
+    <span
+      className={cn(
+        styles.spinner,
+        styles[`size_${size}`],
+        styles[`variant_${variant}`],
+        className
+      )}
+      role="status"
+      aria-label={label}
     >
-      {children}
-    </div>
+      <span className={styles.spinnerRing} />
+    </span>
   );
 };
 

@@ -33,9 +33,8 @@ module.exports = {
     }),
     typescript({
       tsconfig: './tsconfig.build.json',
-      declaration: true,
-      declarationDir: 'dist',
-      declarationMap: true,
+      declaration: false,
+      declarationMap: false,
       exclude: ['**/*.stories.*', '**/*.test.*', '**/node_modules/**', '**/_TEMPLATE/**'],
       rootDir: 'StoryBook/ConsumerComponents',
       allowImportingTsExtensions: false,

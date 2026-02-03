@@ -1,7 +1,7 @@
 {
   "name": "@nbs/component-library",
   "private": false,
-  "version": "1.1.9",
+  "version": "1.1.10",
   "description": "Production-ready React component library with TypeScript and Storybook",
   "keywords": [
     "react",
@@ -44,7 +44,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "rimraf dist && rollup -c && node -e \"require('fs').copyFileSync('StoryBook/ConsumerComponents/styles/tokens.css', 'dist/tokens.css')\" && tsc --project tsconfig.build.json --emitDeclarationOnly",
+    "build": "rimraf dist && rollup -c && node -e \"require('fs').copyFileSync('StoryBook/ConsumerComponents/styles/tokens.css', 'dist/tokens.css')\" && tsc --project tsconfig.declarations.json",
     "build:analyze": "npm run build && node scripts/analyze-bundle.js",
     "analyze": "node scripts/analyze-bundle.js",
     "lint": "eslint .",

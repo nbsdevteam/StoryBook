@@ -811,6 +811,8 @@ The library uses **Semantic Versioning (SemVer)** with Git tags. You have two in
    - Ensures predictable installs
    - Easy rollbacks if needed
 
+**Branch model (for maintainers):** We use **master** as the main release line. When a consumer installs with **#latest**, they get whatever the **latest** branch points to. The **latest** branch is kept in sync by **merging from master** after each release. So whenever you finish changes and push a release (version bump, tag, etc.), everything must be merged to **master** and then **latest** must be updated from master and pushed as well. That way both `#latest` and the new version tag resolve to the same code.
+
 This ensures:
 - ✅ **Predictable installs** - Same tag = same code
 - ✅ **Safe upgrades** - Test new versions before adopting
@@ -992,7 +994,8 @@ If you need to pin to a specific commit (not a tag):
 - ⚠️ **Never install from `master` branch** - Use `#latest` for newest version or `#vX.Y.Z` for specific versions
 - ⚠️ **Tag format must be `vX.Y.Z`** - The `v` prefix is required (e.g., `v1.1.0`, not `1.1.0`)
 - ⚠️ **Push tags explicitly** - Tags are not pushed with regular `git push`, use `npm run release:push`
-- ✅ **`latest` branch is auto-updated** - The release scripts automatically update `latest` branch to point to the new release
+- ✅ **Release from master and latest** - When you push a release (e.g. when asked to "push changes" or "commit and release"), merge your branch into **master**, push **master**, then update **latest** from master and push **latest**, then create and push the version tag. That way consumers using **#latest** get the same code as the new tag.
+- ✅ **`latest` is updated by merging from master** - So whenever we are finished with changes and push (version, tag, etc.), all of it must get pushed from master and latest; nothing should be left only on a feature branch.
 - ✅ **Use `#latest` for convenience** - Consumers using `#latest` will automatically get new releases when they run `npm install`
 
 ### Invalid Tags Behavior

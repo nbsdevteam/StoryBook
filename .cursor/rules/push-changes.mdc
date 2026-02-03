@@ -23,11 +23,23 @@ When the user says **"commit and release"** (or **"push changes"**, **"release"*
    - `git commit -m "chore(release): vX.Y.Z - <short description of changes>"`
    - `git push -u origin <current-branch>` (or `git push origin <current-branch>` if already tracking).
 
-5. **Git: tag and push tag**
+5. **Git: merge to master and push master**
+   - Checkout `master`, pull latest from `origin/master`.
+   - Merge `<current-branch>` into `master` (e.g. `git merge improvement-branch -m "Merge ..."`).
+   - Push: `git push origin master`.
+
+6. **Git: update latest from master and push latest**
+   - Checkout `latest`, pull latest from `origin/latest`.
+   - Merge `master` into `latest` (e.g. `git merge master -m "Merge master: vX.Y.Z for #latest consumers"`).
+   - Push: `git push origin latest`.
+   - Checkout back to `<current-branch>` (e.g. `improvement-branch`).
+
+7. **Git: tag and push tag**
    - Create tag from **package.json** version: `git tag vX.Y.Z -m "Release vX.Y.Z - <short description>"`
    - Push tag: `git push origin vX.Y.Z`
 
-After this, consumers install by **version tag**, e.g.:
-`npm install github:syednaqvi98nibras/StoryBook#v1.1.6`
+After this, consumers can install by **version tag** or **#latest**, e.g.:
+- `npm install github:syednaqvi98nibras/StoryBook#v1.1.6`
+- `npm install github:syednaqvi98nibras/StoryBook#latest`
 
-Do not skip any step. Do not ask "do you want me to push?" — just do it. The user said "commit and release" so they want the full workflow executed.
+Do not skip any step. Do not ask "do you want me to push?" — just do it. The user said "commit and release" so they want the full workflow executed. Master and latest must both be updated so that #latest resolves to the same code as the new tag.

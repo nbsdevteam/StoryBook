@@ -83,7 +83,7 @@ Either way you get the `@nbs/component-library` package and its dependencies.
 In your main entry file (usually `src/main.tsx` or `src/index.tsx`), import the library styles:
 
 ```typescript
-import '@nbs/component-library/dist/styles.css';
+import '@nbs/component-library/styles.css';
 ```
 
 **Important:** Import this file once before using any components. The library uses **framework-agnostic native CSS** (design tokens + scoped CSS modules). All generated class names are prefixed with `nbs__` (e.g. `nbs__Button-module__btn___...`) so they do not collide with Bootstrap, Tailwind, or other CSS. It does **not** depend on Bootstrap or Tailwind, so you can use it in Bootstrap apps, Tailwind apps, or apps with no CSS framework without losing styling.
@@ -1034,7 +1034,7 @@ const config: SidebarConfig = {
 ```typescript
 import { useState } from 'react';
 import { Button, Card, Input, Select, Checkbox, Textarea, Alert } from '@nbs/component-library';
-import '@nbs/component-library/dist/styles.css';
+import '@nbs/component-library/styles.css';
 
 function ContactForm() {
   const [formData, setFormData] = useState({
@@ -1203,7 +1203,7 @@ You can add custom CSS classes to components via the `className` prop:
 
 ## Best Practices
 
-1. **Always import styles first**: Make sure to import `@nbs/component-library/dist/styles.css` before using components.
+1. **Always import styles first**: Make sure to import `@nbs/component-library/styles.css` before using components.
 
 2. **Use TypeScript types**: Import component types for better type safety:
    ```typescript
@@ -1222,7 +1222,7 @@ You can add custom CSS classes to components via the `className` prop:
 
 Use this to confirm the library works in your app (Bootstrap, Tailwind, or no framework):
 
-1. **Styles:** In your main entry, you have `import '@nbs/component-library/dist/styles.css';` (or `import '@nbs/component-library/styles.css';`).
+1. **Styles:** In your main entry, you have `import '@nbs/component-library/styles.css';`.
 2. **Light mode:** Button, Card, Sidebar, Modal, Input, Alert render with correct colors and layout.
 3. **Dark mode (system):** With OS set to dark mode, components use dark tokens (or wrap with `data-nbs-theme="dark"` and confirm the same).
 4. **No framework:** In an app with no Bootstrap/Tailwind, all components still look correct.
@@ -1233,7 +1233,7 @@ Use this to confirm the library works in your app (Bootstrap, Tailwind, or no fr
 
 ### Components not styling correctly
 
-- Ensure you've imported the styles: `import '@nbs/component-library/dist/styles.css';`
+- Ensure you've imported the styles: `import '@nbs/component-library/styles.css';`
 - Check that the import is in your main entry file (before component imports)
 - The library is framework-agnostic; it does not bundle Bootstrap or Tailwind
 
@@ -1246,7 +1246,7 @@ Use this to confirm the library works in your app (Bootstrap, Tailwind, or no fr
 
 - Verify the package name: `@nbs/component-library`
 - Check that the library was installed correctly: `npm ls @nbs/component-library`
-- Ensure you're using the correct import path: `@nbs/component-library/dist/styles.css`
+- Ensure you're using the correct import path: `@nbs/component-library/styles.css`
 
 ## Need Help?
 
@@ -1324,7 +1324,7 @@ When you pass `config`, Card uses it for structure (header, content, footer) and
 Use this to implement the library correctly:
 
 1. **Install:** `npm install github:syednaqvi98nibras/StoryBook#latest` (or pin to a tag like `#v1.1.1`).
-2. **Styles:** In the app entry file (e.g. `main.tsx`), add: `import '@nbs/component-library/dist/styles.css';` (once, before any component imports).
+2. **Styles:** In the app entry file (e.g. `main.tsx`), add: `import '@nbs/component-library/styles.css';` (once, before any component imports).
 3. **Sidebar:** Use simple `items` for basic lists, or optional `config` for sections/accordion/nested items. If your app already has a sidebar header, don’t pass `title` or `sidebarHeader`.
 4. **Card:** Use either direct props (`title`, `children`, `footer`, …) or a `config` object, not both for the same structure.
 5. **Other components:** Use props as shown in this guide. For Dialog, Tabs, Accordion, etc., the `config` prop is **optional**—use normal props when you prefer; use `config` when you want the single-object API.

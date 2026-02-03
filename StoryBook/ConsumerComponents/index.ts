@@ -7,9 +7,6 @@
  * import { Button, Card, Input } from '@yourorg/component-library';
  */
 
-// Global styles shared by Storybook and consumers
-import './styles/global.css';
-
 // UI Components
 export { Button, type ButtonProps } from './components/Button';
 export { Card, type CardProps, type CardConfig } from './components/Card';

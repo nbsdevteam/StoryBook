@@ -50,7 +50,7 @@ export const Card: React.FC<CardProps> = ({
   imageAlt = "Card image",
   className,
   style,
-  shadow = true,
+  shadow = false,
   bordered = true,
   glassEffect = false,
   glassVariant = "shine",

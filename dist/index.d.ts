@@ -6,7 +6,6 @@
  *
  * import { Button, Card, Input } from '@yourorg/component-library';
  */
-import './styles/global.css';
 export { Button, type ButtonProps } from './components/Button';
 export { Card, type CardProps, type CardConfig } from './components/Card';
 export { Badge, type BadgeProps } from './components/Badge';

@@ -156,7 +156,7 @@ export const WithGlassShine: Story = {
     glassEffect: true,
     title: 'Glass Effect Card',
     subtitle: 'Shine variant (default)',
-    shadow: true,
+    shadow: false,
     children: 'This card has the glass shine effect enabled via Card props.',
   },
 };
@@ -167,7 +167,7 @@ export const WithGlassPerfume: Story = {
     glassVariant: 'perfume',
     title: 'Perfume Glass Card',
     subtitle: 'Hover for color effect',
-    shadow: true,
+    shadow: false,
     children: 'This card uses the perfume variant.',
   },
 };
@@ -179,7 +179,7 @@ export const WithGlassPerfumeRandomHue: Story = {
     glassRandomHue: true,
     title: 'Perfume Glass Card',
     subtitle: 'Random hue enabled',
-    shadow: true,
+    shadow: false,
     children: 'Hover to see random hue coloring (perfume only).',
   },
 };
@@ -201,7 +201,7 @@ export const ThreeCardsWithGlassPerfumeRandomHue: Story = {
           glassRandomHue
           title={card.title}
           subtitle={card.subtitle}
-          shadow
+          shadow={false}
         >
           {card.children}
         </Card>
