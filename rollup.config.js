@@ -43,7 +43,7 @@ module.exports = {
     postcss({
       autoModules: true,
       modules: {
-        generateScopedName: '[name]__[local]___[hash:base64:5]',
+        generateScopedName: 'nbs__[name]__[local]___[hash:base64:5]',
       },
       extract: 'styles.css',
       minimize: true,

@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@nbs/component-library": "file:..",
+    "@nbs/component-library": "github:syednaqvi98nibras/StoryBook#latest",
     "lucide-react": "^0.563.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

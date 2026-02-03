@@ -1,29 +1,29 @@
 # Dummy Consumer App – Sidebar Test
 
-Minimal app that consumes `@nbs/component-library` to verify the **Sidebar** works as expected (or reproduces the same issue).
+Minimal app that consumes `@nbs/component-library` like a normal consumer to verify the **Sidebar** works as expected.
 
 ## Setup
 
-1. **Build the library** (from repo root):
-   ```bash
-   npm run build
-   ```
-
-2. **Install and run** (from this folder):
+1. **Install and run** (from this folder):
    ```bash
    npm install
    npm run dev
    ```
 
-3. Open **http://localhost:5174/** in the browser.
+2. Open **http://localhost:5174/** (or the port Vite prints) in the browser.
 
 ## What it does
 
 - Renders **Sidebar** with a simple `items` list (Dashboard, Users, Settings).
 - Toggle “Use config” to switch to the **config** API (sections + nested Analytics group).
 - Clicking sidebar items updates the “Current route” in the main area.
-- Uses `SidebarHeader`, `activeHref`, and `glassEffect` as in the consumption guide.
+- Uses `SidebarHeader`, `activeHref`, etc. as in the consumption guide.
 
 ## Dependency
 
-The app depends on the local library via `"@nbs/component-library": "file:.."`. After changing the library, run `npm run build` in the repo root, then refresh the consumer app (or restart `npm run dev` if needed).
+The app installs the library from GitHub like a normal consumer:
+
+- **Latest:** `"@nbs/component-library": "github:syednaqvi98nibras/StoryBook#latest"`  
+  Run `npm install` (or `npm update @nbs/component-library`) to get the newest release.
+
+- **Pin to a version:** Change to e.g. `"github:syednaqvi98nibras/StoryBook#v1.1.8"` for a specific tag, then `npm install`.

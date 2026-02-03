@@ -86,7 +86,7 @@ In your main entry file (usually `src/main.tsx` or `src/index.tsx`), import the 
 import '@nbs/component-library/dist/styles.css';
 ```
 
-**Important:** Import this file once before using any components. The library uses **framework-agnostic native CSS** (design tokens + scoped CSS modules). It does **not** depend on Bootstrap or Tailwind, so you can use it in Bootstrap apps, Tailwind apps, or apps with no CSS framework without losing styling.
+**Important:** Import this file once before using any components. The library uses **framework-agnostic native CSS** (design tokens + scoped CSS modules). All generated class names are prefixed with `nbs__` (e.g. `nbs__Button-module__btn___...`) so they do not collide with Bootstrap, Tailwind, or other CSS. It does **not** depend on Bootstrap or Tailwind, so you can use it in Bootstrap apps, Tailwind apps, or apps with no CSS framework without losing styling.
 
 **Theming contract:** This single import is the only required setup. If you want to customize the look, override the CSS variables (for example `--nbs-primary` / `--nbs-primary-subtle`) in your app. You do **not** need to add per-component CSS to make the library look correct.
 

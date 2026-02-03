@@ -7,6 +7,8 @@ import {
 } from '@nbs/component-library';
 import { LayoutDashboard, Users, Settings, BarChart3 } from 'lucide-react';
 
+const asIcon = (icon: unknown) => icon as SidebarItem['icon'];
+
 // Config API (sections + nested)
 const config: SidebarConfig = {
   sections: [
@@ -20,25 +22,23 @@ const config: SidebarConfig = {
           type: 'link',
           name: 'Dashboard',
           href: '/dashboard',
-          icon: LayoutDashboard,
-          color: 'blue',
+          icon: asIcon(LayoutDashboard),
         },
         {
           type: 'group',
           name: 'Analytics',
-          icon: BarChart3,
+          icon: asIcon(BarChart3),
           defaultOpen: true,
           children: [
-            { type: 'link', name: 'Overview', href: '/analytics/overview', color: 'indigo' },
-            { type: 'link', name: 'Trends', href: '/analytics/trends', color: 'emerald' },
+            { type: 'link', name: 'Overview', href: '/analytics/overview' },
+            { type: 'link', name: 'Trends', href: '/analytics/trends' },
           ],
         },
         {
           type: 'link',
           name: 'Settings',
           href: '/settings',
-          icon: Settings,
-          color: 'slate',
+          icon: asIcon(Settings),
         },
       ],
     },
@@ -54,19 +54,19 @@ function App() {
       {
         name: 'Dashboard',
         href: '/dashboard',
-        icon: LayoutDashboard,
+        icon: asIcon(LayoutDashboard),
         onClick: (href) => setActive(href),
        },
       {
         name: 'Users',
         href: '/users',
-        icon: Users,
+        icon: asIcon(Users),
         onClick: (href) => setActive(href),
        },
       {
         name: 'Settings',
         href: '/settings',
-        icon: Settings,
+        icon: asIcon(Settings),
         onClick: (href) => setActive(href),
        },
     ],
@@ -80,8 +80,8 @@ function App() {
         config={useConfig ? config : undefined}
         activeHref={activeHref}
         sidebarHeader={<SidebarHeader title="Dummy Consumer" />}
-        glassEffect
         width={256}
+        
       />
       <main
         style={{
