@@ -48,6 +48,7 @@ module.exports = {
       minimize: true,
       inject: false,
       plugins: [
+        require('postcss-import')(),
         require('postcss-nested')(),
         require('autoprefixer')(),
       ],

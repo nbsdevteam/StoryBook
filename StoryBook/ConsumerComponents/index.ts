@@ -7,6 +7,9 @@
  * import { Button, Card, Input } from '@yourorg/component-library';
  */
 
+// Global styles (tokens + base) - included in build, stripped from .d.ts by post-build script
+import './styles/global.css';
+
 // UI Components
 export { Button, type ButtonProps } from './components/Button';
 export { Card, type CardProps, type CardConfig } from './components/Card';

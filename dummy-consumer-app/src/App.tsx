@@ -103,7 +103,7 @@ function CardsView() {
             subtitle={card.subtitle}
             footer={card.footer}
             glassEffect
-            glassVariant="perfume+"
+            glassVariant="perfume"
             glassRandomHue
           >
             <p style={{ margin: 0 }}>{card.body}</p>
@@ -117,7 +117,7 @@ function CardsView() {
       <div style={cardGridStyle}>
         <NbsCard
           title="Simple"
-          subtitle="Basic card with title and footer"
+          subtitle="title, subtitle, children, footer"
           footer="Footer text"
         >
           <p style={{ margin: 0 }}>Uses title, subtitle, children, footer.</p>
@@ -128,21 +128,21 @@ function CardsView() {
           shadow={false}
           bordered
           title="No shadow"
-          subtitle="Flat at rest with border"
+          subtitle="shadow=false bordered=true"
         >
           <p style={{ margin: 0 }}>Test shadow and bordered props.</p>
         </NbsCard>
 
         <NbsCard
           title="Outlined style"
-          subtitle="Content with default layout"
+          subtitle="title + subtitle + children"
         >
           <p style={{ margin: 0 }}>Border only. Variant/size only available via config.</p>
         </NbsCard>
 
         <NbsCard
           title="With footer buttons"
-          subtitle="Footer content with actions"
+          subtitle="footer as ReactNode"
           footer={
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               <NbsButton variant="primary" size="sm" onClick={() => alert('Saved')}>Save</NbsButton>
@@ -155,7 +155,7 @@ function CardsView() {
 
         <NbsCard
           title="Custom header"
-          subtitle="Custom header content"
+          subtitle="header as ReactNode"
           header={
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <Star size={18} style={{ color: 'var(--nbs-primary)' }} />
@@ -168,7 +168,7 @@ function CardsView() {
 
         <NbsCard
           title="Error message"
-          subtitle="Inline retry action"
+          subtitle="content + button in children"
         >
           <p style={{ margin: 0 }}>Something went wrong.</p>
           <NbsButton variant="secondary" size="sm" style={{ marginTop: 8 }} onClick={() => alert('Retry')}>
@@ -178,7 +178,7 @@ function CardsView() {
 
         <NbsCard
           title="Clickable content"
-          subtitle="Action within content"
+          subtitle="button inside children"
         >
           <p style={{ margin: 0 }}>Use a button inside for actions.</p>
           <NbsButton variant="primary" size="sm" style={{ marginTop: 8 }} onClick={() => alert('Card action!')}>
@@ -188,7 +188,7 @@ function CardsView() {
 
         <NbsCard
           title="With image"
-          subtitle="Image header example"
+          subtitle="imageSrc + imageAlt"
           imageSrc="https://picsum.photos/400/200"
           imageAlt="Card image"
         >
@@ -199,7 +199,7 @@ function CardsView() {
           bordered={false}
           shadow
           title="No border"
-          subtitle="Shadow without border"
+          subtitle="bordered=false"
         >
           <p style={{ margin: 0 }}>Shadow only, no border.</p>
         </NbsCard>
