@@ -189,6 +189,8 @@ function MyComponent() {
 
 ### Card Component
 
+Cards show a **hover lift and shadow** by default (`hoverEffect={true}`, `shadow={true}`). Set `hoverEffect={false}` to disable lift and shadow on hover; set `shadow={false}` to hide the hover shadow only (e.g. when using glass and you want only the glass glow).
+
 ```typescript
 import { Card } from '@nbs/component-library';
 

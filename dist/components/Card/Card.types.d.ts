@@ -39,6 +39,7 @@ export interface CardConfig {
     variant?: "default" | "outlined" | "elevated" | "filled" | "ghost";
     size?: "sm" | "md" | "lg";
     interactive?: boolean;
+    hoverEffect?: boolean;
     onClick?: () => void;
     loading?: boolean;
     error?: {
@@ -59,5 +60,6 @@ export interface CardProps extends ComponentWrapperProps<CardConfig> {
     imageAlt?: string;
     shadow?: boolean;
     bordered?: boolean;
+    hoverEffect?: boolean;
 }
 //# sourceMappingURL=Card.types.d.ts.map

@@ -119,6 +119,7 @@ function CardsView() {
           title="Simple"
           subtitle="title, subtitle, children, footer"
           footer="Footer text"
+          glassEffect
         >
           <p style={{ margin: 0 }}>Uses title, subtitle, children, footer.</p>
           <NbsButton variant="primary" size="sm" style={{ marginTop: 8 }}>Read More</NbsButton>

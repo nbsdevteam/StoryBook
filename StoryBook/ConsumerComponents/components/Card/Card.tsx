@@ -15,6 +15,7 @@ const buildLegacyConfig = (props: CardProps): CardConfig | undefined => {
     header,
     shadow,
     bordered,
+    hoverEffect,
   } = props;
 
   if (!title && !subtitle && !children && !footer && !header) {
@@ -34,6 +35,7 @@ const buildLegacyConfig = (props: CardProps): CardConfig | undefined => {
     variant: bordered === false ? "ghost" : "default",
     size: "md",
     interactive: false,
+    hoverEffect,
     loading: false,
     error: undefined,
   };
@@ -50,8 +52,9 @@ export const Card: React.FC<CardProps> = ({
   imageAlt = "Card image",
   className,
   style,
-  shadow = false,
+  shadow = true,
   bordered = true,
+  hoverEffect = true,
   glassEffect = false,
   glassVariant = "shine",
   glassRandomHue = false,
@@ -64,7 +67,9 @@ export const Card: React.FC<CardProps> = ({
     header,
     shadow,
     bordered,
+    hoverEffect,
   });
+  const effectiveHoverEffect = resolvedConfig?.hoverEffect ?? hoverEffect ?? true;
 
   const [collapsed, setCollapsed] = React.useState(
     resolvedConfig?.collapsible ? !!resolvedConfig?.defaultCollapsed : false
@@ -104,6 +109,7 @@ export const Card: React.FC<CardProps> = ({
         styles[`size_${resolvedConfig?.size ?? "md"}`],
         shadow ? styles.shadow : styles.noShadow,
         bordered ? styles.bordered : styles.noBorder,
+        effectiveHoverEffect ? styles.hoverEffect : "",
         resolvedConfig?.interactive ? styles.interactive : "",
         className
       )}

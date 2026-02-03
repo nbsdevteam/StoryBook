@@ -40,18 +40,21 @@
 }
 
 .glassShine:hover {
+  transform: translateY(-1px);
   background: rgba(255, 255, 255, 0.15);
   box-shadow:
-    0 8px 32px 0 rgba(0, 0, 0, 0.1),
+    var(--nbs-shadow-lg),
     inset 0 0 0 1px rgba(255, 255, 255, 0.3),
     inset 0 1px 0 0 rgba(255, 255, 255, 0.4),
     0 0 20px rgba(255, 255, 255, 0.2);
 }
 
-[data-nbs-theme="dark"] .glassShine:hover {
+[data-nbs-theme="dark"] .glassShine:hover,
+[data-theme="dark"] .glassShine:hover {
+  transform: translateY(-1px);
   background: rgba(255, 255, 255, 0.08);
   box-shadow:
-    0 8px 32px 0 rgba(0, 0, 0, 0.5),
+    var(--nbs-shadow-lg),
     inset 0 0 0 1px rgba(255, 255, 255, 0.2),
     inset 0 1px 0 0 rgba(255, 255, 255, 0.15),
     0 0 20px rgba(255, 255, 255, 0.1);
@@ -59,9 +62,10 @@
 
 @media (prefers-color-scheme: dark) {
   .glassShine:hover {
+    transform: translateY(-1px);
     background: rgba(255, 255, 255, 0.08);
     box-shadow:
-      0 8px 32px 0 rgba(0, 0, 0, 0.5),
+      var(--nbs-shadow-lg),
       inset 0 0 0 1px rgba(255, 255, 255, 0.2),
       inset 0 1px 0 0 rgba(255, 255, 255, 0.15),
       0 0 20px rgba(255, 255, 255, 0.1);
@@ -118,11 +122,11 @@
 }
 
 .perfumeGlass:hover {
-  transform: scale3d(1.02, 1.02, 1);
+  transform: translateY(-1px) scale3d(1.02, 1.02, 1);
   background: rgba(255, 255, 255, 0.04);
   border-color: rgba(0, 0, 0, 0.08);
   box-shadow:
-    0 2px 8px 0 rgba(0, 0, 0, 0.05),
+    var(--nbs-shadow-lg),
     inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
@@ -134,17 +138,20 @@
   background: hsla(var(--random-hue, 0), 55%, 92%, 0.12);
   border-color: hsla(var(--random-hue, 0), 50%, 70%, 0.35);
   box-shadow:
+    var(--nbs-shadow-lg),
     0 4px 16px 0 hsla(var(--random-hue, 0), 50%, 50%, 0.15),
     inset 0 0 0 1px hsla(var(--random-hue, 0), 40%, 95%, 0.4),
     inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
 }
 
-[data-nbs-theme="dark"] .perfumeGlass {
+[data-nbs-theme="dark"] .perfumeGlass,
+[data-theme="dark"] .perfumeGlass {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-[data-nbs-theme="dark"] .perfumeGlass::before {
+[data-nbs-theme="dark"] .perfumeGlass::before,
+[data-theme="dark"] .perfumeGlass::before {
   background: linear-gradient(
     90deg,
     transparent 0%,
@@ -155,18 +162,21 @@
   );
 }
 
-[data-nbs-theme="dark"] .perfumeGlass:hover {
+[data-nbs-theme="dark"] .perfumeGlass:hover,
+[data-theme="dark"] .perfumeGlass:hover {
   background: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.08);
   box-shadow:
-    0 2px 8px 0 rgba(0, 0, 0, 0.3),
+    var(--nbs-shadow-lg),
     inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
-[data-nbs-theme="dark"] .perfumeGlass[data-random-hue="true"]:hover {
+[data-nbs-theme="dark"] .perfumeGlass[data-random-hue="true"]:hover,
+[data-theme="dark"] .perfumeGlass[data-random-hue="true"]:hover {
   background: hsla(var(--random-hue, 0), 50%, 35%, 0.2);
   border-color: hsla(var(--random-hue, 0), 45%, 55%, 0.4);
   box-shadow:
+    var(--nbs-shadow-lg),
     0 4px 16px 0 hsla(var(--random-hue, 0), 50%, 20%, 0.4),
     inset 0 0 0 1px hsla(var(--random-hue, 0), 40%, 60%, 0.25),
     inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
@@ -193,7 +203,7 @@
     background: rgba(255, 255, 255, 0.05);
     border-color: rgba(255, 255, 255, 0.08);
     box-shadow:
-      0 2px 8px 0 rgba(0, 0, 0, 0.3),
+      var(--nbs-shadow-lg),
       inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   }
 
@@ -201,6 +211,7 @@
     background: hsla(var(--random-hue, 0), 50%, 35%, 0.2);
     border-color: hsla(var(--random-hue, 0), 45%, 55%, 0.4);
     box-shadow:
+      var(--nbs-shadow-lg),
       0 4px 16px 0 hsla(var(--random-hue, 0), 50%, 20%, 0.4),
       inset 0 0 0 1px hsla(var(--random-hue, 0), 40%, 60%, 0.25),
       inset 0 1px 0 0 rgba(255, 255, 255, 0.08);

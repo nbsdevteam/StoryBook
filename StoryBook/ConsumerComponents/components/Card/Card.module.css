@@ -18,7 +18,7 @@
   box-shadow: none;
 }
 
-.shadow:hover {
+.hoverEffect.shadow:hover {
   box-shadow: var(--nbs-shadow);
 }
 
@@ -85,7 +85,7 @@
   box-shadow: none;
 }
 
-.variant_elevated:hover {
+.hoverEffect.variant_elevated:hover {
   box-shadow: var(--nbs-shadow-lg);
 }
 
@@ -130,9 +130,13 @@
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.interactive:hover {
+.hoverEffect:hover {
   transform: translateY(-1px);
-  box-shadow: var(--nbs-shadow-lg);
+  box-shadow: var(--nbs-shadow);
+}
+
+.hoverEffect.noShadow:hover {
+  box-shadow: none !important;
 }
 
 .badge {
