@@ -1,4 +1,8 @@
-/* Plain native CSS – no nesting, no :global. Glass shine + perfume + hue-glass. */
+/* Plain native CSS – no nesting, no :global.
+   Baseline behavior = CSS1 (unchanged).
+   Fix: in DARK mode, perfumeGlass shine sweep uses CSS2-style positions (100% -> 0%)
+   so the “flash” doesn’t get stuck/parked in the center.
+*/
 
 .glassShine {
   position: relative;
@@ -26,6 +30,7 @@
   );
   background-size: 200% 100%;
   background-position: 100% 0;
+  background-repeat: no-repeat;
   transition: background-position 0.5s ease, opacity 0.15s ease;
   pointer-events: none;
   z-index: 1;
@@ -108,6 +113,7 @@
   );
   background-size: 200% 100%;
   background-position: 150% 0;
+  background-repeat: no-repeat;
   transition: background-position 0.6s ease, opacity 0.2s ease;
   pointer-events: none;
   z-index: 1;
@@ -144,12 +150,14 @@
     inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
 }
 
+/* ---------- DARK MODE (keep CSS1 behavior) ---------- */
 [data-nbs-theme="dark"] .perfumeGlass,
 [data-theme="dark"] .perfumeGlass {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* Dark gradient (CSS1) + FIX the sweep positions (CSS2-style) */
 [data-nbs-theme="dark"] .perfumeGlass::before,
 [data-theme="dark"] .perfumeGlass::before {
   background: linear-gradient(
@@ -160,6 +168,14 @@
     rgba(255, 255, 255, 0.25) 80%,
     transparent 100%
   );
+  background-size: 200% 100%;
+  background-position: 100% 0; /* FIX: start off-right (no center parking) */
+  background-repeat: no-repeat;
+}
+
+[data-nbs-theme="dark"] .perfumeGlass:hover::before,
+[data-theme="dark"] .perfumeGlass:hover::before {
+  background-position: 0% 0; /* FIX: sweep across like CSS2 */
 }
 
 [data-nbs-theme="dark"] .perfumeGlass:hover,
@@ -188,6 +204,7 @@
     border: 1px solid rgba(255, 255, 255, 0.05);
   }
 
+  /* Dark gradient (CSS1) + FIX sweep positions (CSS2-style) */
   .perfumeGlass::before {
     background: linear-gradient(
       90deg,
@@ -197,6 +214,13 @@
       rgba(255, 255, 255, 0.25) 80%,
       transparent 100%
     );
+    background-size: 200% 100%;
+    background-position: 100% 0; /* FIX */
+    background-repeat: no-repeat;
+  }
+
+  .perfumeGlass:hover::before {
+    background-position: 0% 0; /* FIX */
   }
 
   .perfumeGlass:hover {

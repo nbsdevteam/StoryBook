@@ -241,6 +241,7 @@ export const RandomHueHover: Story = {
   args: {
     items: sampleItems,
     activeHref: '/dashboard',
+    glassEffect: true,
     randomHue: true,
   },
 };
