@@ -1,9 +1,12 @@
 /* Plain native CSS – no nesting, no :global.
-   Baseline behavior = CSS1 (unchanged).
-   Fix: in DARK mode, perfumeGlass shine sweep uses CSS2-style positions (100% -> 0%)
-   so the “flash” doesn’t get stuck/parked in the center.
+   Goal: keep CSS1 behavior (light mode is perfect),
+   and make DARK mode shine sweep behave the SAME (full sweep, not parked/glare),
+   while staying readable (slightly dimmer/narrower in dark only).
 */
 
+/* =========================
+   GLASS SHINE (CSS1)
+========================= */
 .glassShine {
   position: relative;
   transition: all 0.3s ease;
@@ -77,6 +80,9 @@
   }
 }
 
+/* =========================
+   PERFUME GLASS (CSS1 baseline)
+========================= */
 .perfumeGlass {
   position: relative;
   overflow: hidden;
@@ -95,6 +101,7 @@
     box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* LIGHT MODE shine = your original CSS1 (works great) */
 .perfumeGlass::before {
   content: "";
   position: absolute;
@@ -150,32 +157,39 @@
     inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
 }
 
-/* ---------- DARK MODE (keep CSS1 behavior) ---------- */
+/* =========================
+   DARK MODE: make it behave like LIGHT MODE
+   - Same sweep travel (-50% <-> 150% style), no parking.
+   - Slightly dimmer/narrower highlight to keep text readable.
+========================= */
 [data-nbs-theme="dark"] .perfumeGlass,
 [data-theme="dark"] .perfumeGlass {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Dark gradient (CSS1) + FIX the sweep positions (CSS2-style) */
+/* Override ONLY the gradient brightness/shape in dark mode.
+   Keep the SAME background-size/positions/transitions as LIGHT MODE. */
 [data-nbs-theme="dark"] .perfumeGlass::before,
 [data-theme="dark"] .perfumeGlass::before {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.25) 20%,
-    rgba(255, 255, 255, 0.95) 50%,
-    rgba(255, 255, 255, 0.25) 80%,
+    rgba(255, 255, 255, 0.10) 22%,
+    rgba(255, 255, 255, 0.38) 50%,
+    rgba(255, 255, 255, 0.10) 78%,
     transparent 100%
   );
   background-size: 200% 100%;
-  background-position: 100% 0; /* FIX: start off-right (no center parking) */
+  background-position: 150% 0;
   background-repeat: no-repeat;
+  transition: background-position 0.6s ease, opacity 0.2s ease;
 }
 
 [data-nbs-theme="dark"] .perfumeGlass:hover::before,
 [data-theme="dark"] .perfumeGlass:hover::before {
-  background-position: 0% 0; /* FIX: sweep across like CSS2 */
+  opacity: 1;
+  background-position: -50% 0;
 }
 
 [data-nbs-theme="dark"] .perfumeGlass:hover,
@@ -198,29 +212,31 @@
     inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
 }
 
+/* If you rely on OS dark mode without data-theme attrs */
 @media (prefers-color-scheme: dark) {
   .perfumeGlass {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.05);
   }
 
-  /* Dark gradient (CSS1) + FIX sweep positions (CSS2-style) */
   .perfumeGlass::before {
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(255, 255, 255, 0.25) 20%,
-      rgba(255, 255, 255, 0.95) 50%,
-      rgba(255, 255, 255, 0.25) 80%,
+      rgba(255, 255, 255, 0.10) 22%,
+      rgba(255, 255, 255, 0.38) 50%,
+      rgba(255, 255, 255, 0.10) 78%,
       transparent 100%
     );
     background-size: 200% 100%;
-    background-position: 100% 0; /* FIX */
+    background-position: 150% 0;
     background-repeat: no-repeat;
+    transition: background-position 0.6s ease, opacity 0.2s ease;
   }
 
   .perfumeGlass:hover::before {
-    background-position: 0% 0; /* FIX */
+    opacity: 1;
+    background-position: -50% 0;
   }
 
   .perfumeGlass:hover {
@@ -242,6 +258,9 @@
   }
 }
 
+/* =========================
+   REDUCED MOTION
+========================= */
 @media (prefers-reduced-motion: reduce) {
   .glassShine,
   .perfumeGlass,
