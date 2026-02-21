@@ -1,7 +1,7 @@
 {
   "name": "@nbs/component-library",
   "private": false,
-  "version": "1.1.13",
+  "version": "1.1.14",
   "description": "Production-ready React component library with TypeScript and Storybook",
   "keywords": [
     "react",
@@ -24,12 +24,23 @@
       "import": "./dist/index.esm.js",
       "require": "./dist/index.js"
     },
+    "./Sidebar": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/sidebar.js",
+      "require": "./dist/sidebar.js"
+    },
+    "./Card": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/card.js",
+      "require": "./dist/card.js"
+    },
     "./styles.css": "./dist/styles.css",
     "./dist/styles.css": "./dist/styles.css",
     "./tokens.css": "./dist/tokens.css"
   },
   "sideEffects": [
-    "dist/styles.css"
+    "dist/styles.css",
+    "dist/tokens.css"
   ],
   "files": [
     "dist",
@@ -70,13 +81,11 @@
     "release:update-latest": "node scripts/update-latest-branch.js"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.6.1",
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@fontsource/inter": "^5.2.8",
     "@hello-pangea/dnd": "^18.0.1",
     "@jridgewell/sourcemap-codec": "^1.5.5",
     "@radix-ui/react-slot": "^1.2.4",
-    "antd": "^5.26.7",
     "clsx": "^2.1.1",
     "lucide-react": "^0.563.0",
     "react-apexcharts": "^1.8.0",

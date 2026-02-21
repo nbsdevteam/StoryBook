@@ -118,7 +118,7 @@ export interface DataTableProps<T extends Record<string, any> = Record<string, a
  * DataTable Component
  *
  * A powerful, feature-rich data table component with search, selection,
- * pagination, and loading states. Built on top of Ant Design Table.
+ * pagination, and loading states. Uses a native table implementation.
  */
 export declare function DataTable<T extends Record<string, any> = Record<string, any>>({ config, columns, dataSource, selection, onSelectionChange, loading, skeletonRows, searchable, searchPlaceholder, onSearchChange, pagination, rowKey, className, style, size, virtual, scroll, onRowClick, emptyText, }: DataTableProps<T>): import("react/jsx-runtime").JSX.Element;
 declare const _default: typeof DataTable;

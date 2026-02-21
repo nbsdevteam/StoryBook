@@ -35,4 +35,4 @@ storybook-static
 .cache
 
 # Local consumer test app (not part of published package)
-dummy-consumer-app
+TestApp
