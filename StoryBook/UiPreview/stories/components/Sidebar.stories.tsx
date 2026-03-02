@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { StoryContext } from '@storybook/react';
 import {
   Sidebar,
   SidebarHeader,
@@ -32,11 +33,14 @@ const meta: Meta<typeof Sidebar> = {
     randomHue: false,
   },
   decorators: [
-    (Story) => (
-      <div style={{ height: '100vh', display: 'flex' }}>
-        <Story />
-      </div>
-    ),
+    (Story, context: StoryContext) => {
+      const isRtl = context.globals?.nbsDirection === 'rtl';
+      return (
+        <div style={{ height: '100vh', display: 'flex' }}>
+          <Story args={{ ...context.args, isRtl }} />
+        </div>
+      );
+    },
   ],
   argTypes: {
     title: {

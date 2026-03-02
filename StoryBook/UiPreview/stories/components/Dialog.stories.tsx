@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import type { StoryContext } from "@storybook/react";
 import { useState } from "react";
 import { Dialog, type DialogProps } from "@consumer/components/Dialog";
 import { AlertTriangle, CheckCircle } from "lucide-react";
@@ -13,15 +14,17 @@ const meta: Meta<DialogProps> = {
 export default meta;
 type Story = StoryObj<DialogProps>;
 
-const DialogExample = (args: DialogProps) => {
+const DialogExample = (args: DialogProps & { isRtl?: boolean }) => {
+  const { isRtl, ...dialogArgs } = args;
   const [open, setOpen] = useState(true);
   return (
     <>
       <Button onClick={() => setOpen(true)}>Open Dialog</Button>
       <Dialog
-        {...args}
+        {...dialogArgs}
+        isRtl={isRtl}
         config={{
-          ...args.config,
+          ...dialogArgs.config,
           open,
           onOpenChange: setOpen,
         }}
@@ -31,7 +34,12 @@ const DialogExample = (args: DialogProps) => {
 };
 
 export const Confirmation: Story = {
-  render: (args) => <DialogExample {...args} />,
+  render: (args, context: StoryContext) => (
+    <DialogExample
+      {...args}
+      isRtl={context.globals?.nbsDirection === "rtl"}
+    />
+  ),
   args: {
     config: {
       title: "Delete item",
@@ -55,7 +63,12 @@ export const Confirmation: Story = {
 };
 
 export const Alert: Story = {
-  render: (args) => <DialogExample {...args} />,
+  render: (args, context: StoryContext) => (
+    <DialogExample
+      {...args}
+      isRtl={context.globals?.nbsDirection === "rtl"}
+    />
+  ),
   args: {
     config: {
       title: "Success",

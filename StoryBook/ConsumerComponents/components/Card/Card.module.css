@@ -317,3 +317,42 @@
   display: inline-flex;
   align-items: center;
 }
+
+/* RTL layout (ancestor has dir="rtl") */
+:global([dir="rtl"]) .headerActions {
+  margin-left: 0;
+  margin-right: auto;
+}
+:global([dir="rtl"]) .collapseButton {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+:global([dir="rtl"]) .footer_right .footerActions,
+:global([dir="rtl"]) .footer_space-between .footerActions {
+  margin-left: 0;
+  margin-right: auto;
+}
+:global([dir="rtl"]) .footerActionIcon {
+  margin-right: 0;
+  margin-left: 0.35rem;
+}
+:global([dir="rtl"]) .errorRetryIcon {
+  margin-right: 0;
+  margin-left: 0.35rem;
+}
+:global([dir="rtl"]) .badge_top-left {
+  left: auto;
+  right: 0.75rem;
+}
+:global([dir="rtl"]) .badge_top-right {
+  right: auto;
+  left: 0.75rem;
+}
+:global([dir="rtl"]) .badge_bottom-left {
+  left: auto;
+  right: 0.75rem;
+}
+:global([dir="rtl"]) .badge_bottom-right {
+  right: auto;
+  left: 0.75rem;
+}

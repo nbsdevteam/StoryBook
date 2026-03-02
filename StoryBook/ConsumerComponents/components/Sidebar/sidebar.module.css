@@ -615,6 +615,16 @@
   border-color: rgba(132, 204, 22, 0.3) !important;
 }
 
+/* RTL layout (ancestor has dir="rtl") */
+:global([dir="rtl"]) .sidebar {
+  border-right: none;
+  border-left: 1px solid var(--nbs-sidebar-border);
+}
+:global([dir="rtl"]) .groupItem {
+  padding-left: 0;
+  padding-right: 2.25rem;
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .sidebar,
