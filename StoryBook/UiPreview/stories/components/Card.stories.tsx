@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { StoryContext } from '@storybook/react';
 import { Card, type CardProps } from '@consumer/components/Card';
 import { Button } from '@consumer/components/Button';
 import { User } from 'lucide-react';
@@ -171,6 +172,9 @@ export const WithGlassShine: Story = {
     shadow: true,
     children: 'This card has the glass shine effect enabled via Card props.',
   },
+  render: (args, context: StoryContext) => (
+    <Card {...args} isRtl={context.globals?.nbsDirection === 'rtl'} />
+  ),
 };
 
 export const WithGlassPerfume: Story = {
@@ -182,6 +186,9 @@ export const WithGlassPerfume: Story = {
     shadow: true,
     children: 'This card uses the perfume variant.',
   },
+  render: (args, context: StoryContext) => (
+    <Card {...args} isRtl={context.globals?.nbsDirection === 'rtl'} />
+  ),
 };
 
 export const WithGlassPerfumeRandomHue: Story = {
@@ -194,6 +201,9 @@ export const WithGlassPerfumeRandomHue: Story = {
     shadow: true,
     children: 'Hover to see random hue coloring (perfume only).',
   },
+  render: (args, context: StoryContext) => (
+    <Card {...args} isRtl={context.globals?.nbsDirection === 'rtl'} />
+  ),
 };
 
 const threePerfumeCards = [
@@ -203,23 +213,27 @@ const threePerfumeCards = [
 ];
 
 export const ThreeCardsWithGlassPerfumeRandomHue: Story = {
-  render: () => (
-    <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-      {threePerfumeCards.map((card) => (
-        <Card
-          key={card.id}
-          glassEffect
-          glassVariant="perfume"
-          glassRandomHue
-          title={card.title}
-          subtitle={card.subtitle}
-          shadow
-        >
-          {card.children}
-        </Card>
-      ))}
-    </div>
-  ),
+  render: (_args, context: StoryContext) => {
+    const isRtl = context.globals?.nbsDirection === 'rtl';
+    return (
+      <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+        {threePerfumeCards.map((card) => (
+          <Card
+            key={card.id}
+            glassEffect
+            glassVariant="perfume"
+            glassRandomHue
+            isRtl={isRtl}
+            title={card.title}
+            subtitle={card.subtitle}
+            shadow
+          >
+            {card.children}
+          </Card>
+        ))}
+      </div>
+    );
+  },
   parameters: {
     docs: {
       description: {
@@ -231,44 +245,49 @@ export const ThreeCardsWithGlassPerfumeRandomHue: Story = {
 };
 
 export const CompleteWithGlass: Story = {
-  render: () => (
-    <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-      <Card
-        glassEffect
-        title="Featured Card"
-        subtitle="With glass effect"
-        imageSrc="https://via.placeholder.com/400x200"
-        footer={
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
-            <Button variant="primary" size="small">
-              Action
-            </Button>
-            <Button variant="outline-secondary" size="small">
-              Cancel
-            </Button>
-          </div>
-        }
-      >
-        A complete card with image, content, and footer using built-in glass effect.
-      </Card>
+  render: (_args, context: StoryContext) => {
+    const isRtl = context.globals?.nbsDirection === 'rtl';
+    return (
+      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+        <Card
+          glassEffect
+          isRtl={isRtl}
+          title="Featured Card"
+          subtitle="With glass effect"
+          imageSrc="https://via.placeholder.com/400x200"
+          footer={
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
+              <Button variant="primary" size="small">
+                Action
+              </Button>
+              <Button variant="outline-secondary" size="small">
+                Cancel
+              </Button>
+            </div>
+          }
+        >
+          A complete card with image, content, and footer using built-in glass effect.
+        </Card>
 
-      <Card
-        glassEffect
-        glassVariant="perfume"
-        glassRandomHue
-        title="Colorful Card"
-        subtitle="Random hue perfume"
-        imageSrc="https://via.placeholder.com/400x200"
-        footer={
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
-            <Button variant="success" size="small">
-              Confirm
-            </Button>
-          </div>
-        }
-      >
-        Hover to see random color glass effect.
-      </Card>
-    </div>
-  ),
+        <Card
+          glassEffect
+          glassVariant="perfume"
+          glassRandomHue
+          isRtl={isRtl}
+          title="Colorful Card"
+          subtitle="Random hue perfume"
+          imageSrc="https://via.placeholder.com/400x200"
+          footer={
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
+              <Button variant="success" size="small">
+                Confirm
+              </Button>
+            </div>
+          }
+        >
+          Hover to see random color glass effect.
+        </Card>
+      </div>
+    );
+  },
 };
