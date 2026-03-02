@@ -39,6 +39,7 @@ export interface SidebarProps {
     sidebarHeader?: React.ReactNode;
     glassEffect?: boolean;
     randomHue?: boolean;
+    isRtl?: boolean;
     width?: number | string;
     className?: string;
     itemClassName?: string;

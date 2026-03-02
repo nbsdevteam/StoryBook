@@ -34,6 +34,7 @@ export const ConfigComponent = React.forwardRef<
       glassEffect = false,
       glassVariant = "shine",
       glassRandomHue = false,
+      isRtl = false,
       className,
       style,
       ...rest
@@ -63,6 +64,7 @@ export const ConfigComponent = React.forwardRef<
           glassEffect
           variant={glassVariant}
           randomHue={glassVariant === "perfume" ? glassRandomHue : undefined}
+          isRtl={isRtl}
         >
           {content}
         </GlassEffectWrapper>

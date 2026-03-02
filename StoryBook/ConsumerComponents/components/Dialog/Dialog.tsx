@@ -12,6 +12,7 @@ export const Dialog: React.FC<DialogProps> = ({
   glassEffect = false,
   glassVariant = "shine",
   glassRandomHue = false,
+  isRtl = false,
   className,
   style,
 }) => {
@@ -181,6 +182,7 @@ export const Dialog: React.FC<DialogProps> = ({
       glassEffect
       variant={glassVariant}
       randomHue={glassVariant === "perfume" ? glassRandomHue : undefined}
+      isRtl={isRtl}
     >
       {dialogContent}
     </GlassEffectWrapper>

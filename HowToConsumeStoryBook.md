@@ -903,6 +903,7 @@ Use `GlassEffectWrapper` when you want a glass effect on **non-Card** elements (
 - **`randomHue`**: When `true` and `variant === 'perfume'`, the surface gets a colored tint on hover. Each wrapped element gets a **stable hue** per instance (based on mount order); the hue does not change on re-hover.
 - **`asChild`**: Default `true`. Composes with a single child (Radix Slot). Set `asChild={false}` to render a wrapper `div` around children.
 - **`glassEffect`**: Optional boolean; when `false`, no glass class is applied.
+- **`isRtl`**: Optional boolean; when `true`, flips the glass effect gradient sweep to left-to-right (opposite of LTR's right-to-left). Use for RTL layouts (e.g. Arabic).
 
 ```typescript
 import { GlassEffectWrapper } from '@nbs/component-library';
@@ -932,6 +933,75 @@ function MyComponent() {
 }
 ```
 
+**Using GlassEffectWrapper on your own sidebar (like TestApp)**  
+If you build a **custom sidebar** (your own `<aside>` + nav items) and want the same glass hover effect as the NBS Sidebar, wrap **each item** (e.g. each `<button>`) in its own `GlassEffectWrapper` with `asChild`. Use **`glassEffect={!isActive}`** so the active item does not get the glass class (matches NBS Sidebar behavior). Put the **`key`** on the wrapper, not the child.
+
+```typescript
+import { GlassEffectWrapper } from '@nbs/component-library';
+import { LayoutDashboard, Users, Settings } from 'lucide-react';
+
+const SIDEBAR_ITEMS = [
+  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+  { name: 'Users', href: '/users', icon: Users },
+  { name: 'Settings', href: '/settings', icon: Settings },
+];
+
+function CustomRightSidebar({
+  activeHref,
+  onItemClick,
+  isRtl,
+}: {
+  activeHref: string;
+  onItemClick: (href: string) => void;
+  isRtl?: boolean;
+}) {
+  return (
+    <aside style={{ width: 256, padding: 16, borderLeft: '1px solid var(--nbs-surface-border)' }}>
+      <h3 style={{ margin: 0, fontSize: '1rem' }}>My custom sidebar</h3>
+      <nav style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        {SIDEBAR_ITEMS.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeHref === item.href;
+          return (
+            <GlassEffectWrapper
+              key={item.href}
+              asChild
+              glassEffect={!isActive}
+              variant="perfume"
+              randomHue
+              isRtl={isRtl}
+            >
+              <button
+                type="button"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 12,
+                  padding: '8px 12px',
+                  borderRadius: 6,
+                  border: 'none',
+                  background: isActive ? 'var(--nbs-sidebar-active-bg)' : 'transparent',
+                  color: isActive ? 'var(--nbs-sidebar-active-text)' : 'var(--nbs-text)',
+                  cursor: 'pointer',
+                  width: '100%',
+                  textAlign: 'left',
+                }}
+                onClick={() => onItemClick(item.href)}
+              >
+                <Icon size={18} />
+                {item.name}
+              </button>
+            </GlassEffectWrapper>
+          );
+        })}
+      </nav>
+    </aside>
+  );
+}
+```
+
+This is the same pattern used in the repo’s **TestApp** (custom right “Glass test” sidebar): each nav item is a button wrapped in `GlassEffectWrapper` with `asChild`, `variant="perfume"`, `randomHue`, and `glassEffect={!isActive}` so only non-active items show the glass effect.
+
 ### Sidebar
 
 **Sidebar supports simple `items` or an optional `config` for sections/accordion/nested items.** If your app already has its own sidebar header, **don’t pass** `title` or `sidebarHeader` so we don’t override it.
@@ -943,6 +1013,7 @@ function MyComponent() {
 - **`activeHref`**: The `href` of the active item (e.g. current route).
 - **`glassEffect`**: Enables glass-style hover on nav items. Default `false`.
 - **`randomHue`**: When `true`, nav items get different colored hues on hover. Default `false`.
+- **`isRtl`**: When `true`, flips the glass effect sweep to left-to-right for RTL layouts. Default `false`.
 - **`width`**: Width of the sidebar. Default `"256px"`. Can be a number (e.g. `256`) or string.
 - **`className`**, **`itemClassName`**: Optional class names.
 

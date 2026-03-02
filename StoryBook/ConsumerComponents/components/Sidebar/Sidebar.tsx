@@ -67,6 +67,7 @@ export interface SidebarProps {
   sidebarHeader?: React.ReactNode;
   glassEffect?: boolean;
   randomHue?: boolean;
+  isRtl?: boolean;
   width?: number | string;
   className?: string;
   itemClassName?: string;
@@ -174,6 +175,7 @@ const SidebarItemComponent = React.memo<{
   isActive: boolean;
   glassEffect: boolean;
   randomHue: boolean;
+  isRtl?: boolean;
   itemClassName?: string;
 }>(
   ({
@@ -185,6 +187,7 @@ const SidebarItemComponent = React.memo<{
     isActive,
     glassEffect,
     randomHue,
+    isRtl,
     itemClassName,
   }) => {
     const { hoverClass, activeClass } = getColorClasses(color);
@@ -196,6 +199,7 @@ const SidebarItemComponent = React.memo<{
         glassEffect={glassEffect && !isActive}
         variant="perfume"
         randomHue={randomHue}
+        isRtl={isRtl}
       >
         <button
           type="button"
@@ -246,6 +250,7 @@ export const Sidebar = React.memo(function Sidebar({
   sidebarHeader,
   glassEffect = false,
   randomHue = false,
+  isRtl = false,
   width = "256px",
   className,
   itemClassName,
@@ -419,6 +424,7 @@ export const Sidebar = React.memo(function Sidebar({
                                 isActive={isActive}
                                 glassEffect={glassEffect}
                                 randomHue={randomHue}
+                                isRtl={isRtl}
                                 itemClassName={cn(
                                   styles.groupItem,
                                   itemClassName
@@ -443,6 +449,7 @@ export const Sidebar = React.memo(function Sidebar({
                       isActive={isActive}
                       glassEffect={glassEffect}
                       randomHue={randomHue}
+                      isRtl={isRtl}
                       itemClassName={itemClassName}
                     />
                   );

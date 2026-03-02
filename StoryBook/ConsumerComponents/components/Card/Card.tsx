@@ -58,6 +58,7 @@ export const Card: React.FC<CardProps> = ({
   glassEffect = false,
   glassVariant = "shine",
   glassRandomHue = false,
+  isRtl = false,
 }) => {
   const resolvedConfig = config ?? buildLegacyConfig({
     title,
@@ -292,6 +293,7 @@ export const Card: React.FC<CardProps> = ({
         glassEffect
         variant={glassVariant}
         randomHue={glassVariant === "perfume" ? glassRandomHue : undefined}
+        isRtl={isRtl}
       >
         {cardRoot}
       </GlassEffectWrapper>

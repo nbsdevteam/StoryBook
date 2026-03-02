@@ -25,6 +25,10 @@ export interface ComponentWrapperProps<TConfig = any> {
      */
     glassRandomHue?: boolean;
     /**
+     * RTL mode: flips glass effect gradient direction (right-to-left sweep).
+     */
+    isRtl?: boolean;
+    /**
      * Additional CSS class.
      */
     className?: string;

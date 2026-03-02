@@ -4,6 +4,7 @@ export interface GlassEffectWrapperProps extends React.HTMLAttributes<HTMLElemen
     glassEffect?: boolean;
     variant?: "shine" | "perfume";
     randomHue?: boolean;
+    isRtl?: boolean;
     className?: string;
 }
 export declare const GlassEffectWrapper: React.ForwardRefExoticComponent<GlassEffectWrapperProps & React.RefAttributes<HTMLElement>>;

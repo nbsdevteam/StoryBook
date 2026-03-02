@@ -8,6 +8,7 @@ export interface GlassEffectWrapperProps extends React.HTMLAttributes<HTMLElemen
   glassEffect?: boolean;
   variant?: "shine" | "perfume";
   randomHue?: boolean;
+  isRtl?: boolean;
   className?: string;
 }
 
@@ -44,6 +45,7 @@ export const GlassEffectWrapper = React.forwardRef<HTMLElement, GlassEffectWrapp
       glassEffect = true,
       variant = "shine",
       randomHue = false,
+      isRtl = false,
       className,
       onMouseEnter,
       onMouseLeave,
@@ -128,6 +130,7 @@ export const GlassEffectWrapper = React.forwardRef<HTMLElement, GlassEffectWrapp
       onMouseEnter: handleMouseEnter,
       onMouseLeave: handleMouseLeave,
       "data-random-hue": dataRandomHue,
+      "data-rtl": isRtl ? "true" : undefined,
       ...props,
     };
 
