@@ -17,6 +17,7 @@
   isolation: isolate;
 }
 
+/* LTR: sweep left-to-right (follows reading direction) */
 .glassShine::before {
   content: "";
   position: absolute;
@@ -26,7 +27,7 @@
   height: 100%;
   opacity: 0;
   background: linear-gradient(
-    90deg,
+    270deg,
     transparent,
     rgba(255, 255, 255, 0.4),
     transparent
@@ -44,10 +45,26 @@
 
 .glassShine:hover::before {
   opacity: 1;
-  background-position: 0% 0%;
+  background-position: 0% 0;
 }
 
-/* RTL: right-to-left sweep - no override needed */
+/* RTL: sweep right-to-left (follows Arabic reading direction) */
+.glassShine[data-rtl="true"]::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  background-size: 200% 100%;
+  background-position: 0% 0;
+  background-repeat: no-repeat;
+}
+
+.glassShine[data-rtl="true"]:hover::before {
+  opacity: 1;
+  background-position: 100% 0;
+}
 
 .glassShine:hover {
   transform: translateY(-1px);
@@ -103,7 +120,7 @@
     box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* LIGHT MODE shine = your original CSS1 (works great) */
+/* LTR: sweep left-to-right */
 .perfumeGlass::before {
   content: "";
   position: absolute;
@@ -113,7 +130,7 @@
   height: 100%;
   opacity: 0;
   background: linear-gradient(
-    90deg,
+    270deg,
     transparent 0%,
     rgba(255, 255, 255, 0.2) 20%,
     rgba(255, 255, 255, 0.9) 50%,
@@ -121,7 +138,7 @@
     transparent 100%
   );
   background-size: 200% 100%;
-  background-position: 150% 0;
+  background-position: 100% 0;
   background-repeat: no-repeat;
   transition: background-position 0.6s ease, opacity 0.2s ease;
   pointer-events: none;
@@ -133,10 +150,29 @@
 
 .perfumeGlass:hover::before {
   opacity: 1;
-  background-position: -50% 0;
+  background-position: 0% 0;
 }
 
-/* RTL: same right-to-left sweep (follows Arabic reading direction) - no override needed */
+/* RTL: sweep right-to-left (Arabic reading direction) */
+.perfumeGlass[data-rtl="true"]::before {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.9) 50%,
+    rgba(255, 255, 255, 0.2) 80%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  background-position: 0% 0;
+  background-repeat: no-repeat;
+}
+
+.perfumeGlass[data-rtl="true"]:hover::before {
+  opacity: 1;
+  background-position: 100% 0;
+}
+
 .perfumeGlass:hover {
   transform: translateY(-1px) scale3d(1.02, 1.02, 1);
   background: rgba(255, 255, 255, 0.04);
@@ -171,10 +207,31 @@
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Override ONLY the gradient brightness/shape in dark mode.
-   Keep the SAME background-size/positions/transitions as LIGHT MODE. */
+/* Dark mode: LTR left-to-right, RTL right-to-left */
 [data-nbs-theme="dark"] .perfumeGlass::before,
 [data-theme="dark"] .perfumeGlass::before {
+  background: linear-gradient(
+    270deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.10) 22%,
+    rgba(255, 255, 255, 0.38) 50%,
+    rgba(255, 255, 255, 0.10) 78%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  background-repeat: no-repeat;
+  transition: background-position 0.6s ease, opacity 0.2s ease;
+}
+
+[data-nbs-theme="dark"] .perfumeGlass:hover::before,
+[data-theme="dark"] .perfumeGlass:hover::before {
+  opacity: 1;
+  background-position: 0% 0;
+}
+
+[data-nbs-theme="dark"] .perfumeGlass[data-rtl="true"]::before,
+[data-theme="dark"] .perfumeGlass[data-rtl="true"]::before {
   background: linear-gradient(
     90deg,
     transparent 0%,
@@ -183,16 +240,13 @@
     rgba(255, 255, 255, 0.10) 78%,
     transparent 100%
   );
-  background-size: 200% 100%;
-  background-position: 150% 0;
-  background-repeat: no-repeat;
-  transition: background-position 0.6s ease, opacity 0.2s ease;
+  background-position: 0% 0;
 }
 
-[data-nbs-theme="dark"] .perfumeGlass:hover::before,
-[data-theme="dark"] .perfumeGlass:hover::before {
+[data-nbs-theme="dark"] .perfumeGlass[data-rtl="true"]:hover::before,
+[data-theme="dark"] .perfumeGlass[data-rtl="true"]:hover::before {
   opacity: 1;
-  background-position: -50% 0;
+  background-position: 100% 0;
 }
 
 [data-nbs-theme="dark"] .perfumeGlass:hover,
@@ -224,7 +278,7 @@
 
   .perfumeGlass::before {
     background: linear-gradient(
-      90deg,
+      270deg,
       transparent 0%,
       rgba(255, 255, 255, 0.10) 22%,
       rgba(255, 255, 255, 0.38) 50%,
@@ -232,14 +286,31 @@
       transparent 100%
     );
     background-size: 200% 100%;
-    background-position: 150% 0;
+    background-position: 100% 0;
     background-repeat: no-repeat;
     transition: background-position 0.6s ease, opacity 0.2s ease;
   }
 
   .perfumeGlass:hover::before {
     opacity: 1;
-    background-position: -50% 0;
+    background-position: 0% 0;
+  }
+
+  .perfumeGlass[data-rtl="true"]::before {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.10) 22%,
+      rgba(255, 255, 255, 0.38) 50%,
+      rgba(255, 255, 255, 0.10) 78%,
+      transparent 100%
+    );
+    background-position: 0% 0;
+  }
+
+  .perfumeGlass[data-rtl="true"]:hover::before {
+    opacity: 1;
+    background-position: 100% 0;
   }
 
   .perfumeGlass:hover {
