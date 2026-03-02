@@ -47,23 +47,7 @@
   background-position: 0% 0%;
 }
 
-/* RTL: sweep left-to-right (opposite of LTR’s right-to-left) */
-.glassShine[data-rtl="true"]::before {
-  background: linear-gradient(
-    270deg,
-    transparent,
-    rgba(255, 255, 255, 0.4),
-    transparent
-  );
-  background-size: 200% 100%;
-  background-position: 100% 0;
-  background-repeat: no-repeat;
-}
-
-.glassShine[data-rtl="true"]:hover::before {
-  opacity: 1;
-  background-position: 0% 0;
-}
+/* RTL: right-to-left sweep - no override needed */
 
 .glassShine:hover {
   transform: translateY(-1px);
@@ -152,26 +136,7 @@
   background-position: -50% 0;
 }
 
-/* RTL: sweep left-to-right for perfume (opposite of LTR's right-to-left) */
-.perfumeGlass[data-rtl="true"]::before {
-  background: linear-gradient(
-    270deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.2) 20%,
-    rgba(255, 255, 255, 0.9) 50%,
-    rgba(255, 255, 255, 0.2) 80%,
-    transparent 100%
-  );
-  background-size: 200% 100%;
-  background-position: 100% 0;
-  background-repeat: no-repeat;
-}
-
-.perfumeGlass[data-rtl="true"]:hover::before {
-  opacity: 1;
-  background-position: 0% 0;
-}
-
+/* RTL: same right-to-left sweep (follows Arabic reading direction) - no override needed */
 .perfumeGlass:hover {
   transform: translateY(-1px) scale3d(1.02, 1.02, 1);
   background: rgba(255, 255, 255, 0.04);
@@ -293,51 +258,6 @@
       0 4px 16px 0 hsla(var(--random-hue, 0), 50%, 20%, 0.4),
       inset 0 0 0 1px hsla(var(--random-hue, 0), 40%, 60%, 0.25),
       inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
-  }
-}
-
-/* RTL dark mode for glassShine */
-[data-nbs-theme="dark"] .glassShine[data-rtl="true"]::before,
-[data-theme="dark"] .glassShine[data-rtl="true"]::before {
-  background: linear-gradient(
-    270deg,
-    transparent,
-    rgba(255, 255, 255, 0.15),
-    transparent
-  );
-}
-
-/* RTL dark mode for perfumeGlass */
-[data-nbs-theme="dark"] .perfumeGlass[data-rtl="true"]::before,
-[data-theme="dark"] .perfumeGlass[data-rtl="true"]::before {
-  background: linear-gradient(
-    270deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.10) 22%,
-    rgba(255, 255, 255, 0.38) 50%,
-    rgba(255, 255, 255, 0.10) 78%,
-    transparent 100%
-  );
-}
-
-@media (prefers-color-scheme: dark) {
-  .glassShine[data-rtl="true"]::before {
-    background: linear-gradient(
-      270deg,
-      transparent,
-      rgba(255, 255, 255, 0.15),
-      transparent
-    );
-  }
-  .perfumeGlass[data-rtl="true"]::before {
-    background: linear-gradient(
-      270deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.10) 22%,
-      rgba(255, 255, 255, 0.38) 50%,
-      rgba(255, 255, 255, 0.10) 78%,
-      transparent 100%
-    );
   }
 }
 
