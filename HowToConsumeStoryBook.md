@@ -903,7 +903,7 @@ Use `GlassEffectWrapper` when you want a glass effect on **non-Card** elements (
 - **`randomHue`**: When `true` and `variant === 'perfume'`, the surface gets a colored tint on hover. Each wrapped element gets a **stable hue** per instance (based on mount order); the hue does not change on re-hover.
 - **`asChild`**: Default `true`. Composes with a single child (Radix Slot). Set `asChild={false}` to render a wrapper `div` around children.
 - **`glassEffect`**: Optional boolean; when `false`, no glass class is applied.
-- **`isRtl`**: Optional boolean; when `true`, keeps the glass effect sweep right-to-left (follows Arabic/RTL reading direction). Use for RTL layouts.
+- **`isRtl`**: Optional boolean; when `true`, sets glass effect sweep to right-to-left (follows Arabic reading direction). LTR uses left-to-right.
 
 ```typescript
 import { GlassEffectWrapper } from '@nbs/component-library';
@@ -1013,7 +1013,7 @@ This is the same pattern used in the repo’s **TestApp** (custom right “Glass
 - **`activeHref`**: The `href` of the active item (e.g. current route).
 - **`glassEffect`**: Enables glass-style hover on nav items. Default `false`.
 - **`randomHue`**: When `true`, nav items get different colored hues on hover. Default `false`.
-- **`isRtl`**: When `true`, keeps the glass effect sweep right-to-left for RTL layouts. Default `false`.
+- **`isRtl`**: When `true`, glass effect sweeps right-to-left (Arabic direction). Default `false`.
 - **`width`**: Width of the sidebar. Default `"256px"`. Can be a number (e.g. `256`) or string.
 - **`className`**, **`itemClassName`**: Optional class names.
 

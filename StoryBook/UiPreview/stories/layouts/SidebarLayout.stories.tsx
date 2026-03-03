@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { StoryContext } from '@storybook/react';
 import { Sidebar, SidebarHeader } from '@consumer/components/Sidebar';
 import { Card } from '@consumer/components/Card';
 import { Button } from '@consumer/components/Button';
@@ -96,22 +97,25 @@ const sidebarItems = [
 ];
 
 export const CompleteDashboard: Story = {
-  render: () => (
-    <div
-      style={{
-        display: 'flex',
-        height: '100vh',
-        width: '100%',
-        backgroundColor: '#ffffff',
-        overflow: 'hidden',
-      }}
-    >
-      <Sidebar
-        items={sidebarItems}
-        activeHref="/price-list"
-        sidebarHeader={<SidebarHeader title="Call Center" />}
-        glassEffect
-      />
+  render: (_args, context: StoryContext) => {
+    const isRtl = context.globals?.nbsDirection === 'rtl';
+    return (
+      <div
+        style={{
+          display: 'flex',
+          height: '100vh',
+          width: '100%',
+          backgroundColor: '#ffffff',
+          overflow: 'hidden',
+        }}
+      >
+        <Sidebar
+          items={sidebarItems}
+          activeHref="/price-list"
+          sidebarHeader={<SidebarHeader title="Call Center" />}
+          glassEffect
+          isRtl={isRtl}
+        />
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         <header
@@ -139,15 +143,15 @@ export const CompleteDashboard: Story = {
 
         <main style={{ flex: 1, padding: '24px', backgroundColor: '#f8f9fa', overflow: 'auto' }}>
           <div style={{ display: 'grid', gap: '16px', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
-            <Card title="Total Items" shadow>
+            <Card title="Total Items" shadow glassEffect isRtl={isRtl}>
               <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#17a2b8' }}>247</div>
               <p style={{ color: '#6c757d', margin: '8px 0 0' }}>Active price list items</p>
             </Card>
-            <Card title="Revenue" shadow>
+            <Card title="Revenue" shadow glassEffect isRtl={isRtl}>
               <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#198754' }}>$45,231</div>
               <p style={{ color: '#6c757d', margin: '8px 0 0' }}>Monthly revenue</p>
             </Card>
-            <Card title="Average Price" shadow>
+            <Card title="Average Price" shadow glassEffect isRtl={isRtl}>
               <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#0d6efd' }}>$183</div>
               <p style={{ color: '#6c757d', margin: '8px 0 0' }}>Per item</p>
             </Card>
@@ -155,23 +159,28 @@ export const CompleteDashboard: Story = {
         </main>
       </div>
     </div>
-  ),
+  );
+  },
 };
 
 export const WithoutGlassEffect: Story = {
-  render: () => (
-    <div style={{ display: 'flex', height: '100vh', width: '100%' }}>
-      <Sidebar
-        items={sidebarItems}
-        activeHref="/dashboard"
-        sidebarHeader={<SidebarHeader title="Call Center" />}
-        glassEffect={false}
-      />
-      <div style={{ flex: 1, padding: '24px', backgroundColor: '#f8f9fa' }}>
-        <Card title="Dashboard" shadow>
-          <p>Main content area</p>
-        </Card>
+  render: (_args, context: StoryContext) => {
+    const isRtl = context.globals?.nbsDirection === 'rtl';
+    return (
+      <div style={{ display: 'flex', height: '100vh', width: '100%' }}>
+        <Sidebar
+          items={sidebarItems}
+          activeHref="/dashboard"
+          sidebarHeader={<SidebarHeader title="Call Center" />}
+          glassEffect={false}
+          isRtl={isRtl}
+        />
+        <div style={{ flex: 1, padding: '24px', backgroundColor: '#f8f9fa' }}>
+          <Card title="Dashboard" shadow>
+            <p>Main content area</p>
+          </Card>
+        </div>
       </div>
-    </div>
-  ),
+    );
+  },
 };

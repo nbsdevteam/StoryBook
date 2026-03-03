@@ -20,13 +20,21 @@ function getThemeFromGlobals(globals: Record<string, unknown>): 'light' | 'dark'
   return isDark ? 'dark' : 'light';
 }
 
+function getDirFromGlobals(globals: Record<string, unknown>): 'ltr' | 'rtl' {
+  const dir = globals.nbsDirection as string | undefined;
+  return dir === 'rtl' ? 'rtl' : 'ltr';
+}
+
 const withTheme = (Story: React.ComponentType, context: { globals: Record<string, unknown> }) => {
   const theme = getThemeFromGlobals(context.globals || {});
+  const dir = getDirFromGlobals(context.globals || {});
   return React.createElement(
     'div',
     {
       'data-nbs-theme': theme,
       'data-theme': theme,
+      dir,
+      lang: dir === 'rtl' ? 'ar' : 'en',
       style: {
         padding: '1rem',
         boxSizing: 'border-box',
@@ -53,9 +61,22 @@ const preview: Preview = {
         dynamicTitle: true,
       },
     },
+    nbsDirection: {
+      description: 'Text direction / translation mode (LTR vs RTL)',
+      toolbar: {
+        title: 'Direction',
+        icon: 'paragraph',
+        items: [
+          { value: 'ltr', title: 'LTR (English)', icon: 'arrowright' },
+          { value: 'rtl', title: 'RTL (Arabic)', icon: 'arrowleft' },
+        ],
+        dynamicTitle: true,
+      },
+    },
   },
   initialGlobals: {
     nbsTheme: 'light',
+    nbsDirection: 'ltr',
   },
   parameters: {
     actions: { argTypesRegex: '^on[A-Z].*' },

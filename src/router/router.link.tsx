@@ -284,8 +284,7 @@ import {
 } from "./lazyRoutes";
 
 // Import third-party components
-import { Pagination, Progress, Typography } from "antd";
-import { Offcanvas, Spinner } from "react-bootstrap";
+import { Offcanvas, Pagination, ProgressBar, Spinner } from "react-bootstrap";
 import { Video } from "react-feather";
 
 const routes = all_routes;
@@ -567,7 +566,15 @@ export const publicRoutes = [
   },
   {
     path: routes.pagination,
-    element: <Pagination />,
+    element: (
+      <div className="p-4">
+        <Pagination>
+          <Pagination.Item>{1}</Pagination.Item>
+          <Pagination.Item active>{2}</Pagination.Item>
+          <Pagination.Item>{3}</Pagination.Item>
+        </Pagination>
+      </div>
+    ),
     route: Route,
   },
   {
@@ -582,7 +589,11 @@ export const publicRoutes = [
   },
   {
     path: routes.progress,
-    element: <Progress />,
+    element: (
+      <div className="p-4">
+        <ProgressBar now={60} label={`${60}%`} />
+      </div>
+    ),
     route: Route,
   },
   {
@@ -593,7 +604,13 @@ export const publicRoutes = [
 
   {
     path: routes.typography,
-    element: <Typography />,
+    element: (
+      <div className="p-4">
+        <h1>Typography</h1>
+        <p className="lead">Sample lead text.</p>
+        <p>Body text.</p>
+      </div>
+    ),
     route: Route,
   },
   {
